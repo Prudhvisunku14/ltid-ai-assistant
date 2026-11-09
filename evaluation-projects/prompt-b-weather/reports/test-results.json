@@ -1,0 +1,486 @@
+{
+  "generated_at": "2026-11-09T19:17:11+00:00",
+  "build": {
+    "status": "passed",
+    "command": "python: parse every weather_app/*.py, then import weather_app.__main__ and weather_app.server (no compile/bundle step exists)",
+    "ran_at": "2026-11-09T19:17:11+00:00",
+    "output": "compiled and imported OK"
+  },
+  "suites": [
+    {
+      "id": "original-tests",
+      "title": "Starter tests (original, untouched baseline)",
+      "command": "python -m unittest discover -s tests -v   (cwd: original/)",
+      "ran_at": "2026-11-09T19:16:57+00:00",
+      "exit_code": 0,
+      "cases": [
+        {
+          "name": "test_baseline",
+          "class": "WeatherStarterTests",
+          "status": "passed"
+        },
+        {
+          "name": "test_observations",
+          "class": "WeatherStarterTests",
+          "status": "passed"
+        }
+      ],
+      "output_tail": [
+        "test_observations (test_core.WeatherStarterTests.test_observations) ... ok",
+        "",
+        "----------------------------------------------------------------------",
+        "Ran 2 tests in 0.002s",
+        "",
+        "OK"
+      ]
+    },
+    {
+      "id": "weather-unittest",
+      "title": "Weather unit tests (modified source)",
+      "command": "python -m unittest discover -s tests -v   (cwd: source/)",
+      "ran_at": "2026-11-09T19:16:57+00:00",
+      "exit_code": 0,
+      "cases": [
+        {
+          "name": "test_baseline",
+          "class": "WeatherStarterTests",
+          "status": "passed"
+        },
+        {
+          "name": "test_observations",
+          "class": "WeatherStarterTests",
+          "status": "passed"
+        },
+        {
+          "name": "test_evaluation_targets_are_all_heldout_dates",
+          "class": "LeakageTests",
+          "status": "passed"
+        },
+        {
+          "name": "test_method_selection_uses_training_data_only",
+          "class": "LeakageTests",
+          "status": "passed"
+        },
+        {
+          "name": "test_prediction_never_uses_the_value_being_predicted_or_later_values",
+          "class": "LeakageTests",
+          "status": "passed"
+        },
+        {
+          "name": "test_train_only_check_sees_no_evaluation_data",
+          "class": "LeakageTests",
+          "status": "passed"
+        },
+        {
+          "name": "test_10_mae_hand_computed",
+          "class": "MaeTests",
+          "status": "passed"
+        },
+        {
+          "name": "test_11_independent_recomputation_of_heldout_mae",
+          "class": "MaeTests",
+          "status": "passed"
+        },
+        {
+          "name": "test_mae_rejects_empty_or_mismatched_input",
+          "class": "MaeTests",
+          "status": "passed"
+        },
+        {
+          "name": "test_reported_rows_reproduce_reported_mae",
+          "class": "MaeTests",
+          "status": "passed"
+        },
+        {
+          "name": "test_walk_forward_matches_hand_calculation",
+          "class": "MaeTests",
+          "status": "passed"
+        },
+        {
+          "name": "test_09_time_ordered_split_trains_on_earlier_data_only",
+          "class": "SplitTests",
+          "status": "passed"
+        },
+        {
+          "name": "test_bad_split_configuration_is_rejected",
+          "class": "SplitTests",
+          "status": "passed"
+        },
+        {
+          "name": "test_real_dataset_split_report",
+          "class": "SplitTests",
+          "status": "passed"
+        },
+        {
+          "name": "test_split_is_deterministic",
+          "class": "SplitTests",
+          "status": "passed"
+        },
+        {
+          "name": "test_split_strategy_is_configurable",
+          "class": "SplitTests",
+          "status": "passed"
+        },
+        {
+          "name": "test_bad_arguments",
+          "class": "MethodTests",
+          "status": "passed"
+        },
+        {
+          "name": "test_explanations_state_the_numbers_used",
+          "class": "MethodTests",
+          "status": "passed"
+        },
+        {
+          "name": "test_historical_average",
+          "class": "MethodTests",
+          "status": "passed"
+        },
+        {
+          "name": "test_linear_trend_extends_a_perfect_line",
+          "class": "MethodTests",
+          "status": "passed"
+        },
+        {
+          "name": "test_not_enough_history_is_a_clean_error",
+          "class": "MethodTests",
+          "status": "passed"
+        },
+        {
+          "name": "test_recent_average_matches_original_baseline",
+          "class": "MethodTests",
+          "status": "passed"
+        },
+        {
+          "name": "test_round1",
+          "class": "MethodTests",
+          "status": "passed"
+        },
+        {
+          "name": "test_seasonal_naive_repeats_the_last_cycle",
+          "class": "MethodTests",
+          "status": "passed"
+        },
+        {
+          "name": "test_seasonal_naive_with_drift_adds_cycle_to_cycle_change",
+          "class": "MethodTests",
+          "status": "passed"
+        },
+        {
+          "name": "test_invalid_city_and_horizon_give_clean_errors_not_tracebacks",
+          "class": "CliTests",
+          "status": "passed"
+        },
+        {
+          "name": "test_missing_data_file_exit_code",
+          "class": "CliTests",
+          "status": "passed"
+        },
+        {
+          "name": "test_text_demo_and_evaluate",
+          "class": "CliTests",
+          "status": "passed"
+        },
+        {
+          "name": "test_valid_forecast_keeps_original_keys",
+          "class": "CliTests",
+          "status": "passed"
+        },
+        {
+          "name": "test_html_in_city_is_returned_as_data_not_markup",
+          "class": "HttpApiTests",
+          "status": "passed"
+        },
+        {
+          "name": "test_invalid_city_and_horizon_are_400_with_messages",
+          "class": "HttpApiTests",
+          "status": "passed"
+        },
+        {
+          "name": "test_other_endpoints_and_static_page",
+          "class": "HttpApiTests",
+          "status": "passed"
+        },
+        {
+          "name": "test_unknown_routes_traversal_and_methods",
+          "class": "HttpApiTests",
+          "status": "passed"
+        },
+        {
+          "name": "test_valid_forecast",
+          "class": "HttpApiTests",
+          "status": "passed"
+        },
+        {
+          "name": "test_12_synthetic_disclaimer_is_exact_and_always_present",
+          "class": "OutputFormatTests",
+          "status": "passed"
+        },
+        {
+          "name": "test_demonstrations_two_cities_three_horizons",
+          "class": "OutputFormatTests",
+          "status": "passed"
+        },
+        {
+          "name": "test_forecast_output_format",
+          "class": "OutputFormatTests",
+          "status": "passed"
+        },
+        {
+          "name": "test_forecast_values_are_consistent_across_horizons",
+          "class": "OutputFormatTests",
+          "status": "passed"
+        },
+        {
+          "name": "test_known_forecast_values_for_regression",
+          "class": "OutputFormatTests",
+          "status": "passed"
+        },
+        {
+          "name": "test_overall_mae_is_pooled_correctly",
+          "class": "OutputFormatTests",
+          "status": "passed"
+        },
+        {
+          "name": "test_robustness_checks_all_pass",
+          "class": "OutputFormatTests",
+          "status": "passed"
+        },
+        {
+          "name": "test_01_valid_city_selection",
+          "class": "CitySelectionTests",
+          "status": "passed"
+        },
+        {
+          "name": "test_02_invalid_city_is_rejected_with_a_clear_message",
+          "class": "CitySelectionTests",
+          "status": "passed"
+        },
+        {
+          "name": "test_invalid_city_in_evaluation_is_rejected",
+          "class": "CitySelectionTests",
+          "status": "passed"
+        },
+        {
+          "name": "test_03_valid_1_day_horizon",
+          "class": "HorizonTests",
+          "status": "passed"
+        },
+        {
+          "name": "test_04_valid_2_day_horizon",
+          "class": "HorizonTests",
+          "status": "passed"
+        },
+        {
+          "name": "test_05_valid_3_day_horizon",
+          "class": "HorizonTests",
+          "status": "passed"
+        },
+        {
+          "name": "test_06_invalid_horizon_is_rejected",
+          "class": "HorizonTests",
+          "status": "passed"
+        },
+        {
+          "name": "test_both_invalid_reports_both_problems",
+          "class": "HorizonTests",
+          "status": "passed"
+        },
+        {
+          "name": "test_horizon_accepts_digit_strings_from_a_form",
+          "class": "HorizonTests",
+          "status": "passed"
+        },
+        {
+          "name": "test_07_missing_observations_are_excluded_not_imputed",
+          "class": "PreprocessingPolicyTests",
+          "status": "passed"
+        },
+        {
+          "name": "test_08_malformed_observations_fixture_exact_counts",
+          "class": "PreprocessingPolicyTests",
+          "status": "passed"
+        },
+        {
+          "name": "test_duplicate_rule_last_row_wins",
+          "class": "PreprocessingPolicyTests",
+          "status": "passed"
+        },
+        {
+          "name": "test_empty_and_unusable_datasets_raise_a_clear_data_error",
+          "class": "PreprocessingPolicyTests",
+          "status": "passed"
+        },
+        {
+          "name": "test_malformed_rows_do_not_change_forecasts",
+          "class": "PreprocessingPolicyTests",
+          "status": "passed"
+        },
+        {
+          "name": "test_missing_file_surfaces_as_data_error_from_service",
+          "class": "PreprocessingPolicyTests",
+          "status": "passed"
+        },
+        {
+          "name": "test_parse_date_is_strict_iso",
+          "class": "PreprocessingPolicyTests",
+          "status": "passed"
+        },
+        {
+          "name": "test_parse_temperature_rejects_non_numbers",
+          "class": "PreprocessingPolicyTests",
+          "status": "passed"
+        },
+        {
+          "name": "test_too_few_observations_is_a_clean_error_not_a_crash",
+          "class": "PreprocessingPolicyTests",
+          "status": "passed"
+        }
+      ],
+      "output_tail": [
+        "test_too_few_observations_is_a_clean_error_not_a_crash (test_validation.PreprocessingPolicyTests.test_too_few_observations_is_a_clean_error_not_a_crash) ... ok",
+        "",
+        "----------------------------------------------------------------------",
+        "Ran 59 tests in 1.422s",
+        "",
+        "OK"
+      ]
+    },
+    {
+      "id": "browser-ui",
+      "title": "Browser UI checks (Playwright + Microsoft Edge: desktop 1280px and mobile 375px)",
+      "command": "python scripts/ui_check.py",
+      "ran_at": "2026-11-09T19:17:11+00:00",
+      "exit_code": 0,
+      "cases": [
+        {
+          "name": "page_shows_synthetic_disclaimer",
+          "class": "BrowserUI",
+          "status": "passed"
+        },
+        {
+          "name": "city_options_come_from_dataset",
+          "class": "BrowserUI",
+          "status": "passed"
+        },
+        {
+          "name": "horizon_options_are_1_2_3",
+          "class": "BrowserUI",
+          "status": "passed"
+        },
+        {
+          "name": "forecast_tokyo_1day_ui_matches_api",
+          "class": "BrowserUI",
+          "status": "passed"
+        },
+        {
+          "name": "forecast_tokyo_2day_ui_matches_api",
+          "class": "BrowserUI",
+          "status": "passed"
+        },
+        {
+          "name": "forecast_tokyo_3day_ui_matches_api",
+          "class": "BrowserUI",
+          "status": "passed"
+        },
+        {
+          "name": "chart_is_rendered",
+          "class": "BrowserUI",
+          "status": "passed"
+        },
+        {
+          "name": "method_and_disclaimer_in_result",
+          "class": "BrowserUI",
+          "status": "passed"
+        },
+        {
+          "name": "forecast_sapporo_1day_ui_matches_api",
+          "class": "BrowserUI",
+          "status": "passed"
+        },
+        {
+          "name": "forecast_sapporo_2day_ui_matches_api",
+          "class": "BrowserUI",
+          "status": "passed"
+        },
+        {
+          "name": "forecast_sapporo_3day_ui_matches_api",
+          "class": "BrowserUI",
+          "status": "passed"
+        },
+        {
+          "name": "invalid_city_shows_clear_error",
+          "class": "BrowserUI",
+          "status": "passed"
+        },
+        {
+          "name": "invalid_city_clears_previous_forecast",
+          "class": "BrowserUI",
+          "status": "passed"
+        },
+        {
+          "name": "html_in_city_is_escaped",
+          "class": "BrowserUI",
+          "status": "passed"
+        },
+        {
+          "name": "invalid_horizon_via_url_shows_error",
+          "class": "BrowserUI",
+          "status": "passed"
+        },
+        {
+          "name": "evaluation_tab_shows_split_counts",
+          "class": "BrowserUI",
+          "status": "passed"
+        },
+        {
+          "name": "evaluation_tab_shows_pooled_mae_from_api",
+          "class": "BrowserUI",
+          "status": "passed"
+        },
+        {
+          "name": "evaluation_table_row_count_equals_heldout_count",
+          "class": "BrowserUI",
+          "status": "passed"
+        },
+        {
+          "name": "six_demonstration_cards",
+          "class": "BrowserUI",
+          "status": "passed"
+        },
+        {
+          "name": "data_tab_lists_all_cities",
+          "class": "BrowserUI",
+          "status": "passed"
+        },
+        {
+          "name": "mobile_375_no_horizontal_overflow",
+          "class": "BrowserUI",
+          "status": "passed"
+        },
+        {
+          "name": "mobile_375_evaluation_no_page_overflow",
+          "class": "BrowserUI",
+          "status": "passed"
+        },
+        {
+          "name": "no_uncaught_javascript_errors",
+          "class": "BrowserUI",
+          "status": "passed"
+        }
+      ],
+      "output_tail": [
+        "passed: evaluation_table_row_count_equals_heldout_count",
+        "passed: six_demonstration_cards",
+        "passed: data_tab_lists_all_cities",
+        "passed: mobile_375_no_horizontal_overflow",
+        "passed: mobile_375_evaluation_no_page_overflow",
+        "passed: no_uncaught_javascript_errors"
+      ]
+    }
+  ],
+  "totals": {
+    "passed": 84,
+    "failed": 0
+  }
+}

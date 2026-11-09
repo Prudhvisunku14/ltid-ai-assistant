@@ -1,0 +1,214 @@
+{
+  "generated_at": "2026-11-09T20:32:04+00:00",
+  "build": {
+    "status": "passed",
+    "command": "python -m unittest + python -m tests.browser_e2e (stdlib app; no compile step)",
+    "ran_at": "2026-11-09T20:32:04+00:00",
+    "output": "all suites exit 0"
+  },
+  "suites": [
+    {
+      "id": "unit-http",
+      "title": "Unit and live-HTTP tests (database, API, CSV, security)",
+      "command": "python -m unittest discover -s tests -t . -v",
+      "ran_at": "2026-11-09T20:31:52+00:00",
+      "exit_code": 0,
+      "cases": [
+        {
+          "name": "test_data_survives_server_restart",
+          "class": "test_data_survives_server_restart",
+          "status": "passed"
+        },
+        {
+          "name": "test_alert_clears_when_restocked",
+          "class": "test_alert_clears_when_restocked",
+          "status": "passed"
+        },
+        {
+          "name": "test_crud_lifecycle",
+          "class": "test_crud_lifecycle",
+          "status": "passed"
+        },
+        {
+          "name": "test_csv_export_import_over_http",
+          "class": "test_csv_export_import_over_http",
+          "status": "passed"
+        },
+        {
+          "name": "test_favicon_request_is_204_not_404",
+          "class": "test_favicon_request_is_204_not_404",
+          "status": "passed"
+        },
+        {
+          "name": "test_malformed_json_and_unknown_routes",
+          "class": "test_malformed_json_and_unknown_routes",
+          "status": "passed"
+        },
+        {
+          "name": "test_oversized_body_rejected",
+          "class": "test_oversized_body_rejected",
+          "status": "passed"
+        },
+        {
+          "name": "test_search_and_alerts_and_banner_count",
+          "class": "test_search_and_alerts_and_banner_count",
+          "status": "passed"
+        },
+        {
+          "name": "test_security_headers_and_html_served",
+          "class": "test_security_headers_and_html_served",
+          "status": "passed"
+        },
+        {
+          "name": "test_validation_errors_are_400_with_fields",
+          "class": "test_validation_errors_are_400_with_fields",
+          "status": "passed"
+        },
+        {
+          "name": "test_export_neutralises_formula_injection",
+          "class": "test_export_neutralises_formula_injection",
+          "status": "passed"
+        },
+        {
+          "name": "test_import_requires_columns_and_handles_bom_and_case",
+          "class": "test_import_requires_columns_and_handles_bom_and_case",
+          "status": "passed"
+        },
+        {
+          "name": "test_import_upserts_and_reports_bad_rows_with_line_numbers",
+          "class": "test_import_upserts_and_reports_bad_rows_with_line_numbers",
+          "status": "passed"
+        },
+        {
+          "name": "test_round_trip",
+          "class": "test_round_trip",
+          "status": "passed"
+        },
+        {
+          "name": "test_create_sets_fields_and_timestamp",
+          "class": "test_create_sets_fields_and_timestamp",
+          "status": "passed"
+        },
+        {
+          "name": "test_delete_and_not_found",
+          "class": "test_delete_and_not_found",
+          "status": "passed"
+        },
+        {
+          "name": "test_duplicate_name_location_rejected_case_insensitive",
+          "class": "test_duplicate_name_location_rejected_case_insensitive",
+          "status": "passed"
+        },
+        {
+          "name": "test_rejects_bad_quantity_types",
+          "class": "test_rejects_bad_quantity_types",
+          "status": "passed"
+        },
+        {
+          "name": "test_search_filters_and_escapes_wildcards",
+          "class": "test_search_filters_and_escapes_wildcards",
+          "status": "passed"
+        },
+        {
+          "name": "test_sql_injection_is_inert",
+          "class": "test_sql_injection_is_inert",
+          "status": "passed"
+        },
+        {
+          "name": "test_threshold_is_strictly_below",
+          "class": "test_threshold_is_strictly_below",
+          "status": "passed"
+        },
+        {
+          "name": "test_update_changes_timestamp_and_values",
+          "class": "test_update_changes_timestamp_and_values",
+          "status": "passed"
+        },
+        {
+          "name": "test_validation_reports_all_fields",
+          "class": "test_validation_reports_all_fields",
+          "status": "passed"
+        },
+        {
+          "name": "test_zero_quantity_allowed",
+          "class": "test_zero_quantity_allowed",
+          "status": "passed"
+        }
+      ],
+      "output_tail": [
+        "Ran 24 tests in 6.466s",
+        "",
+        "OK"
+      ]
+    },
+    {
+      "id": "browser-e2e",
+      "title": "Browser end-to-end (Chromium/Edge: add, alert, edit, import, export, XSS, delete, reload)",
+      "command": "python -m tests.browser_e2e",
+      "ran_at": "2026-11-09T20:31:59+00:00",
+      "exit_code": 0,
+      "cases": [
+        {
+          "name": "empty state",
+          "class": "BrowserE2E",
+          "status": "passed"
+        },
+        {
+          "name": "inline validation",
+          "class": "BrowserE2E",
+          "status": "passed"
+        },
+        {
+          "name": "register + low-stock alert",
+          "class": "BrowserE2E",
+          "status": "passed"
+        },
+        {
+          "name": "edit clears alert, last-updated shown",
+          "class": "BrowserE2E",
+          "status": "passed"
+        },
+        {
+          "name": "import with row error report",
+          "class": "BrowserE2E",
+          "status": "passed"
+        },
+        {
+          "name": "search / filter / low-only",
+          "class": "BrowserE2E",
+          "status": "passed"
+        },
+        {
+          "name": "CSV export download",
+          "class": "BrowserE2E",
+          "status": "passed"
+        },
+        {
+          "name": "HTML in names is not executed",
+          "class": "BrowserE2E",
+          "status": "passed"
+        },
+        {
+          "name": "delete",
+          "class": "BrowserE2E",
+          "status": "passed"
+        },
+        {
+          "name": "data persists across reload",
+          "class": "BrowserE2E",
+          "status": "passed"
+        }
+      ],
+      "output_tail": [
+        "ok: delete",
+        "ok: data persists across reload",
+        "BROWSER E2E PASSED"
+      ],
+      "skipped": false
+    }
+  ],
+  "totals": {
+    "passed": 34,
+    "failed": 0
+  }
+}

@@ -1,0 +1,353 @@
+{
+  "generated_at": "2026-11-09T21:15:09+00:00",
+  "build": {
+    "status": "passed",
+    "command": "compile() every .py file in the project, in memory",
+    "ran_at": "2026-11-09T21:15:09+00:00",
+    "output": "compiled 7 files OK"
+  },
+  "suites": [
+    {
+      "id": "pytest",
+      "title": "Automated test suite (pytest)",
+      "command": "python -m pytest -v",
+      "ran_at": "2026-11-09T21:15:03+00:00",
+      "exit_code": 0,
+      "cases": [
+        {
+          "name": "test_r1_exactly_10_days_old_accepted",
+          "class": "tests/test_expenses.py",
+          "status": "passed"
+        },
+        {
+          "name": "test_r1_11_days_old_rejected_and_cites_policy",
+          "class": "tests/test_expenses.py",
+          "status": "passed"
+        },
+        {
+          "name": "test_r1_v1_thirty_day_window_not_used",
+          "class": "tests/test_expenses.py",
+          "status": "passed"
+        },
+        {
+          "name": "test_s1_future_date_rejected",
+          "class": "tests/test_expenses.py",
+          "status": "passed"
+        },
+        {
+          "name": "test_r2_1999_needs_no_receipt",
+          "class": "tests/test_expenses.py",
+          "status": "passed"
+        },
+        {
+          "name": "test_r2_2000_without_receipt_rejected",
+          "class": "tests/test_expenses.py",
+          "status": "passed"
+        },
+        {
+          "name": "test_r2_2000_with_receipt_ok",
+          "class": "tests/test_expenses.py",
+          "status": "passed"
+        },
+        {
+          "name": "test_r2_blank_receipt_counts_as_missing",
+          "class": "tests/test_expenses.py",
+          "status": "passed"
+        },
+        {
+          "name": "test_r3_missing_trip_fields_rejected",
+          "class": "tests/test_expenses.py",
+          "status": "passed"
+        },
+        {
+          "name": "test_r3_pre_approval_before_trip_ok",
+          "class": "tests/test_expenses.py",
+          "status": "passed"
+        },
+        {
+          "name": "test_r3_pre_approval_not_before_trip_rejected[2026-11-08]",
+          "class": "tests/test_expenses.py",
+          "status": "passed"
+        },
+        {
+          "name": "test_r3_pre_approval_not_before_trip_rejected[2026-11-09]",
+          "class": "tests/test_expenses.py",
+          "status": "passed"
+        },
+        {
+          "name": "test_r3_trip_start_after_expense_rejected",
+          "class": "tests/test_expenses.py",
+          "status": "passed"
+        },
+        {
+          "name": "test_non_travel_does_not_need_trip_fields",
+          "class": "tests/test_expenses.py",
+          "status": "passed"
+        },
+        {
+          "name": "test_r4_requires_both_approvals_manager_first",
+          "class": "tests/test_expenses.py",
+          "status": "passed"
+        },
+        {
+          "name": "test_r4_finance_first_then_manager",
+          "class": "tests/test_expenses.py",
+          "status": "passed"
+        },
+        {
+          "name": "test_r4_any_rejection_is_final[4-7]",
+          "class": "tests/test_expenses.py",
+          "status": "passed"
+        },
+        {
+          "name": "test_r4_any_rejection_is_final[7-4]",
+          "class": "tests/test_expenses.py",
+          "status": "passed"
+        },
+        {
+          "name": "test_domestic_expense_needs_only_manager",
+          "class": "tests/test_expenses.py",
+          "status": "passed"
+        },
+        {
+          "name": "test_finance_cannot_decide_non_international",
+          "class": "tests/test_expenses.py",
+          "status": "passed"
+        },
+        {
+          "name": "test_r5_room_exactly_at_cap_no_excess",
+          "class": "tests/test_expenses.py",
+          "status": "passed"
+        },
+        {
+          "name": "test_r5_one_yen_over_cap",
+          "class": "tests/test_expenses.py",
+          "status": "passed"
+        },
+        {
+          "name": "test_r5_tax_excluded_from_cap_test",
+          "class": "tests/test_expenses.py",
+          "status": "passed"
+        },
+        {
+          "name": "test_r5_cap_scales_with_nights",
+          "class": "tests/test_expenses.py",
+          "status": "passed"
+        },
+        {
+          "name": "test_r5_old_v1_cap_12000_not_applied",
+          "class": "tests/test_expenses.py",
+          "status": "passed"
+        },
+        {
+          "name": "test_r5_validation",
+          "class": "tests/test_expenses.py",
+          "status": "passed"
+        },
+        {
+          "name": "test_invalid_amounts[0]",
+          "class": "tests/test_expenses.py",
+          "status": "passed"
+        },
+        {
+          "name": "test_invalid_amounts[-5]",
+          "class": "tests/test_expenses.py",
+          "status": "passed"
+        },
+        {
+          "name": "test_invalid_amounts[12.5]",
+          "class": "tests/test_expenses.py",
+          "status": "passed"
+        },
+        {
+          "name": "test_invalid_amounts[abc]",
+          "class": "tests/test_expenses.py",
+          "status": "passed"
+        },
+        {
+          "name": "test_invalid_amounts[None]",
+          "class": "tests/test_expenses.py",
+          "status": "passed"
+        },
+        {
+          "name": "test_invalid_amounts[True]",
+          "class": "tests/test_expenses.py",
+          "status": "passed"
+        },
+        {
+          "name": "test_invalid_category_description_date",
+          "class": "tests/test_expenses.py",
+          "status": "passed"
+        },
+        {
+          "name": "test_manager_without_approver_cannot_submit",
+          "class": "tests/test_expenses.py",
+          "status": "passed"
+        },
+        {
+          "name": "test_new_expense_is_pending_then_approved_or_rejected",
+          "class": "tests/test_expenses.py",
+          "status": "passed"
+        },
+        {
+          "name": "test_decision_is_final",
+          "class": "tests/test_expenses.py",
+          "status": "passed"
+        },
+        {
+          "name": "test_self_approval_blocked",
+          "class": "tests/test_expenses.py",
+          "status": "passed"
+        },
+        {
+          "name": "test_wrong_manager_and_employee_cannot_decide",
+          "class": "tests/test_expenses.py",
+          "status": "passed"
+        },
+        {
+          "name": "test_bad_decision_value",
+          "class": "tests/test_expenses.py",
+          "status": "passed"
+        },
+        {
+          "name": "test_history_records_who_what_when_comment",
+          "class": "tests/test_expenses.py",
+          "status": "passed"
+        },
+        {
+          "name": "test_history_includes_rejections_and_is_append_only",
+          "class": "tests/test_expenses.py",
+          "status": "passed"
+        },
+        {
+          "name": "test_history_visibility",
+          "class": "tests/test_expenses.py",
+          "status": "passed"
+        },
+        {
+          "name": "test_requires_identity",
+          "class": "tests/test_expenses.py",
+          "status": "passed"
+        },
+        {
+          "name": "test_visibility_rules",
+          "class": "tests/test_expenses.py",
+          "status": "passed"
+        },
+        {
+          "name": "test_approvals_queue_lists_only_actionable",
+          "class": "tests/test_expenses.py",
+          "status": "passed"
+        },
+        {
+          "name": "test_seed_loads_through_business_rules",
+          "class": "tests/test_expenses.py",
+          "status": "passed"
+        },
+        {
+          "name": "test_monthly_totals_by_employee_and_category",
+          "class": "tests/test_expenses.py",
+          "status": "passed"
+        },
+        {
+          "name": "test_month_is_by_expense_date_not_submission",
+          "class": "tests/test_expenses.py",
+          "status": "passed"
+        },
+        {
+          "name": "test_manager_report_limited_to_direct_reports",
+          "class": "tests/test_expenses.py",
+          "status": "passed"
+        },
+        {
+          "name": "test_employee_cannot_view_reports",
+          "class": "tests/test_expenses.py",
+          "status": "passed"
+        },
+        {
+          "name": "test_bad_month[2026-13]",
+          "class": "tests/test_expenses.py",
+          "status": "passed"
+        },
+        {
+          "name": "test_bad_month[2026-1]",
+          "class": "tests/test_expenses.py",
+          "status": "passed"
+        },
+        {
+          "name": "test_bad_month[abc]",
+          "class": "tests/test_expenses.py",
+          "status": "passed"
+        },
+        {
+          "name": "test_bad_month[]",
+          "class": "tests/test_expenses.py",
+          "status": "passed"
+        },
+        {
+          "name": "test_empty_month_report",
+          "class": "tests/test_expenses.py",
+          "status": "passed"
+        },
+        {
+          "name": "test_csv_summary_matches_json",
+          "class": "tests/test_expenses.py",
+          "status": "passed"
+        },
+        {
+          "name": "test_csv_other_views",
+          "class": "tests/test_expenses.py",
+          "status": "passed"
+        },
+        {
+          "name": "test_csv_formula_injection_neutralised",
+          "class": "tests/test_expenses.py",
+          "status": "passed"
+        },
+        {
+          "name": "test_csv_commas_and_quotes_round_trip",
+          "class": "tests/test_expenses.py",
+          "status": "passed"
+        },
+        {
+          "name": "test_data_persists_across_restart",
+          "class": "tests/test_expenses.py",
+          "status": "passed"
+        },
+        {
+          "name": "test_reseeding_does_not_duplicate",
+          "class": "tests/test_expenses.py",
+          "status": "passed"
+        },
+        {
+          "name": "test_policy_endpoint_cites_current_version_only",
+          "class": "tests/test_expenses.py",
+          "status": "passed"
+        },
+        {
+          "name": "test_xss_text_is_stored_verbatim_for_client_escaping",
+          "class": "tests/test_expenses.py",
+          "status": "passed"
+        },
+        {
+          "name": "test_concurrent_decisions_only_one_recorded",
+          "class": "tests/test_expenses.py",
+          "status": "passed"
+        }
+      ],
+      "output_tail": [
+        "tests/test_expenses.py::test_concurrent_decisions_only_one_recorded PASSED [100%]",
+        "",
+        "============================= 64 passed in 5.57s =============================="
+      ],
+      "summary_line": "64 passed",
+      "parsed_count": 64,
+      "reported_count": 64,
+      "parse_complete": true
+    }
+  ],
+  "totals": {
+    "passed": 64,
+    "failed": 0
+  }
+}

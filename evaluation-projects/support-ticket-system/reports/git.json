@@ -1,0 +1,21 @@
+{
+  "exported_at": "2026-11-09T21:15:22+00:00",
+  "repository_url": null,
+  "base_branch": null,
+  "base_branch_verified": false,
+  "base_branch_evidence": "not a git repository (uploaded folder)",
+  "import_kind": "Uploaded folder (no version-control history and no baseline snapshot available)",
+  "dev_branch": null,
+  "baseline_commit": {},
+  "commits": [],
+  "uncommitted_changes": [],
+  "push": {
+    "status": "not_pushed",
+    "reason": "Not a git repository and no remote; nothing to push."
+  },
+  "draft_pr": {
+    "status": "not_created",
+    "url": null,
+    "reason": "Requires a pushed branch."
+  }
+}

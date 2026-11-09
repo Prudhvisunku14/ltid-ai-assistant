@@ -1,0 +1,109 @@
+# Start everything:  docker compose up --build
+#   Dashboard  http://localhost:3000   API http://localhost:8001/docs   Prompt A preview http://localhost:8000   Prompt B weather demo http://localhost:8002   Inventory app http://localhost:8003
+services:
+  frontend:
+    build: { context: ., dockerfile: docker/frontend.Dockerfile, args: { VITE_API_URL: "${PUBLIC_API_URL:-http://localhost:8001}" } }
+    ports: ["3000:3000"]
+    depends_on: [backend]
+  backend:
+    build: { context: ., dockerfile: docker/backend.Dockerfile }
+    ports: ["8001:8001"]
+    env_file: [{ path: .env, required: false }]
+    environment:
+      CORS_ORIGINS: "${CORS_ORIGINS:-http://localhost:3000}"
+      PROMPT_A_PREVIEW_URL: "${PROMPT_A_PREVIEW_URL:-http://localhost:8000}"
+      PROMPT_B_PREVIEW_URL: "${PROMPT_B_PREVIEW_URL:-http://localhost:8002}"
+      INVENTORY_PREVIEW_URL: "${INVENTORY_PREVIEW_URL:-http://localhost:8003}"
+      APPOINTMENT_PREVIEW_URL: "${APPOINTMENT_PREVIEW_URL:-http://localhost:8004}"
+      EXPENSE_PREVIEW_URL: "${EXPENSE_PREVIEW_URL:-http://localhost:8005}"
+      SUPPORT_PREVIEW_URL: "${SUPPORT_PREVIEW_URL:-http://localhost:8006}"
+      DOCCHANGE_PREVIEW_URL: "${DOCCHANGE_PREVIEW_URL:-http://localhost:8007}"
+    volumes: ["./evaluation-projects:/data/evaluation-projects:ro"]
+  prompt-a-preview:
+    # Separate, isolated runtime: serves ONLY the static Prompt A files, read-only. The dashboard backend never executes generated code.
+    image: nginx:1.27-alpine
+    ports: ["8000:8000"]
+    volumes:
+      - ./evaluation-projects/prompt-a-website/source:/usr/share/nginx/html:ro
+      - ./docker/preview.nginx.conf:/etc/nginx/conf.d/default.conf:ro
+  prompt-b-weather:
+    # Separate, isolated runtime for the generated Prompt B app (Python standard library only, source mounted read-only).
+    # The dashboard backend never executes this code; it only reads files.
+    image: python:3.12-slim
+    working_dir: /app
+    command: ["python", "-m", "weather_app", "--serve", "--host", "0.0.0.0", "--port", "8002"]
+    ports: ["8002:8002"]
+    environment: { PYTHONDONTWRITEBYTECODE: "1" }
+    user: "1000:1000"
+    read_only: true
+    volumes: ["./evaluation-projects/prompt-b-weather/source:/app:ro"]
+  inventory:
+    # Inventory Management System. The app code is mounted read-only; its SQLite database is written to a host folder
+    # (evaluation-projects/inventory-system/data) so it can be backed up directly.
+    image: python:3.12-slim
+    working_dir: /app
+    command: ["python", "-m", "app"]
+    ports: ["8003:8003"]
+    environment:
+      PYTHONDONTWRITEBYTECODE: "1"
+      INVENTORY_HOST: "0.0.0.0"
+      INVENTORY_PORT: "8003"
+      INVENTORY_DB: "/data/inventory.db"
+    user: "1000:1000"
+    read_only: true
+    volumes:
+      - ./evaluation-projects/inventory-system/inventory:/app:ro
+      - ./evaluation-projects/inventory-system/data:/data
+  appointment-booking:
+    # Uploaded Flask project. Code is mounted read-only; the SQLite database lives in a host folder.
+    # Requirements are installed when the container starts.
+    image: python:3.12-slim
+    working_dir: /app
+    command: ["sh", "-c", "pip install -q -r requirements.txt && python run.py"]
+    ports: ["8004:8004"]
+    environment:
+      PYTHONDONTWRITEBYTECODE: "1"
+      HOST: "0.0.0.0"
+      PORT: "8004"
+      BOOKING_DB: "/data/appointments.db"
+    volumes:
+      - ./evaluation-projects/appointment-booking/appointment-booking:/app:ro
+      - ./evaluation-projects/appointment-booking/data:/data
+  expense-system:
+    image: python:3.12-slim
+    working_dir: /app
+    command: ["sh", "-c", "pip install -q -r requirements.txt && python run.py"]
+    ports: ["8005:8005"]
+    environment:
+      PYTHONDONTWRITEBYTECODE: "1"
+      HOST: "0.0.0.0"
+      PORT: "8005"
+      EXPENSE_DB: "/data/expenses.db"
+      SEED_DEMO: "1"
+    volumes:
+      - ./evaluation-projects/expense-system/expense-system:/app:ro
+      - ./evaluation-projects/expense-system/data:/data
+  support-ticket-system:
+    # Uses the project's own Dockerfile. Without OPENAI_API_KEY the rule-based classifier is used.
+    build: ./evaluation-projects/support-ticket-system/support-ticket-system
+    ports: ["8006:8000"]
+    environment:
+      DATABASE_PATH: "/data/tickets.db"
+      OPENAI_API_KEY: "${OPENAI_API_KEY:-}"
+    volumes:
+      - ./evaluation-projects/support-ticket-system/data:/data
+  docchange:
+    # Standard-library Python app (no installs). Code mounted read-only; the history database lives in a host folder.
+    image: python:3.12-slim
+    working_dir: /app
+    command: ["python", "run.py"]
+    ports: ["8007:8007"]
+    environment:
+      PYTHONDONTWRITEBYTECODE: "1"
+      HOST: "0.0.0.0"
+      PORT: "8007"
+      HISTORY_DB: "/data/history.db"
+    volumes:
+      - ./evaluation-projects/docchange/docchange:/app:ro
+      - ./evaluation-projects/docchange/data:/data
+

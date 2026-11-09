@@ -1,0 +1,47 @@
+{
+  "generated_at": "2026-11-10T00:00:00+00:00",
+  "requirements_source": {
+    "document": "No separate requirements document was supplied",
+    "access": "Scope taken from the project's README.md (document change monitoring). The README also records which documents came from the shared Drive folder (read-only) and which are mock test revisions."
+  },
+  "repository": {
+    "slug": "uploaded folder: evaluation-projects/docchange/docchange",
+    "url": null,
+    "base_branch": null,
+    "base_branch_note": "Not a git repository.",
+    "import_method": "Uploaded folder. No version-control history and no original snapshot, so code changes cannot be compared with a baseline.",
+    "framework": "Python standard library only: http.server JSON API with a single static dashboard page (monitor/static/index.html).",
+    "backend": "Python 3.9+; SQLite history database (HISTORY_DB); difflib-based comparison (monitor/differ.py); rule-based analyzer (monitor/analyzer.py).",
+    "routes": "Dashboard at /; JSON API served by monitor/server.py; CLI via python -m monitor.cli (list, compare, scan).",
+    "original_files": []
+  },
+  "requirements": [
+    {"id": "D1", "area": "Comparison", "text": "Compare two versions of a document and list what changed, where (section and line numbers), with before and after text.", "original": "not applicable", "result": "Stated in README: exact text comparison in monitor/differ.py.", "evidence": "tests/test_all.py (23 tests)"},
+    {"id": "D2", "area": "Verified vs interpreted", "text": "Keep verified facts (exact text comparison) clearly separate from AI-style interpretation (requirement impact), which is labelled unverified.", "original": "not applicable", "result": "Stated in README; the dashboard uses green for verified facts and purple for interpretation.", "evidence": "tests/test_all.py"},
+    {"id": "D3", "area": "Impact analysis", "text": "Flag changes that may affect software requirements (severity, categories, reasons) using rules: shall/should, numeric thresholds, deprecations, endpoint paths, requirement IDs.", "original": "not applicable", "result": "Stated in README as heuristics; the README says heuristics can miss or over-flag.", "evidence": "tests/test_all.py"},
+    {"id": "D4", "area": "History", "text": "Scan all documents and keep a reviewable history in a SQLite file.", "original": "not applicable", "result": "Stated in README; history is stored only in the app's own history.db.", "evidence": "tests/test_all.py (persistence)"},
+    {"id": "D5", "area": "Source safety", "text": "Drive access is read-only and mock files are not changed by a scan.", "original": "not applicable", "result": "Stated in README. Tests assert no create, update or delete calls and that mock files are byte-identical after a scan.", "evidence": "tests/test_all.py"},
+    {"id": "D6", "area": "Data labelling", "text": "Real Drive documents and invented mock revisions are labelled differently in the dashboard.", "original": "not applicable", "result": "Stated in README; mock revisions carry a MOCK flag.", "evidence": "drive_snapshot/MANIFEST.json"}
+  ],
+  "tools": [
+    {"name": "Python standard library (http.server, sqlite3, difflib, unittest)", "decision": "Selected", "reason": "No installs needed; the README says the core app and tests use the standard library only."},
+    {"name": "SQLite", "decision": "Selected", "reason": "A single history file, easy to inspect and back up."},
+    {"name": "Google Drive API (google-api-python-client)", "decision": "Optional", "reason": "Only for DRIVE_SOURCE=gdrive. Not exercised against the real folder; unit-tested against a fake Drive service."},
+    {"name": "python-docx", "decision": "Optional", "reason": "Only if the Drive folder contains .docx files; the snapshot holds the connector's text rendition instead."}
+  ],
+  "plan": [
+    {"n": 1, "task": "Inspect the uploaded project and its Drive snapshot", "files": "README, monitor/, drive_snapshot/, mock_drive/", "tools": "Python", "status": "completed", "evidence": "structure and README read; MANIFEST.json read"},
+    {"n": 2, "task": "Run the project's unit test suite", "files": "tests/test_all.py", "tools": "unittest", "status": "completed", "evidence": "23 of 23 pass (reports/test-results.json)"},
+    {"n": 3, "task": "Make the host configurable for Docker", "files": "run.py (HOST variable)", "tools": "Python", "status": "completed", "evidence": "default unchanged (127.0.0.1)"},
+    {"n": 4, "task": "Keep the history database out of the project folder", "files": "run.py (HISTORY_DB)", "tools": "Python", "status": "completed", "evidence": "evidence run uses a temporary history file"},
+    {"n": 5, "task": "Start the live app and capture a screenshot", "files": "reports/screenshots", "tools": "Python, Microsoft Edge", "status": "completed", "evidence": "reports/live-check.json"},
+    {"n": 6, "task": "Integrate into LTID Assistant dashboard", "files": "backend and frontend", "tools": "FastAPI, React", "status": "pending", "evidence": ""}
+  ],
+  "limitations": [
+    "Heuristic impact analysis can miss or over-flag changes. Always check the evidence shown beside each flag.",
+    "Only text, Markdown, Google Docs text and paragraph text from .docx are read; tables, images and comments are ignored.",
+    "The live Google Drive path was NOT exercised against the real competition folder (no network or credentials in the build environment).",
+    "Mock revisions (flagged MOCK) were written for testing and are not in Drive.",
+    "No git history or original snapshot was supplied, so changes to the code itself cannot be compared with a baseline."
+  ]
+}

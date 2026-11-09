@@ -1,0 +1,56 @@
+{
+  "exported_at": "2026-11-09T20:32:05+00:00",
+  "repository_url": null,
+  "base_branch": "main",
+  "base_branch_verified": false,
+  "base_branch_evidence": "no remote configured; branch exists only in the local repository",
+  "import_kind": "Local git repository built by the project's agent (no GitHub remote)",
+  "dev_branch": "main",
+  "baseline_commit": {
+    "hash": "65e4e4c",
+    "author": "Inventory Dev",
+    "date": "2026-11-09T20:16:40Z",
+    "subject": "chore: initial repository skeleton"
+  },
+  "commits": [
+    {
+      "hash": "0f98671",
+      "author": "Inventory Dev",
+      "date": "2026-11-09T20:24:07Z",
+      "subject": "test(e2e): Chromium end-to-end test + screenshots; docs: README, development report, CI workflow, sample CSV"
+    },
+    {
+      "hash": "8ca83fd",
+      "author": "Inventory Dev",
+      "date": "2026-11-09T20:23:21Z",
+      "subject": "test: unit + live-HTTP tests; fix(server): drain oversized body and return 413 instead of resetting the connection"
+    },
+    {
+      "hash": "9ef9338",
+      "author": "Inventory Dev",
+      "date": "2026-11-09T20:17:19Z",
+      "subject": "feat(api,ui): HTTP API, single-page UI, low-stock banner"
+    },
+    {
+      "hash": "def0db1",
+      "author": "Inventory Dev",
+      "date": "2026-11-09T20:16:40Z",
+      "subject": "feat(db): SQLite persistence, validation, search, CSV import/export"
+    }
+  ],
+  "uncommitted_changes": [
+    "M app/server.py",
+    " M docs/screenshot-after.png",
+    " M docs/screenshot-main.png",
+    " M tests/test_api.py"
+  ],
+  "push": {
+    "status": "not_pushed",
+    "reason": "No remote is configured in the local repository, so nothing has been pushed."
+  },
+  "draft_pr": {
+    "status": "not_created",
+    "url": null,
+    "reason": "Requires a pushed branch."
+  }
+}

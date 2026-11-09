@@ -1,0 +1,35 @@
+{
+  "exported_at": "2026-11-09T18:59:34+00:00",
+  "repository_url": "https://github.com/LTID-rep/ltid-ai-competition-weather",
+  "base_branch": "main",
+  "base_branch_verified": true,
+  "base_branch_evidence": "ref: refs/heads/main HEAD\na7022f373a92806cf05de55f089b0454b16730c8 HEAD",
+  "import_kind": "ZIP snapshot (identical to upstream main after line-ending normalisation); local repo is a clone of upstream main",
+  "dev_branch": "ltid-assistant/prompt-b-weather",
+  "baseline_commit": {
+    "hash": "a7022f3",
+    "author": "kototi03",
+    "date": "2026-11-04T09:27:41+09:00",
+    "subject": "Initial competition starter"
+  },
+  "commits": [
+    {
+      "hash": "e0bb888",
+      "author": "Prudhvi",
+      "date": "2026-11-10T00:28:38+05:30",
+      "subject": "Add validated, time-ordered synthetic temperature forecasting demo"
+    }
+  ],
+  "push": {
+    "status": "not_pushed",
+    "attempted_at": "2026-11-09T18:59:41+00:00",
+    "exit_code": 128,
+    "output": "remote: Invalid username or token. Password authentication is not supported for Git operations.\nfatal: Authentication failed for 'https://github.com/LTID-rep/ltid-ai-competition-weather/'",
+    "reason": "git push failed (fatal: Authentication failed for 'https://github.com/LTID-rep/ltid-ai-competition-weather/'); the branch was verified absent from the remote with git ls-remote."
+  },
+  "draft_pr": {
+    "status": "not_created",
+    "url": null,
+    "reason": "Requires a pushed branch (push failed: no valid credentials)."
+  }
+}

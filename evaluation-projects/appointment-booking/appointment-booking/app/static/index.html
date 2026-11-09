@@ -1,0 +1,64 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Book a Consultation — Kaizen Consulting</title><link rel="stylesheet" href="/static/style.css"></head><body><main>
+<nav><a href="/">Customer</a><a href="/admin">Admin calendar</a></nav>
+<h1>Kaizen Consulting — Appointments</h1>
+<p class="mut">Mon–Fri, 9:00–17:00 Japan time (JST). 30-minute sessions. Today in Tokyo: <b id="now"></b></p>
+
+<section class="card"><h2>Book an appointment</h2>
+<label for="name">Your name</label><input id="name" maxlength="100">
+<label for="date">Date (JST)</label><input id="date" type="date">
+<label>Time (JST)</label><div id="slots" class="slots"><span class="mut">Pick a weekday.</span></div>
+<label for="purpose">Purpose</label><textarea id="purpose" rows="2" maxlength="500"></textarea>
+<button id="book">Book</button><div id="bookMsg"></div></section>
+
+<section class="card"><h2>View, change or cancel</h2>
+<p class="mut">Enter the booking code you received.</p>
+<input id="code" placeholder="e.g. 9F3A12BC"><button id="load" class="sec">Find</button>
+<div id="manage" hidden>
+<label for="mname">Name</label><input id="mname">
+<label for="mdate">Date</label><input id="mdate" type="date">
+<label>Time</label><div id="mslots" class="slots"></div>
+<label for="mpurpose">Purpose</label><textarea id="mpurpose" rows="2"></textarea>
+<button id="save">Save changes</button><button id="cancel" class="danger">Cancel appointment</button></div>
+<div id="manMsg"></div></section>
+<script>
+const $=id=>document.getElementById(id);
+const api=async(m,u,b)=>{const r=await fetch(u,{method:m,headers:{'Content-Type':'application/json'},body:b?JSON.stringify(b):undefined});
+ const j=await r.json();if(!r.ok)throw new Error(j.error||'Error');return j};
+const say=(el,t,ok)=>{const d=document.createElement('div');d.className='msg '+(ok?'ok':'err');d.textContent=t;el.replaceChildren(d)};
+const jst=()=>new Date().toLocaleString('en-CA',{timeZone:'Asia/Tokyo',hour12:false}).replace(',','');
+$('now').textContent=jst()+' JST';
+const todayJst=()=>new Date().toLocaleDateString('en-CA',{timeZone:'Asia/Tokyo'});
+$('date').min=$('mdate').min=todayJst();
+let selTime=null,mSel=null,current=null;
+async function loadSlots(date,box,pick,keep){
+  box.replaceChildren();
+  if(!date)return;
+  const {slots}=await api('GET','/api/slots?date='+date);
+  if(!slots.length){box.innerHTML='<span class="mut">Closed on weekends.</span>';return}
+  slots.forEach(s=>{const b=document.createElement('button');b.className='slot';b.textContent=s.time;
+    const mine=keep&&keep.date===date&&keep.time===s.time;
+    b.disabled=!s.available&&!mine;if(mine)b.classList.add('sel');
+    b.onclick=()=>{box.querySelectorAll('.slot').forEach(x=>x.classList.remove('sel'));b.classList.add('sel');pick(s.time)};
+    box.appendChild(b)});
+}
+$('date').onchange=()=>{selTime=null;loadSlots($('date').value,$('slots'),t=>selTime=t).catch(e=>say($('bookMsg'),e.message))};
+$('book').onclick=async()=>{try{
+  const a=await api('POST','/api/appointments',{name:$('name').value,date:$('date').value,time:selTime,purpose:$('purpose').value});
+  say($('bookMsg'),`Booked for ${a.date} ${a.time} JST. Your booking code: ${a.code} — keep it to change or cancel.`,true);
+  selTime=null;loadSlots(a.date,$('slots'),t=>selTime=t);
+ }catch(e){say($('bookMsg'),e.message);if($('date').value)loadSlots($('date').value,$('slots'),t=>selTime=t)}};
+function fill(a){current=a;mSel=a.time;$('manage').hidden=a.status!=='booked';
+  $('mname').value=a.name;$('mdate').value=a.date;$('mpurpose').value=a.purpose;
+  loadSlots(a.date,$('mslots'),t=>mSel=t,a);
+  if(a.status!=='booked')say($('manMsg'),`This appointment (${a.date} ${a.time}) is cancelled.`)}
+$('load').onclick=async()=>{try{fill(await api('GET','/api/appointments/'+$('code').value.trim()));
+  if(current.status==='booked')$('manMsg').replaceChildren()}catch(e){$('manage').hidden=true;say($('manMsg'),e.message)}};
+$('mdate').onchange=()=>{mSel=null;loadSlots($('mdate').value,$('mslots'),t=>mSel=t,current)};
+$('save').onclick=async()=>{try{
+  const a=await api('PUT','/api/appointments/'+current.code,{name:$('mname').value,date:$('mdate').value,time:mSel,purpose:$('mpurpose').value});
+  fill(a);say($('manMsg'),`Updated: ${a.date} ${a.time} JST.`,true)}catch(e){say($('manMsg'),e.message)}};
+$('cancel').onclick=async()=>{if(!confirm('Cancel this appointment?'))return;
+  try{await api('DELETE','/api/appointments/'+current.code);$('manage').hidden=true;say($('manMsg'),'Appointment cancelled.',true)}catch(e){say($('manMsg'),e.message)}};
+</script></main></body></html>

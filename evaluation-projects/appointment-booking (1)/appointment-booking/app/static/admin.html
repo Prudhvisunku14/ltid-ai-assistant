@@ -1,0 +1,37 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Admin Calendar — Kaizen Consulting</title><link rel="stylesheet" href="/static/style.css"></head><body><main>
+<nav><a href="/">Customer</a><a href="/admin">Admin calendar</a></nav>
+<h1>Admin calendar (JST)</h1>
+<div class="card"><label for="tok">Admin token</label><input id="tok" type="password" placeholder="default for demo: admin123">
+<button id="prev" class="sec">◀ Prev week</button><button id="today" class="sec">This week</button><button id="next" class="sec">Next week ▶</button>
+<div id="msg"></div><b id="range"></b></div>
+<div class="wrap"><table class="cal" id="cal"></table></div>
+<script>
+const $=id=>document.getElementById(id);
+const pad=n=>String(n).padStart(2,'0');
+const iso=d=>`${d.getUTCFullYear()}-${pad(d.getUTCMonth()+1)}-${pad(d.getUTCDate())}`;
+const todayJst=()=>new Date(new Date().toLocaleDateString('en-CA',{timeZone:'Asia/Tokyo'})+'T00:00:00Z');
+const monday=d=>{const x=new Date(d);x.setUTCDate(x.getUTCDate()-((x.getUTCDay()+6)%7));return x};
+let start=monday(todayJst());
+const times=[];for(let m=540;m<1020;m+=30)times.push(`${pad(m/60|0)}:${pad(m%60)}`);
+async function render(){
+  const days=[...Array(5)].map((_,i)=>{const d=new Date(start);d.setUTCDate(d.getUTCDate()+i);return d});
+  $('range').textContent=`${iso(days[0])} → ${iso(days[4])}`;
+  const t=$('cal');t.replaceChildren();
+  let appts=[];$('msg').replaceChildren();
+  try{const r=await fetch(`/api/admin/appointments?start=${iso(days[0])}&end=${iso(days[4])}`,{headers:{'X-Admin-Token':$('tok').value||'admin123'}});
+    const j=await r.json();if(!r.ok)throw new Error(j.error);appts=j.appointments}
+  catch(e){const d=document.createElement('div');d.className='msg err';d.textContent=e.message;$('msg').appendChild(d)}
+  const hr=t.insertRow();hr.appendChild(document.createElement('th'));
+  days.forEach(d=>{const th=document.createElement('th');th.textContent=d.toUTCString().slice(0,3)+' '+iso(d).slice(5);hr.appendChild(th)});
+  times.forEach(tm=>{const r=t.insertRow();const c=r.insertCell();c.className='t';c.textContent=tm;
+    days.forEach(d=>{const cell=r.insertCell();const a=appts.find(x=>x.date===iso(d)&&x.time===tm);
+      if(a){const e=document.createElement('div');e.className='ev';e.textContent=a.name+' — '+a.purpose;
+        e.title=`${a.name}\n${a.date} ${a.time} JST\n${a.purpose}\nCode ${a.code}`;cell.appendChild(e)}})});
+}
+$('prev').onclick=()=>{start.setUTCDate(start.getUTCDate()-7);render()};
+$('next').onclick=()=>{start.setUTCDate(start.getUTCDate()+7);render()};
+$('today').onclick=()=>{start=monday(todayJst());render()};
+$('tok').onchange=render;render();
+</script></main></body></html>

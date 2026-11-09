@@ -1,0 +1,18 @@
+{
+  "captured_from": "LTID AI Competition shared Drive folder 'google_drive_upload' (folder id 1QZR5bTrab71ZZrX1qZ4nea8xHufSly7F), sub-folder 03_RAG_Knowledge_Base (1fFkOhm3K7Cgyd8-CAUccejNU6p-wz0Sq)",
+  "captured_on": "2026-11-10",
+  "method": "Google Drive connector, read-only calls only (search/list + read_file_content). No file was created, changed, moved or trashed in Drive.",
+  "files": [
+    {"snapshot": "Policy_Expense_v1_Superseded.txt", "drive_id": "1nIJlLG7H6OgEHyj72-WoxXDRFRAdSP0g", "drive_title": "Policy_Expense_v1_Superseded.txt", "origin": "REAL"},
+    {"snapshot": "Policy_Expense_v2_Current.txt", "drive_id": "1xCJWu-5BKSGN_-Qil5dQZBq8_a827IbI", "drive_title": "Policy_Expense_v2_Current.txt", "origin": "REAL"},
+    {"snapshot": "Policy_Leave_Current.txt", "drive_id": "1VXQzPNjwCELwhbZVK4sAAd8nRbbLhKMu", "drive_title": "Policy_Leave_Current.txt", "origin": "REAL"},
+    {"snapshot": "Project_Helpdesk_ServiceSpec.txt", "drive_id": "1-GOedQondHlB4wdE5lyE6g-SoXuB4HK_", "drive_title": "Project_Helpdesk_ServiceSpec.txt", "origin": "REAL"},
+    {"snapshot": "Engineering_Deployment_Guide.txt", "drive_id": "1HY-_rqHL2j2GoiqOzlJ2Nbg7ZZW0r2Ya", "drive_title": "Engineering_Deployment_Guide.txt", "origin": "REAL"},
+    {"snapshot": "01_Website_Requirements.md", "drive_id": "1skoNNJqH6SjNOooEGwpLa4uuM8Bfjw-r", "drive_title": "01_Website_Requirements.docx", "origin": "REAL (text rendition of .docx; footer line omitted)"},
+    {"snapshot": "02_Weather_Requirements_v1.md", "drive_id": "1P71uar5JkwFeitePiqHMxVbhcJLMddgH", "drive_title": "02_Weather_Requirements.docx", "origin": "REAL (text rendition; renamed _v1 locally)"},
+    {"snapshot": "03_RAG_Requirements_v1.md", "drive_id": "1u0vlTB-ohoOvsgUGnLmgvuvYDx3iz9ME", "drive_title": "03_RAG_Requirements.docx", "origin": "REAL (text rendition; renamed _v1 locally)"},
+    {"snapshot": "05_Project_Context.md", "drive_id": "1KgaBRMls9qlps624vD206f5Ix9GgZ3zg", "drive_title": "05_Project_Context.docx", "origin": "REAL (text rendition)"},
+    {"snapshot": "02_Weather_Requirements_v2_MOCK.md", "drive_id": null, "origin": "MOCK - invented by us for testing; does NOT exist in Drive"},
+    {"snapshot": "03_RAG_Requirements_v2_MOCK.md", "drive_id": null, "origin": "MOCK - invented by us for testing; does NOT exist in Drive"}
+  ]
+}

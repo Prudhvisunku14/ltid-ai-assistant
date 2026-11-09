@@ -1,0 +1,188 @@
+{
+  "generated_at": "2026-11-10T00:00:00+00:00",
+  "requirements_source": {
+    "document": "No separate requirements document was supplied for this project",
+    "access": "Scope taken from the project's own README.md feature list and docs/DEVELOPMENT.md. Treat it as the project's stated scope, not an external specification."
+  },
+  "repository": {
+    "slug": "local repository: evaluation-projects/inventory-system/inventory",
+    "url": null,
+    "base_branch": "main",
+    "base_branch_note": "Local branch main. No remote is configured.",
+    "import_method": "Built in this workspace as a git repository (5 commits from an initial skeleton). Not imported from a ZIP or GitHub.",
+    "framework": "None. Python standard library http.server, sqlite3 and csv, with plain HTML/CSS/JavaScript in the browser.",
+    "backend": "Python 3.12 (stdlib). SQLite database file, data/inventory.db.",
+    "routes": "Single page at / with a JSON API under /api: items (list/create/get/update/delete), alerts, export.csv, import.",
+    "original_files": [
+      "README.md (skeleton, original snapshot at commit 65e4e4c)"
+    ]
+  },
+  "requirements": [
+    {
+      "id": "I1",
+      "area": "Items",
+      "text": "Register, edit, search (name, category, location), filter by category, delete with confirmation.",
+      "original": "Not present in the skeleton (README only).",
+      "result": "Implemented in the API, database layer and single-page UI.",
+      "evidence": "test_crud_lifecycle; test_search_and_alerts_and_banner_count; browser: register, edit, search/filter, delete"
+    },
+    {
+      "id": "I2",
+      "area": "Fields",
+      "text": "Name, category, quantity, location, last updated (automatic, UTC) and a per-item alert threshold.",
+      "original": "Not present.",
+      "result": "Implemented with validation that reports every bad field.",
+      "evidence": "test_create_sets_fields_and_timestamp; test_validation_reports_all_fields; test_rejects_bad_quantity_types"
+    },
+    {
+      "id": "I3",
+      "area": "Low-stock alert",
+      "text": "Alert when quantity is below the threshold (default 5): banner, LOW badge, low-only filter, GET /api/alerts.",
+      "original": "Not present.",
+      "result": "Implemented. The comparison is strictly below the threshold.",
+      "evidence": "test_threshold_is_strictly_below; test_alert_clears_when_restocked; browser: low-stock alert, edit clears alert"
+    },
+    {
+      "id": "I4",
+      "area": "CSV",
+      "text": "Export to CSV and import with upsert by name and location; bad rows are skipped and reported with line numbers.",
+      "original": "Not present.",
+      "result": "Implemented, including UTF-8 BOM handling and a guard against spreadsheet formula injection on export.",
+      "evidence": "test_round_trip; test_import_upserts_and_reports_bad_rows_with_line_numbers; test_export_neutralises_formula_injection; browser: import with row error report, CSV export"
+    },
+    {
+      "id": "I5",
+      "area": "Storage",
+      "text": "Persistent storage that survives a restart.",
+      "original": "Not present.",
+      "result": "SQLite file storage. Data survives a server restart and a page reload.",
+      "evidence": "test_data_survives_server_restart; browser: data persists across reload"
+    },
+    {
+      "id": "I6",
+      "area": "Security",
+      "text": "Local use safe by default: parameterised SQL, no HTML injection, bounded request bodies, no traceback leakage.",
+      "original": "Not present.",
+      "result": "Implemented. Binds to 127.0.0.1, 2 MB body limit returns 413, CSP default-src self, nosniff.",
+      "evidence": "test_sql_injection_is_inert; test_oversized_body_rejected; test_security_headers_and_html_served; browser: HTML in names is not executed"
+    }
+  ],
+  "tools": [
+    {
+      "name": "Python 3.12 standard library",
+      "decision": "Selected",
+      "reason": "Zero dependencies and runs on any PC with Python; http.server, sqlite3, csv and unittest cover the whole backend and tests."
+    },
+    {
+      "name": "SQLite (sqlite3)",
+      "decision": "Selected",
+      "reason": "One-file database that is easy to back up. Adequate for a small team on one machine."
+    },
+    {
+      "name": "Plain HTML, CSS and JavaScript",
+      "decision": "Selected",
+      "reason": "No build step, no Node dependency; the UI is small enough that a framework adds nothing."
+    },
+    {
+      "name": "Playwright with Chromium/Edge",
+      "decision": "Selected (verification only)",
+      "reason": "Drives the real UI for end-to-end tests and screenshots. It is not a runtime dependency of the app."
+    },
+    {
+      "name": "Flask / FastAPI with SQLAlchemy",
+      "decision": "Not selected",
+      "reason": "Would add routing and an ORM convenience, but the project's own note says neither is needed at this size; the db.py / server.py layering keeps a later swap straightforward."
+    },
+    {
+      "name": "PostgreSQL",
+      "decision": "Not selected",
+      "reason": "Suits many concurrent users; the app serialises writes with a lock and targets a small team."
+    },
+    {
+      "name": "GitHub CLI, Docker, pytest",
+      "decision": "Not available",
+      "reason": "Not installed in the build environment (per docs/DEVELOPMENT.md). Tests use unittest instead of pytest."
+    }
+  ],
+  "plan": [
+    {
+      "n": 1,
+      "task": "Skeleton repository",
+      "files": "README.md, .gitignore",
+      "tools": "Git",
+      "status": "completed",
+      "evidence": "commit 65e4e4c"
+    },
+    {
+      "n": 2,
+      "task": "Data layer: schema, validation, search, CSV import/export",
+      "files": "app/db.py",
+      "tools": "sqlite3, csv",
+      "status": "completed",
+      "evidence": "commit def0db1; 14 database tests pass"
+    },
+    {
+      "n": 3,
+      "task": "HTTP API, single-page UI, low-stock banner",
+      "files": "app/server.py, static/*",
+      "tools": "http.server, vanilla JS",
+      "status": "completed",
+      "evidence": "commit 9ef9338; live server check in DEVELOPMENT.md"
+    },
+    {
+      "n": 4,
+      "task": "Unit and live-HTTP tests; fix found by tests (oversized body)",
+      "files": "tests/test_api.py, tests/test_db.py, tests/helpers.py",
+      "tools": "unittest",
+      "status": "completed",
+      "evidence": "commit 8ca83fd; 23 tests pass in the original repo"
+    },
+    {
+      "n": 5,
+      "task": "Real-browser end-to-end test and screenshots",
+      "files": "tests/browser_e2e.py, docs/*.png",
+      "tools": "Playwright, Chromium",
+      "status": "completed",
+      "evidence": "commit 0f98671; 10 browser steps pass (run in Microsoft Edge here)"
+    },
+    {
+      "n": 6,
+      "task": "Fix: favicon request answered 404 (found by the browser test)",
+      "files": "app/server.py, tests/test_api.py",
+      "tools": "http.server, unittest",
+      "status": "completed",
+      "evidence": "uncommitted change in the working tree; 24 unit tests and 10 browser steps pass"
+    },
+    {
+      "n": 7,
+      "task": "Integrate into LTID Assistant dashboard",
+      "files": "backend/app/services/inventory.py, frontend/src/*",
+      "tools": "FastAPI, React",
+      "status": "completed",
+      "evidence": "27 backend tests pass; scripts/verify_dashboard.py: 24 of 24 browser checks pass against the dashboard"
+    },
+    {
+      "n": 8,
+      "task": "Publish to GitHub and open a Draft PR",
+      "files": "-",
+      "tools": "Git, GitHub",
+      "status": "blocked",
+      "evidence": "No remote is configured. Nothing has been pushed."
+    }
+  ],
+  "limitations": [
+    "No login. The server binds to 127.0.0.1; put it behind an authenticating reverse proxy before exposing it to a network.",
+    "http.server is fine for a small team on one machine. Writes are serialised with a lock, so it is not built for heavy concurrency.",
+    "No audit history of changes, no roles, no barcode scanning, no multi-user conflict handling beyond the write lock.",
+    "Browser coverage is Chromium/Edge only.",
+    "No separate requirements document was supplied; the requirement list is taken from the project's README."
+  ],
+  "existing_issues": [
+    {
+      "id": "X1",
+      "area": "HTTP",
+      "finding": "Browsers request /favicon.ico automatically, and the server answered 404. The browser test treats this as a failure, so it was fixed.",
+      "observed": "GET /favicon.ico -> 404 before the fix; 204 after"
+    }
+  ]
+}

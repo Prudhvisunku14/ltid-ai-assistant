@@ -1,0 +1,140 @@
+{
+  "generated_at": "2026-11-10T00:00:00+00:00",
+  "requirements_source": {
+    "document": "No separate requirements document was supplied",
+    "access": "Scope taken from the project's README.md (AI-supported support tickets)."
+  },
+  "repository": {
+    "slug": "uploaded folder: evaluation-projects/support-ticket-system/support-ticket-system",
+    "url": null,
+    "base_branch": null,
+    "base_branch_note": "Not a git repository.",
+    "import_method": "Uploaded folder. The support-ticket-system.zip in Downloads was not compared with it. No original snapshot was used, so code changes cannot be compared with a baseline.",
+    "framework": "FastAPI (Python) with one static page (app/static) using vanilla JavaScript.",
+    "backend": "Python 3.12, FastAPI + Uvicorn, Pydantic; SQLite (DATABASE_PATH); optional OpenAI classifier with a rule-based fallback.",
+    "routes": "Dashboard at /; JSON API under /api (tickets create/list/get/patch, stats, config); interactive docs at /docs.",
+    "original_files": []
+  },
+  "requirements": [
+    {
+      "id": "S1",
+      "area": "Tickets",
+      "text": "Users submit tickets; staff can correct category and priority by hand and move tickets Open, In Progress, Resolved.",
+      "original": "not applicable",
+      "result": "Stated in README; covered by tests/test_api.py.",
+      "evidence": "tests/test_api.py"
+    },
+    {
+      "id": "S2",
+      "area": "Classification",
+      "text": "Tickets are classified (technical issue, billing or general inquiry) with a recommended priority and reasoning.",
+      "original": "not applicable",
+      "result": "Stated in README. The rule-based path is tested. The GPT path is tested with a mock only; no real OpenAI call was made.",
+      "evidence": "tests/test_classifier.py"
+    },
+    {
+      "id": "S3",
+      "area": "Resilience",
+      "text": "If the LLM fails, times out or returns invalid JSON, the ticket is still saved using the fallback.",
+      "original": "not applicable",
+      "result": "Stated in README.",
+      "evidence": "tests/test_classifier.py (every failure mode falls back)"
+    },
+    {
+      "id": "S4",
+      "area": "Human override",
+      "text": "Manual values win; the original AI suggestion is kept so overrides can be counted.",
+      "original": "not applicable",
+      "result": "Stated in README; the dashboard counts corrections.",
+      "evidence": "tests/test_api.py"
+    },
+    {
+      "id": "S5",
+      "area": "Security",
+      "text": "Ticket text is treated as untrusted (prompt-injection hardening); output is validated against enums; the UI escapes text; SQL uses bound parameters.",
+      "original": "not applicable",
+      "result": "Stated in README.",
+      "evidence": "tests/test_db.py (SQL-injection safety)"
+    }
+  ],
+  "tools": [
+    {
+      "name": "FastAPI + Uvicorn",
+      "decision": "Selected",
+      "reason": "REST API and static dashboard; the project's stated choice."
+    },
+    {
+      "name": "Pydantic",
+      "decision": "Selected",
+      "reason": "Input validation, enums and response schemas."
+    },
+    {
+      "name": "SQLite (standard library)",
+      "decision": "Selected",
+      "reason": "Persistent ticket storage with no server."
+    },
+    {
+      "name": "OpenAI GPT (gpt-4o-mini)",
+      "decision": "Optional",
+      "reason": "Classification, priority and reasoning. Needs OPENAI_API_KEY; the tests mock it, so no paid call was made here."
+    },
+    {
+      "name": "Rule-based classifier",
+      "decision": "Selected (fallback)",
+      "reason": "Free keyword classifier used when no API key is set or the API call fails."
+    },
+    {
+      "name": "pytest + httpx TestClient",
+      "decision": "Selected",
+      "reason": "Automated tests without network or API key."
+    }
+  ],
+  "plan": [
+    {
+      "n": 1,
+      "task": "Inspect the uploaded project",
+      "files": "README, app/, tests/, Dockerfile",
+      "tools": "Python",
+      "status": "completed",
+      "evidence": "structure and README read"
+    },
+    {
+      "n": 2,
+      "task": "Run the project's test suite",
+      "files": "tests/",
+      "tools": "pytest",
+      "status": "completed",
+      "evidence": "32 of 32 pass (reports/test-results.json)"
+    },
+    {
+      "n": 3,
+      "task": "Start the live app without an OpenAI key",
+      "files": "reports/live-check.json",
+      "tools": "Uvicorn",
+      "status": "completed",
+      "evidence": "rule-based classifier used; GPT not exercised"
+    },
+    {
+      "n": 4,
+      "task": "Capture a screenshot of the dashboard",
+      "files": "reports/screenshots",
+      "tools": "Microsoft Edge",
+      "status": "completed",
+      "evidence": "reports/screenshots/support-ticket-system-home.png"
+    },
+    {
+      "n": 5,
+      "task": "Integrate into LTID Assistant dashboard",
+      "files": "backend and frontend",
+      "tools": "FastAPI, React",
+      "status": "completed",
+      "evidence": "evaluation-projects/scripts/verify_projects.py: 67 of 67 browser checks pass; reports/dashboard-verification-projects.json"
+    }
+  ],
+  "limitations": [
+    "The GPT classifier was not run against the real OpenAI API: no key is configured. Its behaviour is covered only by mocked tests.",
+    "No authentication or roles; no assignee field; no pagination (per the README's next steps).",
+    "The test suite writes data/tickets.db into the project folder (the default DATABASE_PATH). That file was removed after the run.",
+    "No git history or original snapshot was supplied, so changes cannot be compared with a baseline."
+  ]
+}

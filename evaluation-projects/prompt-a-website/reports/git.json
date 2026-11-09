@@ -1,0 +1,30 @@
+{
+  "exported_at": "2026-11-09T18:04:39+00:00",
+  "repository_url": "https://github.com/LTID-rep/ltid-ai-competition-website",
+  "base_branch": "main",
+  "base_branch_verified": false,
+  "dev_branch": "feature/northstar-homepage-upgrade",
+  "baseline_commit": {
+    "hash": "a591f7e",
+    "author": "Prudhvi",
+    "date": "2026-11-09T17:58:09+00:00",
+    "subject": "Import original starter snapshot (from supplied ZIP)"
+  },
+  "commits": [
+    {
+      "hash": "0493bcd",
+      "author": "Prudhvi",
+      "date": "2026-11-09T17:59:52+00:00",
+      "subject": "Upgrade Northstar homepage: accessible mobile nav, data-driven portfolio, validated contact form, tests"
+    }
+  ],
+  "push": {
+    "status": "not_pushed",
+    "reason": "No valid GitHub credentials (GH_TOKEN invalid); remote not accessible."
+  },
+  "draft_pr": {
+    "status": "not_created",
+    "url": null,
+    "reason": "Requires a pushed branch."
+  }
+}

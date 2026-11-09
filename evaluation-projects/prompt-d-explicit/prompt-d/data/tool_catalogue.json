@@ -1,0 +1,27 @@
+{
+  "_note": "Catalogue entries are DECLARED facts (with source). Live status is measured separately by D1 and never copied from here.",
+  "tools": [
+    {"id": "openai", "name": "OpenAI API", "purpose": "Planning, reasoning and tool-call generation",
+     "check": "openai", "needs": ["OPENAI_API_KEY"], "permissions": "API key with access to the chosen model",
+     "cost": "Usage-billed per token; rate card must be read from the live pricing page. DevPilot records measured token usage per run.",
+     "source": "https://platform.openai.com/docs/pricing"},
+    {"id": "github", "name": "GitHub (gh CLI / REST)", "purpose": "Branches and draft pull requests",
+     "check": "github", "needs": ["GITHUB_TOKEN or `gh auth login`"], "permissions": "repo scope (contents + pull requests write) on the target repository",
+     "cost": "No per-call charge for REST/CLI use; plan limits and rate limits apply.",
+     "source": "https://docs.github.com/en/rest"},
+    {"id": "gdrive", "name": "Google Drive", "purpose": "Read project specification (DOCX) and data",
+     "check": "gdrive", "needs": ["GOOGLE_APPLICATION_CREDENTIALS or GDRIVE_ACCESS_TOKEN"], "permissions": "drive.readonly (read-only) OAuth scope",
+     "cost": "Drive API has no per-call fee; quota limits apply.",
+     "source": "https://developers.google.com/drive/api/guides/about-sdk"},
+    {"id": "git", "name": "Git", "purpose": "Local change tracking (not a hosting service)",
+     "check": "git", "needs": ["git binary"], "permissions": "Write access to the working directory", "cost": "Open source; no charge.",
+     "source": "https://git-scm.com"},
+    {"id": "pytest", "name": "Python unittest / pytest", "purpose": "Automated tests (a pass is evidence, not proof)",
+     "check": "pytest", "needs": ["python3"], "permissions": "Read/execute in the project", "cost": "Open source; no charge.",
+     "source": "https://docs.pytest.org"},
+    {"id": "docker", "name": "Docker", "purpose": "Sandboxed execution (no network, dropped capabilities)",
+     "check": "docker", "needs": ["docker binary + reachable daemon"], "permissions": "Access to the Docker daemon (equivalent to root on the host: restrict it)",
+     "cost": "Engine is free; Docker Desktop licence terms depend on organisation size.",
+     "source": "https://docs.docker.com/subscription/"}
+  ]
+}

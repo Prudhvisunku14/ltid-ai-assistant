@@ -1,0 +1,7 @@
+@tailwind base; @tailwind components; @tailwind utilities;
+body { @apply bg-bg text-ink font-sans antialiased; }
+.card { @apply bg-white border border-line rounded-xl shadow-card; }
+.btn { @apply inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium border border-line bg-white hover:bg-soft transition-colors; }
+.btn-primary { @apply bg-brand text-white border-brand hover:bg-[#3f58d4]; }
+.hljs-keyword,.hljs-tag,.hljs-selector-tag{color:#6b46c1}.hljs-string,.hljs-attr-string{color:#0b7a4b}.hljs-comment{color:#94a3b8;font-style:italic}
+.hljs-title,.hljs-name,.hljs-attr,.hljs-selector-class,.hljs-selector-id{color:#2f4fd1}.hljs-number,.hljs-literal{color:#c2410c}.hljs-built_in,.hljs-attribute{color:#0e7490}

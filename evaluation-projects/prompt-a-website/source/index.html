@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Northstar Studio builds accessible digital products.">
+  <title>Northstar Studio | Digital experiences</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="data/projects-data.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <a class="wordmark" href="#home" aria-label="Northstar Studio homepage">NORTHSTAR<span>STUDIO</span></a>
+    <button class="nav-toggle" id="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Menu" hidden>
+      <span class="nav-toggle__bars" aria-hidden="true"></span>
+    </button>
+    <nav id="site-nav" aria-label="Main navigation"><a href="#services">Services</a><a href="#work">Work</a><a href="#contact">Contact</a></nav>
+  </header>
+  <main id="main">
+    <section class="hero" id="home"><p class="eyebrow">DESIGN • DEVELOPMENT • AUTOMATION</p><h1>Useful digital experiences, built to last.</h1><p>We help thoughtful teams turn everyday challenges into working products.</p><a class="button" href="#contact">Start a project</a> <a class="button button--ghost" href="#work">See our work</a></section>
+    <section id="services" class="section"><h2>What we do</h2><div class="tiles"><article><h3>Web design</h3><p>Human-centered websites and interfaces.</p></article><article><h3>Software</h3><p>Reliable tools and practical automation.</p></article><article><h3>AI integration</h3><p>Responsible AI embedded in real workflows.</p></article></div></section>
+    <section id="work" class="section"><h2>Selected work</h2><p class="lead">A few recent (fictional) engagements from the studio.</p>
+      <div id="project-grid" class="cards" role="list" aria-live="polite"></div>
+      <noscript><p class="muted">Enable JavaScript to see the project showcase.</p></noscript>
+    </section>
+    <section id="contact" class="section"><h2>Get in touch</h2><p class="lead">Tell us about your idea and what you need.</p>
+      <div class="contact-layout">
+        <form id="contact-form" class="form" novalidate aria-describedby="form-note">
+          <p id="form-note" class="muted">All fields are required. This is a local demo: your message is validated in the browser and is <strong>not</strong> sent or stored anywhere.</p>
+          <div class="field">
+            <label for="name">Name</label>
+            <input id="name" name="name" type="text" autocomplete="name" required aria-describedby="name-error">
+            <p class="field-error" id="name-error" hidden></p>
+          </div>
+          <div class="field">
+            <label for="email">Email</label>
+            <input id="email" name="email" type="email" autocomplete="email" required aria-describedby="email-error">
+            <p class="field-error" id="email-error" hidden></p>
+          </div>
+          <div class="field">
+            <label for="message">Message</label>
+            <textarea id="message" name="message" rows="5" required aria-describedby="message-error"></textarea>
+            <p class="field-error" id="message-error" hidden></p>
+          </div>
+          <button class="button" type="submit">Send message</button>
+          <div id="form-status" class="form-status" role="status" aria-live="polite" tabindex="-1"></div>
+        </form>
+        <aside class="cta-card" aria-labelledby="cta-title">
+          <h3 id="cta-title">Ready to start?</h3>
+          <p>Share a few lines about your goals. We reply to every real enquiry with next steps and a rough plan.</p>
+          <p class="muted">Northstar Studio is a fictional brand created for this competition.</p>
+        </aside>
+      </div>
+    </section>
+  </main>
+  <footer>© 2026 Northstar Studio — Fictional competition brand.</footer>
+</body>
+</html>

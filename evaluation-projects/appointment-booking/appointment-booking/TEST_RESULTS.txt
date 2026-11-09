@@ -1,0 +1,34 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-9.2.0, pluggy-1.7.0 -- /usr/bin/python
+cachedir: .pytest_cache
+rootdir: /home/claude/appointment-booking
+plugins: platformdirs-4.13.0
+collecting ... collected 25 items
+
+tests/test_booking.py::test_book_and_view PASSED                         [  4%]
+tests/test_booking.py::test_slot_list_has_16_slots_9_to_1630 PASSED      [  8%]
+tests/test_booking.py::test_rejects_times_outside_hours_or_grid[08:30] PASSED [ 12%]
+tests/test_booking.py::test_rejects_times_outside_hours_or_grid[17:00] PASSED [ 16%]
+tests/test_booking.py::test_rejects_times_outside_hours_or_grid[09:15] PASSED [ 20%]
+tests/test_booking.py::test_rejects_times_outside_hours_or_grid[12:45] PASSED [ 24%]
+tests/test_booking.py::test_rejects_times_outside_hours_or_grid[abc] PASSED [ 28%]
+tests/test_booking.py::test_rejects_times_outside_hours_or_grid[] PASSED [ 32%]
+tests/test_booking.py::test_rejects_weekends[2030-01-12] PASSED          [ 36%]
+tests/test_booking.py::test_rejects_weekends[2030-01-13] PASSED          [ 40%]
+tests/test_booking.py::test_rejects_past_and_bad_date PASSED             [ 44%]
+tests/test_booking.py::test_requires_name_and_purpose PASSED             [ 48%]
+tests/test_booking.py::test_double_booking_prevented PASSED              [ 52%]
+tests/test_booking.py::test_adjacent_slots_do_not_conflict PASSED        [ 56%]
+tests/test_booking.py::test_concurrent_bookings_only_one_wins PASSED     [ 60%]
+tests/test_booking.py::test_cancel_frees_slot_and_allows_rebooking PASSED [ 64%]
+tests/test_booking.py::test_cancel_twice_and_unknown PASSED              [ 68%]
+tests/test_booking.py::test_cancelled_cannot_be_modified PASSED          [ 72%]
+tests/test_booking.py::test_modify_time_and_details PASSED               [ 76%]
+tests/test_booking.py::test_modify_into_taken_slot_conflicts_and_keeps_original PASSED [ 80%]
+tests/test_booking.py::test_modify_same_slot_other_fields_ok PASSED      [ 84%]
+tests/test_booking.py::test_modify_to_invalid_slot_rejected PASSED       [ 88%]
+tests/test_booking.py::test_records_persist_across_app_restart PASSED    [ 92%]
+tests/test_booking.py::test_admin_calendar_requires_token_and_lists_only_active PASSED [ 96%]
+tests/test_booking.py::test_timezone_is_japan_time PASSED                [100%]
+
+============================== 25 passed in 0.27s ==============================

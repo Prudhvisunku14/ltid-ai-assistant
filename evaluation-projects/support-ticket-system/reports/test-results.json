@@ -1,0 +1,193 @@
+{
+  "generated_at": "2026-11-09T21:15:17+00:00",
+  "build": {
+    "status": "passed",
+    "command": "compile() every .py file in the project, in memory",
+    "ran_at": "2026-11-09T21:15:17+00:00",
+    "output": "compiled 11 files OK"
+  },
+  "suites": [
+    {
+      "id": "pytest",
+      "title": "Automated test suite (pytest)",
+      "command": "python -m pytest -v",
+      "ran_at": "2026-11-09T21:15:13+00:00",
+      "exit_code": 0,
+      "cases": [
+        {
+          "name": "test_submit_ticket_is_classified_by_ai",
+          "class": "tests/test_api.py",
+          "status": "passed"
+        },
+        {
+          "name": "test_validation_rejects_bad_input",
+          "class": "tests/test_api.py",
+          "status": "passed"
+        },
+        {
+          "name": "test_disable_auto_classification_uses_manual_category",
+          "class": "tests/test_api.py",
+          "status": "passed"
+        },
+        {
+          "name": "test_manual_mode_requires_category",
+          "class": "tests/test_api.py",
+          "status": "passed"
+        },
+        {
+          "name": "test_manual_priority_in_manual_mode",
+          "class": "tests/test_api.py",
+          "status": "passed"
+        },
+        {
+          "name": "test_user_values_win_over_ai_but_ai_suggestion_is_kept",
+          "class": "tests/test_api.py",
+          "status": "passed"
+        },
+        {
+          "name": "test_no_llm_call_when_user_gives_both_values",
+          "class": "tests/test_api.py",
+          "status": "passed"
+        },
+        {
+          "name": "test_global_switch_disables_auto_classification",
+          "class": "tests/test_api.py",
+          "status": "passed"
+        },
+        {
+          "name": "test_classifier_crash_does_not_block_submission",
+          "class": "tests/test_api.py",
+          "status": "passed"
+        },
+        {
+          "name": "test_manual_correction_of_category_and_priority",
+          "class": "tests/test_api.py",
+          "status": "passed"
+        },
+        {
+          "name": "test_status_workflow",
+          "class": "tests/test_api.py",
+          "status": "passed"
+        },
+        {
+          "name": "test_update_validation_and_404",
+          "class": "tests/test_api.py",
+          "status": "passed"
+        },
+        {
+          "name": "test_list_and_filters",
+          "class": "tests/test_api.py",
+          "status": "passed"
+        },
+        {
+          "name": "test_dashboard_stats",
+          "class": "tests/test_api.py",
+          "status": "passed"
+        },
+        {
+          "name": "test_tickets_persist_across_restarts",
+          "class": "tests/test_api.py",
+          "status": "passed"
+        },
+        {
+          "name": "test_markup_is_stored_verbatim_and_dashboard_is_served",
+          "class": "tests/test_api.py",
+          "status": "passed"
+        },
+        {
+          "name": "test_rule_based[Site is down-The whole website is down for every user-technical_issue-urgent]",
+          "class": "tests/test_classifier.py",
+          "status": "passed"
+        },
+        {
+          "name": "test_rule_based[Charged twice-I was charged twice for my subscription-billing-urgent]",
+          "class": "tests/test_classifier.py",
+          "status": "passed"
+        },
+        {
+          "name": "test_rule_based[Refund request-Please refund last month's invoice-billing-high]",
+          "class": "tests/test_classifier.py",
+          "status": "passed"
+        },
+        {
+          "name": "test_rule_based[Opening hours-Question about your opening hours-general_inquiry-low]",
+          "class": "tests/test_classifier.py",
+          "status": "passed"
+        },
+        {
+          "name": "test_rule_based[Hello-Just saying hello to the team-general_inquiry-medium]",
+          "class": "tests/test_classifier.py",
+          "status": "passed"
+        },
+        {
+          "name": "test_rule_based_uses_word_boundaries",
+          "class": "tests/test_classifier.py",
+          "status": "passed"
+        },
+        {
+          "name": "test_gpt_happy_path_and_prompt_shape",
+          "class": "tests/test_classifier.py",
+          "status": "passed"
+        },
+        {
+          "name": "test_gpt_failures_fall_back_to_rules[this is not json-None]",
+          "class": "tests/test_classifier.py",
+          "status": "passed"
+        },
+        {
+          "name": "test_gpt_failures_fall_back_to_rules[{\"category\": \"weather\", \"priority\": \"low\", \"reasoning\": \"x\"}-None]",
+          "class": "tests/test_classifier.py",
+          "status": "passed"
+        },
+        {
+          "name": "test_gpt_failures_fall_back_to_rules[{\"category\": \"billing\"}-None]",
+          "class": "tests/test_classifier.py",
+          "status": "passed"
+        },
+        {
+          "name": "test_gpt_failures_fall_back_to_rules[None-exc3]",
+          "class": "tests/test_classifier.py",
+          "status": "passed"
+        },
+        {
+          "name": "test_gpt_reasoning_is_truncated",
+          "class": "tests/test_classifier.py",
+          "status": "passed"
+        },
+        {
+          "name": "test_build_classifier_selects_implementation",
+          "class": "tests/test_classifier.py",
+          "status": "passed"
+        },
+        {
+          "name": "test_empty_stats_are_zero_filled",
+          "class": "tests/test_db.py",
+          "status": "passed"
+        },
+        {
+          "name": "test_update_ignores_unknown_columns_and_missing_rows",
+          "class": "tests/test_db.py",
+          "status": "passed"
+        },
+        {
+          "name": "test_sql_injection_in_text_is_harmless",
+          "class": "tests/test_db.py",
+          "status": "passed"
+        }
+      ],
+      "output_tail": [
+        "tests/test_db.py::test_sql_injection_in_text_is_harmless PASSED          [100%]",
+        "",
+        "============================= 32 passed in 2.21s =============================="
+      ],
+      "summary_line": "32 passed",
+      "parsed_count": 32,
+      "reported_count": 32,
+      "parse_complete": true
+    }
+  ],
+  "totals": {
+    "passed": 32,
+    "failed": 0
+  }
+}

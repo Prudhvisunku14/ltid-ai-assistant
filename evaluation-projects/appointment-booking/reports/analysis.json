@@ -1,0 +1,142 @@
+{
+  "generated_at": "2026-11-10T00:00:00+00:00",
+  "requirements_source": {
+    "document": "No separate requirements document was supplied",
+    "access": "Scope taken from the project's README.md (Kaizen Consulting appointment booking). Treat it as the project's stated scope."
+  },
+  "repository": {
+    "slug": "uploaded folder: evaluation-projects/appointment-booking/appointment-booking",
+    "url": null,
+    "base_branch": null,
+    "base_branch_note": "Not a git repository.",
+    "import_method": "Uploaded folder. No version-control history and no original snapshot, so code changes cannot be compared with a baseline.",
+    "framework": "Flask (Python) with two static HTML pages (index.html, admin.html) using vanilla JavaScript.",
+    "backend": "Python 3.12, Flask; SQLite file database (BOOKING_DB).",
+    "routes": "Customer page at /; admin page at /admin; JSON API under /api (slots, appointments create/view/modify/cancel, admin calendar).",
+    "original_files": []
+  },
+  "requirements": [
+    {
+      "id": "B1",
+      "area": "Booking",
+      "text": "Customers book, view, modify and cancel 30-minute appointments, Mon-Fri 09:00-17:00 JST.",
+      "original": "not applicable",
+      "result": "Stated in README; covered by the test suite.",
+      "evidence": "test_book_and_view; test_slot_list_has_16_slots_9_to_1630; test_rejects_times_outside_hours_or_grid"
+    },
+    {
+      "id": "B2",
+      "area": "Double booking",
+      "text": "No two bookings for the same slot, even when requests arrive at the same moment.",
+      "original": "not applicable",
+      "result": "Stated in README: enforced by a partial UNIQUE index in SQLite; the losing request receives HTTP 409.",
+      "evidence": "tests/test_booking.py"
+    },
+    {
+      "id": "B3",
+      "area": "Access",
+      "text": "Customers use a random 8-character code to view, modify or cancel; the admin API needs an X-Admin-Token header.",
+      "original": "not applicable",
+      "result": "Stated in README.",
+      "evidence": "tests/test_booking.py"
+    },
+    {
+      "id": "B4",
+      "area": "Admin",
+      "text": "Admins see a weekly calendar.",
+      "original": "not applicable",
+      "result": "Admin page and /api/admin/appointments are described in README.",
+      "evidence": "live screenshot of the home page (admin page not captured)"
+    },
+    {
+      "id": "B5",
+      "area": "Persistence",
+      "text": "Records persist in SQLite.",
+      "original": "not applicable",
+      "result": "SQLite file via BOOKING_DB.",
+      "evidence": "README; tests/test_booking.py"
+    }
+  ],
+  "tools": [
+    {
+      "name": "Python 3 + Flask (BSD)",
+      "decision": "Selected",
+      "reason": "Small, readable, no build step; the project's stated choice for a compact REST API."
+    },
+    {
+      "name": "SQLite (built into Python)",
+      "decision": "Selected",
+      "reason": "Zero-setup persistent file database; a partial UNIQUE index gives atomic double-booking protection."
+    },
+    {
+      "name": "Vanilla HTML/CSS/JS",
+      "decision": "Selected",
+      "reason": "No framework or bundler; the UI is two static pages."
+    },
+    {
+      "name": "zoneinfo (standard library)",
+      "decision": "Selected",
+      "reason": "Correct Asia/Tokyo handling. On Windows it also needs the tzdata package, which was added to requirements.txt during this integration."
+    },
+    {
+      "name": "pytest",
+      "decision": "Selected",
+      "reason": "Concise tests, fixtures and parametrisation; the clock is frozen for determinism."
+    }
+  ],
+  "plan": [
+    {
+      "n": 1,
+      "task": "Inspect the uploaded project",
+      "files": "README, app/, tests/",
+      "tools": "Python",
+      "status": "completed",
+      "evidence": "structure and README read"
+    },
+    {
+      "n": 2,
+      "task": "Run the project's test suite",
+      "files": "tests/test_booking.py",
+      "tools": "pytest",
+      "status": "completed",
+      "evidence": "25 of 25 pass (reports/test-results.json)"
+    },
+    {
+      "n": 3,
+      "task": "Make the host configurable for Docker",
+      "files": "run.py (HOST variable)",
+      "tools": "Python",
+      "status": "completed",
+      "evidence": "default unchanged (127.0.0.1)"
+    },
+    {
+      "n": 4,
+      "task": "Declare the Windows time-zone dependency",
+      "files": "requirements.txt (tzdata)",
+      "tools": "pip",
+      "status": "completed",
+      "evidence": "tests fail on Windows without it and pass with it"
+    },
+    {
+      "n": 5,
+      "task": "Start the live app and capture a screenshot",
+      "files": "reports/screenshots",
+      "tools": "Flask, Microsoft Edge",
+      "status": "completed",
+      "evidence": "reports/live-check.json"
+    },
+    {
+      "n": 6,
+      "task": "Integrate into LTID Assistant dashboard",
+      "files": "backend and frontend",
+      "tools": "FastAPI, React",
+      "status": "completed",
+      "evidence": "evaluation-projects/scripts/verify_projects.py: 67 of 67 browser checks pass; reports/dashboard-verification-projects.json"
+    }
+  ],
+  "limitations": [
+    "The admin token defaults to admin123; the README says to change it before real use.",
+    "No authentication beyond the booking code and the admin token; no email confirmations.",
+    "No git history or original snapshot was supplied, so changes cannot be compared with a baseline."
+  ]
+}

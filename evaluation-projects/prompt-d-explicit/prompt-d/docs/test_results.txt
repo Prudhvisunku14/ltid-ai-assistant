@@ -1,0 +1,28 @@
+test_no_llm_means_no_changes_and_honest_status (tests.test_change.T.test_no_llm_means_no_changes_and_honest_status) ... ok
+test_plan_implement_fail_repair_pass (tests.test_change.T.test_plan_implement_fail_repair_pass) ... ok
+test_refuses_path_escape (tests.test_change.T.test_refuses_path_escape) ... ok
+test_rolls_back_when_repairs_exhausted (tests.test_change.T.test_rolls_back_when_repairs_exhausted) ... ok
+test_bad_inputs_rejected (tests.test_forecast.T.test_bad_inputs_rejected) ... ok
+test_error_demo_all_rejected (tests.test_forecast.T.test_error_demo_all_rejected) ... ok
+test_mae_hand_computed (tests.test_forecast.T.test_mae_hand_computed) ... ok
+test_pipeline_is_chronological_and_leak_free (tests.test_forecast.T.test_pipeline_is_chronological_and_leak_free) ... ok
+test_abstains_on_company_z_and_ignores_rumour (tests.test_rag.T.test_abstains_on_company_z_and_ignores_rumour) ... ok
+test_current_deadline_uses_newest_policy_and_verified_citation (tests.test_rag.T.test_current_deadline_uses_newest_policy_and_verified_citation) ... ok
+test_fabricated_citation_fails_verification (tests.test_rag.T.test_fabricated_citation_fails_verification) ... ok
+test_old_policy_is_in_force_before_new_one_starts (tests.test_rag.T.test_old_policy_is_in_force_before_new_one_starts) ... ok
+test_unrelated_question_abstains (tests.test_rag.T.test_unrelated_question_abstains) ... ok
+test_crashing_probe_reported_unavailable (tests.test_tools.T.test_crashing_probe_reported_unavailable) ... ok
+test_missing_credentials_are_not_assumed_to_work (tests.test_tools.T.test_missing_credentials_are_not_assumed_to_work) ... ok
+test_offline_with_key_is_unverified (tests.test_tools.T.test_offline_with_key_is_unverified) ... ok
+test_rejected_key_is_unauthorized (tests.test_tools.T.test_rejected_key_is_unauthorized) ... ok
+test_report_cites_sources (tests.test_tools.T.test_report_cites_sources) ... ok
+test_verified_only_on_live_200 (tests.test_tools.T.test_verified_only_on_live_200) ... ok
+test_checks_catch_a_broken_site (tests.test_website.T.test_checks_catch_a_broken_site) ... ok
+test_end_to_end_and_idempotent (tests.test_website.T.test_end_to_end_and_idempotent) ... ok
+test_reads_requirements_from_real_docx (tests.test_website.T.test_reads_requirements_from_real_docx) ... ok
+test_unsupported_requirement_reported_not_faked (tests.test_website.T.test_unsupported_requirement_reported_not_faked) ... ok
+
+----------------------------------------------------------------------
+Ran 23 tests in 11.067s
+
+OK

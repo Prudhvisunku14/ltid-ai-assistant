@@ -1,0 +1,5 @@
+out/
+__pycache__/
+.env
+*.pyc
+data/weather_synthetic.csv

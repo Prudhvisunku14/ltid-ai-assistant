@@ -1,0 +1,165 @@
+{
+  "generated_at": "2026-11-09T18:04:39+00:00",
+  "suites": [
+    {
+      "id": "python-unittest",
+      "title": "Python unittest (static + Playwright browser)",
+      "command": "python -m unittest discover -s tests -v",
+      "ran_at": "2026-11-09T18:04:36+00:00",
+      "exit_code": 0,
+      "cases": [
+        {
+          "name": "test_contact_form_errors_then_success",
+          "class": "e2e.test_browser.BrowserTests.test_contact_form_errors_then_success",
+          "status": "passed"
+        },
+        {
+          "name": "test_desktop_hides_toggle_and_shows_nav",
+          "class": "e2e.test_browser.BrowserTests.test_desktop_hides_toggle_and_shows_nav",
+          "status": "passed"
+        },
+        {
+          "name": "test_focus_ring_is_visible",
+          "class": "e2e.test_browser.BrowserTests.test_focus_ring_is_visible",
+          "status": "passed"
+        },
+        {
+          "name": "test_mobile_nav_toggle_with_keyboard",
+          "class": "e2e.test_browser.BrowserTests.test_mobile_nav_toggle_with_keyboard",
+          "status": "passed"
+        },
+        {
+          "name": "test_no_horizontal_overflow_on_mobile_and_desktop",
+          "class": "e2e.test_browser.BrowserTests.test_no_horizontal_overflow_on_mobile_and_desktop",
+          "status": "passed"
+        },
+        {
+          "name": "test_portfolio_renders_at_least_three_cards_with_alt",
+          "class": "e2e.test_browser.BrowserTests.test_portfolio_renders_at_least_three_cards_with_alt",
+          "status": "passed"
+        },
+        {
+          "name": "test_zz_capture_screenshots",
+          "class": "e2e.test_browser.BrowserTests.test_zz_capture_screenshots",
+          "status": "passed"
+        },
+        {
+          "name": "test_contact_form_fields_have_labels",
+          "class": "test_requirements.RequirementTests.test_contact_form_fields_have_labels",
+          "status": "passed"
+        },
+        {
+          "name": "test_focus_styles_and_mobile_breakpoint_in_css",
+          "class": "test_requirements.RequirementTests.test_focus_styles_and_mobile_breakpoint_in_css",
+          "status": "passed"
+        },
+        {
+          "name": "test_form_does_not_claim_to_send_email",
+          "class": "test_requirements.RequirementTests.test_form_does_not_claim_to_send_email",
+          "status": "passed"
+        },
+        {
+          "name": "test_nav_toggle_is_accessible",
+          "class": "test_requirements.RequirementTests.test_nav_toggle_is_accessible",
+          "status": "passed"
+        },
+        {
+          "name": "test_no_external_resources",
+          "class": "test_requirements.RequirementTests.test_no_external_resources",
+          "status": "passed"
+        },
+        {
+          "name": "test_portfolio_data_has_three_valid_projects",
+          "class": "test_requirements.RequirementTests.test_portfolio_data_has_three_valid_projects",
+          "status": "passed"
+        },
+        {
+          "name": "test_semantic_landmarks",
+          "class": "test_requirements.RequirementTests.test_semantic_landmarks",
+          "status": "passed"
+        },
+        {
+          "name": "test_status_region_is_live",
+          "class": "test_requirements.RequirementTests.test_status_region_is_live",
+          "status": "passed"
+        },
+        {
+          "name": "test_assets_exist",
+          "class": "test_starter.StarterSmokeTests.test_assets_exist",
+          "status": "passed"
+        },
+        {
+          "name": "test_page_exists_and_sections",
+          "class": "test_starter.StarterSmokeTests.test_page_exists_and_sections",
+          "status": "passed"
+        }
+      ],
+      "output_tail": [
+        "",
+        "----------------------------------------------------------------------",
+        "Ran 17 tests in 2.764s",
+        "",
+        "OK",
+        "<sys>:0: ResourceWarning: unclosed <socket.socket fd=3, family=2, type=1, proto=0, laddr=('127.0.0.1', 37025)>"
+      ]
+    },
+    {
+      "id": "node-test",
+      "title": "Node test runner (validation + rendering logic)",
+      "command": "node --test tests/validation.test.js",
+      "ran_at": "2026-11-09T18:04:39+00:00",
+      "exit_code": 0,
+      "cases": [
+        {
+          "name": "empty form reports all three required fields",
+          "class": "validation.test.js",
+          "status": "passed"
+        },
+        {
+          "name": "invalid email is rejected, valid email accepted",
+          "class": "validation.test.js",
+          "status": "passed"
+        },
+        {
+          "name": "whitespace-only values are treated as empty",
+          "class": "validation.test.js",
+          "status": "passed"
+        },
+        {
+          "name": "short message is rejected",
+          "class": "validation.test.js",
+          "status": "passed"
+        },
+        {
+          "name": "escapeHtml neutralises markup",
+          "class": "validation.test.js",
+          "status": "passed"
+        },
+        {
+          "name": "project card renders title, alt text and escapes content",
+          "class": "validation.test.js",
+          "status": "passed"
+        },
+        {
+          "name": "portfolio data contains at least three projects",
+          "class": "validation.test.js",
+          "status": "passed"
+        }
+      ],
+      "output_tail": [
+        "# Subtest: empty form reports all three required fields",
+        "# Subtest: invalid email is rejected, valid email accepted",
+        "# Subtest: whitespace-only values are treated as empty",
+        "# Subtest: short message is rejected",
+        "# Subtest: escapeHtml neutralises markup",
+        "# Subtest: project card renders title, alt text and escapes content",
+        "# Subtest: portfolio data contains at least three projects",
+        "# tests 7"
+      ]
+    }
+  ],
+  "totals": {
+    "passed": 24,
+    "failed": 0
+  }
+}

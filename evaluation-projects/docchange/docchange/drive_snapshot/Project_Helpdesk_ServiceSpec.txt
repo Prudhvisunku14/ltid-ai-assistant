@@ -1,0 +1,5 @@
+NORTHSTAR SERVICES — HELPDESK SERVICE SPECIFICATION (draft 2026-10-18)  
+The helpdesk supports ticket creation, viewing a user's own tickets, and status updates by support staff.  
+Statuses: NEW, IN\_PROGRESS, RESOLVED. Ticket fields: ticket\_id, subject, description, created\_at, status, requester\_id.  
+The service does not store payment card information. Users must be authenticated before seeing ticket details.  
+Future roadmap features include a reporting dashboard, but the current specification does not define it.  

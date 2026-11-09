@@ -1,0 +1,54 @@
+{
+  "repository": {
+    "slug": "LTID-rep/ltid-ai-competition-website",
+    "url": "https://github.com/LTID-rep/ltid-ai-competition-website",
+    "base_branch": "main",
+    "base_branch_note": "Inferred from the ZIP folder name (...-main). The remote could not be queried, so this is unverified.",
+    "import_method": "Snapshot from user-supplied ZIP (not a Git clone; original GitHub history unavailable)",
+    "framework": "None — static HTML5 + CSS + vanilla JavaScript",
+    "backend": "None",
+    "routes": "Single page with in-page anchors: #home, #services, #work, #contact",
+    "original_files": ["index.html", "styles.css", "app.js", "README.md", "TASK_PUBLIC.md", "tests/test_starter.py"]
+  },
+  "requirements_source": {
+    "document": "01_Website_Requirements.docx",
+    "access": "Requirement text was pasted by the evaluator into the chat. The DOCX / Google Drive file itself was not accessed by the agent."
+  },
+  "requirements": [
+    {"id": "R1", "area": "Navigation", "text": "Mobile-friendly navigation operable via keyboard", "original": "Missing — links only wrap on mobile; no toggle", "result": "Implemented", "evidence": "test_mobile_nav_toggle_with_keyboard; test_nav_toggle_is_accessible"},
+    {"id": "R2", "area": "Portfolio", "text": "At least 3 project cards from a JS array or JSON file", "original": "Missing — placeholder paragraph", "result": "Implemented (4 cards)", "evidence": "test_portfolio_renders_at_least_three_cards_with_alt; test_portfolio_data_has_three_valid_projects"},
+    {"id": "R3", "area": "Contact", "text": "Form with name/email/message, validation, success/error status, no false claim of sending email", "original": "Missing — text 'to be implemented'", "result": "Implemented (local demo, clearly labelled)", "evidence": "test_contact_form_errors_then_success; validation.test.js; test_form_does_not_claim_to_send_email"},
+    {"id": "R4", "area": "Sections", "text": "Coherent Services, Work, Contact sections and a clear CTA", "original": "Partially present; Work and Contact were placeholders", "result": "Preserved and completed; hero CTAs plus contact CTA card", "evidence": "test_page_exists_and_sections (original) + screenshots"},
+    {"id": "R5", "area": "Accessibility", "text": "Semantic HTML, alt text, visible focus, accessible status messages", "original": "Skip link and landmarks only; no focus styles", "result": "Implemented", "evidence": "test_semantic_landmarks; test_focus_ring_is_visible; test_status_region_is_live; alt checks"},
+    {"id": "R6", "area": "Responsive", "text": "Readable at ~375px and desktop", "original": "Partial (700px breakpoint)", "result": "Implemented; verified no horizontal overflow at 375 and 1280", "evidence": "test_no_horizontal_overflow_on_mobile_and_desktop; screenshots"},
+    {"id": "R7", "area": "Evidence", "text": "Desktop + mobile screens, explain tools, >=2 automated tests/checks", "original": "n/a", "result": "24 automated checks, 5 screenshots, tool rationale below", "evidence": "reports/test-results.json; screenshots/"},
+    {"id": "R8", "area": "Legal", "text": "No unauthorised brand imagery or copyrighted content", "original": "n/a", "result": "All artwork is original SVG; copy is original; no external assets", "evidence": "test_no_external_resources"}
+  ],
+  "tools": [
+    {"name": "HTML5 + CSS + vanilla JS", "decision": "Selected", "reason": "Matches the existing starter architecture, needs no build step or hosting account, runs from file://, smallest accessibility and maintenance surface."},
+    {"name": "React / Vue / Svelte", "decision": "Rejected", "reason": "Would force a rewrite of a working static site and add a build pipeline the requirements do not need."},
+    {"name": "Tailwind CSS", "decision": "Rejected", "reason": "Existing hand-written stylesheet is small and was preserved; adopting Tailwind needs a build step."},
+    {"name": "JSON + fetch() for portfolio", "decision": "Rejected", "reason": "fetch() fails on file:// in browsers. A JS data file keeps the 'open index.html' workflow working."},
+    {"name": "Formspree / EmailJS / backend mail", "decision": "Rejected", "reason": "Requirements forbid external commercial APIs and forbid claiming email delivery."},
+    {"name": "Python unittest + Node test runner + Playwright", "decision": "Selected", "reason": "unittest was already used by the starter; node:test checks the same JS logic the browser runs; Playwright verifies real keyboard, focus and viewport behaviour and captures screenshots."},
+    {"name": "Git", "decision": "Selected", "reason": "Local baseline commit of the original snapshot, then a feature branch and commit so the diff is reviewable."}
+  ],
+  "plan": [
+    "Snapshot original files and create a local Git baseline",
+    "Add nav toggle markup, portfolio grid, contact form, CTA card to index.html",
+    "Append new styles (focus, cards, form, mobile nav) without rewriting existing CSS",
+    "Add data/projects-data.js and original SVG assets",
+    "Rewrite app.js with pure, testable helpers and progressive enhancement",
+    "Add static, Node and Playwright tests; capture desktop/mobile screenshots",
+    "Commit on feature/northstar-homepage-upgrade"
+  ],
+  "limitations": [
+    "GitHub remote was not accessible (no valid credentials in this environment), so the branch was NOT pushed and no Draft PR exists.",
+    "The DOCX in Google Drive was not read directly; requirements came from text pasted in chat.",
+    "Base branch name 'main' is inferred from the ZIP name.",
+    "Contact form is a local demo and sends nothing.",
+    "Mobile/desktop verification used headless Chromium only; Firefox/WebKit and real devices were not tested.",
+    "No automated colour-contrast audit (axe) was run; contrast was chosen to meet AA but not machine-verified.",
+    "The OpenAI/OpenCode/n8n agent integrations in the LTID platform are structural placeholders; this build was produced by Claude in a Claude Code session, not by the platform itself."
+  ]
+}

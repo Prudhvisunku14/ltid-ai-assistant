@@ -1,0 +1,148 @@
+{
+  "generated_at": "2026-11-09T21:35:09+00:00",
+  "build": {
+    "status": "passed",
+    "command": "compile() every .py file in the project, in memory",
+    "ran_at": "2026-11-09T21:35:09+00:00",
+    "output": "compiled 10 files OK"
+  },
+  "suites": [
+    {
+      "id": "unittest",
+      "title": "Automated test suite (unittest)",
+      "command": "python -m unittest discover -s tests -v",
+      "ran_at": "2026-11-09T21:35:07+00:00",
+      "exit_code": 0,
+      "cases": [
+        {
+          "name": "test_cosmetic_low",
+          "class": "test_all.TestAnalyzer.test_cosmetic_low",
+          "status": "passed"
+        },
+        {
+          "name": "test_label_always_present",
+          "class": "test_all.TestAnalyzer.test_label_always_present",
+          "status": "passed"
+        },
+        {
+          "name": "test_number_change",
+          "class": "test_all.TestAnalyzer.test_number_change",
+          "status": "passed"
+        },
+        {
+          "name": "test_strengthened",
+          "class": "test_all.TestAnalyzer.test_strengthened",
+          "status": "passed"
+        },
+        {
+          "name": "test_weakened",
+          "class": "test_all.TestAnalyzer.test_weakened",
+          "status": "passed"
+        },
+        {
+          "name": "test_draft_number_is_noise",
+          "class": "test_all.TestApiSpecRules.test_draft_number_is_noise",
+          "status": "passed"
+        },
+        {
+          "name": "test_partner_api_changes_flagged",
+          "class": "test_all.TestApiSpecRules.test_partner_api_changes_flagged",
+          "status": "passed"
+        },
+        {
+          "name": "test_identical",
+          "class": "test_all.TestDiffer.test_identical",
+          "status": "passed"
+        },
+        {
+          "name": "test_modified_added_removed",
+          "class": "test_all.TestDiffer.test_modified_added_removed",
+          "status": "passed"
+        },
+        {
+          "name": "test_plain_text_numbered_headings",
+          "class": "test_all.TestDiffer.test_plain_text_numbered_headings",
+          "status": "passed"
+        },
+        {
+          "name": "test_rename_detected",
+          "class": "test_all.TestDiffer.test_rename_detected",
+          "status": "passed"
+        },
+        {
+          "name": "test_grouping_and_readonly_scope",
+          "class": "test_all.TestDrive.test_grouping_and_readonly_scope",
+          "status": "passed"
+        },
+        {
+          "name": "test_no_write_calls_in_source",
+          "class": "test_all.TestDrive.test_no_write_calls_in_source",
+          "status": "passed"
+        },
+        {
+          "name": "test_originals_unchanged_after_scan_and_api",
+          "class": "test_all.TestEndToEnd.test_originals_unchanged_after_scan_and_api",
+          "status": "passed"
+        },
+        {
+          "name": "test_srs_v1_v2_findings",
+          "class": "test_all.TestEndToEnd.test_srs_v1_v2_findings",
+          "status": "passed"
+        },
+        {
+          "name": "test_srs_v2_v3_detects_removal",
+          "class": "test_all.TestEndToEnd.test_srs_v2_v3_detects_removal",
+          "status": "passed"
+        },
+        {
+          "name": "test_every_manifest_entry_exists",
+          "class": "test_all.TestRealDriveSnapshot.test_every_manifest_entry_exists",
+          "status": "passed"
+        },
+        {
+          "name": "test_expense_policy_real_versions_detected",
+          "class": "test_all.TestRealDriveSnapshot.test_expense_policy_real_versions_detected",
+          "status": "passed"
+        },
+        {
+          "name": "test_mock_files_are_labelled_and_not_real",
+          "class": "test_all.TestRealDriveSnapshot.test_mock_files_are_labelled_and_not_real",
+          "status": "passed"
+        },
+        {
+          "name": "test_snapshot_untouched_by_scan",
+          "class": "test_all.TestRealDriveSnapshot.test_snapshot_untouched_by_scan",
+          "status": "passed"
+        },
+        {
+          "name": "test_flat_files_grouped_by_name",
+          "class": "test_all.TestSources.test_flat_files_grouped_by_name",
+          "status": "passed"
+        },
+        {
+          "name": "test_mock_documents_and_versions",
+          "class": "test_all.TestSources.test_mock_documents_and_versions",
+          "status": "passed"
+        },
+        {
+          "name": "test_split_name",
+          "class": "test_all.TestSources.test_split_name",
+          "status": "passed"
+        }
+      ],
+      "output_tail": [
+        "Ran 23 tests in 0.939s",
+        "",
+        "OK"
+      ],
+      "summary_line": "23 tests ran; OK",
+      "parsed_count": 23,
+      "reported_count": 23,
+      "parse_complete": true
+    }
+  ],
+  "totals": {
+    "passed": 23,
+    "failed": 0
+  }
+}

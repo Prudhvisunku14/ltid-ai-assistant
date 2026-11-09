@@ -1,0 +1,1976 @@
+{
+  "generated_at": "2026-11-09T19:17:11+00:00",
+  "app_version": "1.0.0",
+  "synthetic_data": true,
+  "disclaimer": "Educational demonstration using synthetic observations – not a real weather forecast.",
+  "overview": {
+    "title": "Synthetic Temperature Forecast Demo",
+    "client": "Eastbay City Lab",
+    "version": "1.0.0",
+    "unit": "celsius",
+    "unit_symbol": "°C",
+    "horizons": [
+      1,
+      2,
+      3
+    ],
+    "cities": [
+      "Osaka",
+      "Sapporo",
+      "Tokyo"
+    ],
+    "synthetic_data": true,
+    "disclaimer": "Educational demonstration using synthetic observations – not a real weather forecast.",
+    "data_note": "The supplied observations are synthetic (generated for software development). They are not real historical measurements, so no number produced by this application describes real weather.",
+    "dataset": {
+      "file": "weather_history.csv",
+      "sha256": "b9c208ee17193604c3aa358510dcf26794229b07109cfcc1c5ec082ab3dcefb4",
+      "columns": [
+        "city",
+        "date",
+        "temp_c",
+        "humidity_pct",
+        "rain_mm"
+      ],
+      "total_rows": 126,
+      "valid_rows": 126,
+      "cities": [
+        {
+          "city": "Osaka",
+          "observations": 42,
+          "first_date": "2026-08-01",
+          "last_date": "2026-09-11",
+          "missing_calendar_days": 0,
+          "min_temp_c": 15.6,
+          "max_temp_c": 20.6,
+          "sufficient": true
+        },
+        {
+          "city": "Sapporo",
+          "observations": 42,
+          "first_date": "2026-08-01",
+          "last_date": "2026-09-11",
+          "missing_calendar_days": 0,
+          "min_temp_c": 7.6,
+          "max_temp_c": 12.6,
+          "sufficient": true
+        },
+        {
+          "city": "Tokyo",
+          "observations": 42,
+          "first_date": "2026-08-01",
+          "last_date": "2026-09-11",
+          "missing_calendar_days": 0,
+          "min_temp_c": 14.6,
+          "max_temp_c": 19.6,
+          "sufficient": true
+        }
+      ],
+      "first_date": "2026-08-01",
+      "last_date": "2026-09-11"
+    },
+    "split": {
+      "strategy": "fraction",
+      "train_fraction": 0.7,
+      "cutoff_date": null,
+      "description": "time-ordered fraction: earliest 70% of each city's observations train, latest 30% are held out",
+      "shuffled": false
+    }
+  },
+  "data_quality": {
+    "source": "weather_history.csv",
+    "columns": [
+      "city",
+      "date",
+      "temp_c",
+      "humidity_pct",
+      "rain_mm"
+    ],
+    "synthetic": true,
+    "total_rows": 126,
+    "valid_rows": 126,
+    "excluded_total": 0,
+    "excluded": [],
+    "examples": [],
+    "cities": [
+      {
+        "city": "Osaka",
+        "observations": 42,
+        "first_date": "2026-08-01",
+        "last_date": "2026-09-11",
+        "missing_calendar_days": 0,
+        "min_temp_c": 15.6,
+        "max_temp_c": 20.6,
+        "sufficient": true
+      },
+      {
+        "city": "Sapporo",
+        "observations": 42,
+        "first_date": "2026-08-01",
+        "last_date": "2026-09-11",
+        "missing_calendar_days": 0,
+        "min_temp_c": 7.6,
+        "max_temp_c": 12.6,
+        "sufficient": true
+      },
+      {
+        "city": "Tokyo",
+        "observations": 42,
+        "first_date": "2026-08-01",
+        "last_date": "2026-09-11",
+        "missing_calendar_days": 0,
+        "min_temp_c": 14.6,
+        "max_temp_c": 19.6,
+        "sufficient": true
+      }
+    ],
+    "malformed_total": 0,
+    "duplicates_total": 0,
+    "missing_values_total": 0
+  },
+  "evaluation": {
+    "formula": "MAE = (1/n) × Σ |Actual Temperature − Predicted Temperature|",
+    "split_config": {
+      "strategy": "fraction",
+      "train_fraction": 0.7,
+      "cutoff_date": null,
+      "description": "time-ordered fraction: earliest 70% of each city's observations train, latest 30% are held out",
+      "shuffled": false
+    },
+    "cities": [
+      {
+        "split": {
+          "strategy": "fraction",
+          "description": "time-ordered fraction: earliest 70% of each city's observations train, latest 30% are held out",
+          "shuffled": false,
+          "train_fraction": 0.7,
+          "cutoff_date": null,
+          "train_count": 29,
+          "evaluation_count": 13,
+          "train_start": "2026-08-01",
+          "train_end": "2026-08-29",
+          "evaluation_start": "2026-08-30",
+          "evaluation_end": "2026-09-11",
+          "no_leakage": true
+        },
+        "selection": {
+          "method": "seasonal_naive_drift",
+          "label": "Seasonal naive with drift",
+          "period": 12,
+          "train_backtest_mae": 0.075556,
+          "backtest_start_index": 14,
+          "backtest_targets": 15,
+          "candidates": [
+            {
+              "method": "recent_average",
+              "label": "Recent average (last 3 days)",
+              "period": null,
+              "train_backtest_mae": 1.515556
+            },
+            {
+              "method": "historical_average",
+              "label": "Historical average",
+              "period": null,
+              "train_backtest_mae": 1.168889
+            },
+            {
+              "method": "linear_trend",
+              "label": "Linear trend (least squares)",
+              "period": null,
+              "train_backtest_mae": 1.553333
+            },
+            {
+              "method": "seasonal_naive",
+              "label": "Seasonal naive",
+              "period": 12,
+              "train_backtest_mae": 0.226667
+            },
+            {
+              "method": "seasonal_naive_drift",
+              "label": "Seasonal naive with drift",
+              "period": 12,
+              "train_backtest_mae": 0.075556
+            }
+          ],
+          "basis": "rolling-origin backtest on the training set only; the evaluation set was not used"
+        },
+        "formula": "MAE = (1/n) × Σ |Actual Temperature − Predicted Temperature|",
+        "metrics": {
+          "by_horizon": [
+            {
+              "horizon": 1,
+              "n": 13,
+              "mae": 0.061538,
+              "sum_abs_error": 0.8
+            },
+            {
+              "horizon": 2,
+              "n": 13,
+              "mae": 0.061538,
+              "sum_abs_error": 0.8
+            },
+            {
+              "horizon": 3,
+              "n": 13,
+              "mae": 0.061538,
+              "sum_abs_error": 0.8
+            }
+          ],
+          "pooled": {
+            "n": 39,
+            "mae": 0.061538
+          },
+          "train_only_fixed_origin": {
+            "n": 13,
+            "mae": 0.053846,
+            "note": "Model sees only the training set and forecasts each evaluation day directly (horizon = days after the end of training, up to 13)."
+          }
+        },
+        "evaluation_rows": [
+          {
+            "horizon": 1,
+            "rows": [
+              {
+                "date": "2026-08-30",
+                "actual": 18.1,
+                "predicted": 18.0,
+                "abs_error": 0.1
+              },
+              {
+                "date": "2026-08-31",
+                "actual": 18.5,
+                "predicted": 18.4,
+                "abs_error": 0.1
+              },
+              {
+                "date": "2026-09-01",
+                "actual": 18.9,
+                "predicted": 18.8,
+                "abs_error": 0.1
+              },
+              {
+                "date": "2026-09-02",
+                "actual": 19.3,
+                "predicted": 19.2,
+                "abs_error": 0.1
+              },
+              {
+                "date": "2026-09-03",
+                "actual": 19.7,
+                "predicted": 19.8,
+                "abs_error": 0.1
+              },
+              {
+                "date": "2026-09-04",
+                "actual": 20.1,
+                "predicted": 20.2,
+                "abs_error": 0.1
+              },
+              {
+                "date": "2026-09-05",
+                "actual": 20.6,
+                "predicted": 20.6,
+                "abs_error": 0.0
+              },
+              {
+                "date": "2026-09-06",
+                "actual": 16.2,
+                "predicted": 16.2,
+                "abs_error": 0.0
+              },
+              {
+                "date": "2026-09-07",
+                "actual": 16.6,
+                "predicted": 16.6,
+                "abs_error": 0.0
+              },
+              {
+                "date": "2026-09-08",
+                "actual": 17.0,
+                "predicted": 17.0,
+                "abs_error": 0.0
+              },
+              {
+                "date": "2026-09-09",
+                "actual": 17.4,
+                "predicted": 17.4,
+                "abs_error": 0.0
+              },
+              {
+                "date": "2026-09-10",
+                "actual": 17.8,
+                "predicted": 17.9,
+                "abs_error": 0.1
+              },
+              {
+                "date": "2026-09-11",
+                "actual": 18.2,
+                "predicted": 18.3,
+                "abs_error": 0.1
+              }
+            ]
+          },
+          {
+            "horizon": 2,
+            "rows": [
+              {
+                "date": "2026-08-30",
+                "actual": 18.1,
+                "predicted": 18.0,
+                "abs_error": 0.1
+              },
+              {
+                "date": "2026-08-31",
+                "actual": 18.5,
+                "predicted": 18.4,
+                "abs_error": 0.1
+              },
+              {
+                "date": "2026-09-01",
+                "actual": 18.9,
+                "predicted": 18.8,
+                "abs_error": 0.1
+              },
+              {
+                "date": "2026-09-02",
+                "actual": 19.3,
+                "predicted": 19.2,
+                "abs_error": 0.1
+              },
+              {
+                "date": "2026-09-03",
+                "actual": 19.7,
+                "predicted": 19.8,
+                "abs_error": 0.1
+              },
+              {
+                "date": "2026-09-04",
+                "actual": 20.1,
+                "predicted": 20.2,
+                "abs_error": 0.1
+              },
+              {
+                "date": "2026-09-05",
+                "actual": 20.6,
+                "predicted": 20.6,
+                "abs_error": 0.0
+              },
+              {
+                "date": "2026-09-06",
+                "actual": 16.2,
+                "predicted": 16.2,
+                "abs_error": 0.0
+              },
+              {
+                "date": "2026-09-07",
+                "actual": 16.6,
+                "predicted": 16.6,
+                "abs_error": 0.0
+              },
+              {
+                "date": "2026-09-08",
+                "actual": 17.0,
+                "predicted": 17.0,
+                "abs_error": 0.0
+              },
+              {
+                "date": "2026-09-09",
+                "actual": 17.4,
+                "predicted": 17.4,
+                "abs_error": 0.0
+              },
+              {
+                "date": "2026-09-10",
+                "actual": 17.8,
+                "predicted": 17.9,
+                "abs_error": 0.1
+              },
+              {
+                "date": "2026-09-11",
+                "actual": 18.2,
+                "predicted": 18.3,
+                "abs_error": 0.1
+              }
+            ]
+          },
+          {
+            "horizon": 3,
+            "rows": [
+              {
+                "date": "2026-08-30",
+                "actual": 18.1,
+                "predicted": 18.0,
+                "abs_error": 0.1
+              },
+              {
+                "date": "2026-08-31",
+                "actual": 18.5,
+                "predicted": 18.4,
+                "abs_error": 0.1
+              },
+              {
+                "date": "2026-09-01",
+                "actual": 18.9,
+                "predicted": 18.8,
+                "abs_error": 0.1
+              },
+              {
+                "date": "2026-09-02",
+                "actual": 19.3,
+                "predicted": 19.2,
+                "abs_error": 0.1
+              },
+              {
+                "date": "2026-09-03",
+                "actual": 19.7,
+                "predicted": 19.8,
+                "abs_error": 0.1
+              },
+              {
+                "date": "2026-09-04",
+                "actual": 20.1,
+                "predicted": 20.2,
+                "abs_error": 0.1
+              },
+              {
+                "date": "2026-09-05",
+                "actual": 20.6,
+                "predicted": 20.6,
+                "abs_error": 0.0
+              },
+              {
+                "date": "2026-09-06",
+                "actual": 16.2,
+                "predicted": 16.2,
+                "abs_error": 0.0
+              },
+              {
+                "date": "2026-09-07",
+                "actual": 16.6,
+                "predicted": 16.6,
+                "abs_error": 0.0
+              },
+              {
+                "date": "2026-09-08",
+                "actual": 17.0,
+                "predicted": 17.0,
+                "abs_error": 0.0
+              },
+              {
+                "date": "2026-09-09",
+                "actual": 17.4,
+                "predicted": 17.4,
+                "abs_error": 0.0
+              },
+              {
+                "date": "2026-09-10",
+                "actual": 17.8,
+                "predicted": 17.9,
+                "abs_error": 0.1
+              },
+              {
+                "date": "2026-09-11",
+                "actual": 18.2,
+                "predicted": 18.3,
+                "abs_error": 0.1
+              }
+            ]
+          }
+        ],
+        "comparison": [
+          {
+            "method": "recent_average",
+            "label": "Recent average (last 3 days)",
+            "period": null,
+            "train_backtest_mae": 1.515556,
+            "heldout_mae": 1.535897,
+            "heldout_mae_by_horizon": [
+              1.176923,
+              1.576923,
+              1.853846
+            ],
+            "selected": false
+          },
+          {
+            "method": "historical_average",
+            "label": "Historical average",
+            "period": null,
+            "train_backtest_mae": 1.168889,
+            "heldout_mae": 1.207692,
+            "heldout_mae_by_horizon": [
+              1.184615,
+              1.215385,
+              1.223077
+            ],
+            "selected": false
+          },
+          {
+            "method": "linear_trend",
+            "label": "Linear trend (least squares)",
+            "period": null,
+            "train_backtest_mae": 1.553333,
+            "heldout_mae": 1.258974,
+            "heldout_mae_by_horizon": [
+              1.161538,
+              1.269231,
+              1.346154
+            ],
+            "selected": false
+          },
+          {
+            "method": "seasonal_naive",
+            "label": "Seasonal naive",
+            "period": 12,
+            "train_backtest_mae": 0.226667,
+            "heldout_mae": 0.2,
+            "heldout_mae_by_horizon": [
+              0.2,
+              0.2,
+              0.2
+            ],
+            "selected": false
+          },
+          {
+            "method": "seasonal_naive_drift",
+            "label": "Seasonal naive with drift",
+            "period": 12,
+            "train_backtest_mae": 0.075556,
+            "heldout_mae": 0.061538,
+            "heldout_mae_by_horizon": [
+              0.061538,
+              0.061538,
+              0.061538
+            ],
+            "selected": true
+          }
+        ],
+        "baseline_recent_average_mae": 1.535897,
+        "explanation": "The 29 earliest observations (2026-08-01 to 2026-08-29) were used for training and the 13 latest (2026-08-30 to 2026-09-11) were held out; nothing was shuffled. Seasonal naive with drift with a 12-day cycle was chosen from 5 candidates using the training set only. 1-day-ahead example: 13 held-out days, absolute errors sum to 0.8 °C, so MAE = 0.8 / 13 = 0.062 °C. Pooled over horizons 1-3 (39 held-out forecasts) MAE = 0.062 °C. The starter's flat 3-day average scored 1.536 °C on the same held-out days.",
+        "city": "Osaka"
+      },
+      {
+        "split": {
+          "strategy": "fraction",
+          "description": "time-ordered fraction: earliest 70% of each city's observations train, latest 30% are held out",
+          "shuffled": false,
+          "train_fraction": 0.7,
+          "cutoff_date": null,
+          "train_count": 29,
+          "evaluation_count": 13,
+          "train_start": "2026-08-01",
+          "train_end": "2026-08-29",
+          "evaluation_start": "2026-08-30",
+          "evaluation_end": "2026-09-11",
+          "no_leakage": true
+        },
+        "selection": {
+          "method": "seasonal_naive_drift",
+          "label": "Seasonal naive with drift",
+          "period": 12,
+          "train_backtest_mae": 0.077778,
+          "backtest_start_index": 14,
+          "backtest_targets": 15,
+          "candidates": [
+            {
+              "method": "recent_average",
+              "label": "Recent average (last 3 days)",
+              "period": null,
+              "train_backtest_mae": 1.515556
+            },
+            {
+              "method": "historical_average",
+              "label": "Historical average",
+              "period": null,
+              "train_backtest_mae": 1.168889
+            },
+            {
+              "method": "linear_trend",
+              "label": "Linear trend (least squares)",
+              "period": null,
+              "train_backtest_mae": 1.553333
+            },
+            {
+              "method": "seasonal_naive",
+              "label": "Seasonal naive",
+              "period": 12,
+              "train_backtest_mae": 0.226667
+            },
+            {
+              "method": "seasonal_naive_drift",
+              "label": "Seasonal naive with drift",
+              "period": 12,
+              "train_backtest_mae": 0.077778
+            }
+          ],
+          "basis": "rolling-origin backtest on the training set only; the evaluation set was not used"
+        },
+        "formula": "MAE = (1/n) × Σ |Actual Temperature − Predicted Temperature|",
+        "metrics": {
+          "by_horizon": [
+            {
+              "horizon": 1,
+              "n": 13,
+              "mae": 0.061538,
+              "sum_abs_error": 0.8
+            },
+            {
+              "horizon": 2,
+              "n": 13,
+              "mae": 0.061538,
+              "sum_abs_error": 0.8
+            },
+            {
+              "horizon": 3,
+              "n": 13,
+              "mae": 0.061538,
+              "sum_abs_error": 0.8
+            }
+          ],
+          "pooled": {
+            "n": 39,
+            "mae": 0.061538
+          },
+          "train_only_fixed_origin": {
+            "n": 13,
+            "mae": 0.053846,
+            "note": "Model sees only the training set and forecasts each evaluation day directly (horizon = days after the end of training, up to 13)."
+          }
+        },
+        "evaluation_rows": [
+          {
+            "horizon": 1,
+            "rows": [
+              {
+                "date": "2026-08-30",
+                "actual": 10.1,
+                "predicted": 10.0,
+                "abs_error": 0.1
+              },
+              {
+                "date": "2026-08-31",
+                "actual": 10.5,
+                "predicted": 10.4,
+                "abs_error": 0.1
+              },
+              {
+                "date": "2026-09-01",
+                "actual": 10.9,
+                "predicted": 10.8,
+                "abs_error": 0.1
+              },
+              {
+                "date": "2026-09-02",
+                "actual": 11.3,
+                "predicted": 11.2,
+                "abs_error": 0.1
+              },
+              {
+                "date": "2026-09-03",
+                "actual": 11.7,
+                "predicted": 11.8,
+                "abs_error": 0.1
+              },
+              {
+                "date": "2026-09-04",
+                "actual": 12.1,
+                "predicted": 12.2,
+                "abs_error": 0.1
+              },
+              {
+                "date": "2026-09-05",
+                "actual": 12.6,
+                "predicted": 12.6,
+                "abs_error": 0.0
+              },
+              {
+                "date": "2026-09-06",
+                "actual": 8.2,
+                "predicted": 8.2,
+                "abs_error": 0.0
+              },
+              {
+                "date": "2026-09-07",
+                "actual": 8.6,
+                "predicted": 8.6,
+                "abs_error": 0.0
+              },
+              {
+                "date": "2026-09-08",
+                "actual": 9.0,
+                "predicted": 9.0,
+                "abs_error": 0.0
+              },
+              {
+                "date": "2026-09-09",
+                "actual": 9.4,
+                "predicted": 9.4,
+                "abs_error": 0.0
+              },
+              {
+                "date": "2026-09-10",
+                "actual": 9.8,
+                "predicted": 9.9,
+                "abs_error": 0.1
+              },
+              {
+                "date": "2026-09-11",
+                "actual": 10.2,
+                "predicted": 10.3,
+                "abs_error": 0.1
+              }
+            ]
+          },
+          {
+            "horizon": 2,
+            "rows": [
+              {
+                "date": "2026-08-30",
+                "actual": 10.1,
+                "predicted": 10.0,
+                "abs_error": 0.1
+              },
+              {
+                "date": "2026-08-31",
+                "actual": 10.5,
+                "predicted": 10.4,
+                "abs_error": 0.1
+              },
+              {
+                "date": "2026-09-01",
+                "actual": 10.9,
+                "predicted": 10.8,
+                "abs_error": 0.1
+              },
+              {
+                "date": "2026-09-02",
+                "actual": 11.3,
+                "predicted": 11.2,
+                "abs_error": 0.1
+              },
+              {
+                "date": "2026-09-03",
+                "actual": 11.7,
+                "predicted": 11.8,
+                "abs_error": 0.1
+              },
+              {
+                "date": "2026-09-04",
+                "actual": 12.1,
+                "predicted": 12.2,
+                "abs_error": 0.1
+              },
+              {
+                "date": "2026-09-05",
+                "actual": 12.6,
+                "predicted": 12.6,
+                "abs_error": 0.0
+              },
+              {
+                "date": "2026-09-06",
+                "actual": 8.2,
+                "predicted": 8.2,
+                "abs_error": 0.0
+              },
+              {
+                "date": "2026-09-07",
+                "actual": 8.6,
+                "predicted": 8.6,
+                "abs_error": 0.0
+              },
+              {
+                "date": "2026-09-08",
+                "actual": 9.0,
+                "predicted": 9.0,
+                "abs_error": 0.0
+              },
+              {
+                "date": "2026-09-09",
+                "actual": 9.4,
+                "predicted": 9.4,
+                "abs_error": 0.0
+              },
+              {
+                "date": "2026-09-10",
+                "actual": 9.8,
+                "predicted": 9.9,
+                "abs_error": 0.1
+              },
+              {
+                "date": "2026-09-11",
+                "actual": 10.2,
+                "predicted": 10.3,
+                "abs_error": 0.1
+              }
+            ]
+          },
+          {
+            "horizon": 3,
+            "rows": [
+              {
+                "date": "2026-08-30",
+                "actual": 10.1,
+                "predicted": 10.0,
+                "abs_error": 0.1
+              },
+              {
+                "date": "2026-08-31",
+                "actual": 10.5,
+                "predicted": 10.4,
+                "abs_error": 0.1
+              },
+              {
+                "date": "2026-09-01",
+                "actual": 10.9,
+                "predicted": 10.8,
+                "abs_error": 0.1
+              },
+              {
+                "date": "2026-09-02",
+                "actual": 11.3,
+                "predicted": 11.2,
+                "abs_error": 0.1
+              },
+              {
+                "date": "2026-09-03",
+                "actual": 11.7,
+                "predicted": 11.8,
+                "abs_error": 0.1
+              },
+              {
+                "date": "2026-09-04",
+                "actual": 12.1,
+                "predicted": 12.2,
+                "abs_error": 0.1
+              },
+              {
+                "date": "2026-09-05",
+                "actual": 12.6,
+                "predicted": 12.6,
+                "abs_error": 0.0
+              },
+              {
+                "date": "2026-09-06",
+                "actual": 8.2,
+                "predicted": 8.2,
+                "abs_error": 0.0
+              },
+              {
+                "date": "2026-09-07",
+                "actual": 8.6,
+                "predicted": 8.6,
+                "abs_error": 0.0
+              },
+              {
+                "date": "2026-09-08",
+                "actual": 9.0,
+                "predicted": 9.0,
+                "abs_error": 0.0
+              },
+              {
+                "date": "2026-09-09",
+                "actual": 9.4,
+                "predicted": 9.4,
+                "abs_error": 0.0
+              },
+              {
+                "date": "2026-09-10",
+                "actual": 9.8,
+                "predicted": 9.9,
+                "abs_error": 0.1
+              },
+              {
+                "date": "2026-09-11",
+                "actual": 10.2,
+                "predicted": 10.3,
+                "abs_error": 0.1
+              }
+            ]
+          }
+        ],
+        "comparison": [
+          {
+            "method": "recent_average",
+            "label": "Recent average (last 3 days)",
+            "period": null,
+            "train_backtest_mae": 1.515556,
+            "heldout_mae": 1.535897,
+            "heldout_mae_by_horizon": [
+              1.176923,
+              1.576923,
+              1.853846
+            ],
+            "selected": false
+          },
+          {
+            "method": "historical_average",
+            "label": "Historical average",
+            "period": null,
+            "train_backtest_mae": 1.168889,
+            "heldout_mae": 1.215385,
+            "heldout_mae_by_horizon": [
+              1.192308,
+              1.223077,
+              1.230769
+            ],
+            "selected": false
+          },
+          {
+            "method": "linear_trend",
+            "label": "Linear trend (least squares)",
+            "period": null,
+            "train_backtest_mae": 1.553333,
+            "heldout_mae": 1.258974,
+            "heldout_mae_by_horizon": [
+              1.161538,
+              1.269231,
+              1.346154
+            ],
+            "selected": false
+          },
+          {
+            "method": "seasonal_naive",
+            "label": "Seasonal naive",
+            "period": 12,
+            "train_backtest_mae": 0.226667,
+            "heldout_mae": 0.2,
+            "heldout_mae_by_horizon": [
+              0.2,
+              0.2,
+              0.2
+            ],
+            "selected": false
+          },
+          {
+            "method": "seasonal_naive_drift",
+            "label": "Seasonal naive with drift",
+            "period": 12,
+            "train_backtest_mae": 0.077778,
+            "heldout_mae": 0.061538,
+            "heldout_mae_by_horizon": [
+              0.061538,
+              0.061538,
+              0.061538
+            ],
+            "selected": true
+          }
+        ],
+        "baseline_recent_average_mae": 1.535897,
+        "explanation": "The 29 earliest observations (2026-08-01 to 2026-08-29) were used for training and the 13 latest (2026-08-30 to 2026-09-11) were held out; nothing was shuffled. Seasonal naive with drift with a 12-day cycle was chosen from 5 candidates using the training set only. 1-day-ahead example: 13 held-out days, absolute errors sum to 0.8 °C, so MAE = 0.8 / 13 = 0.062 °C. Pooled over horizons 1-3 (39 held-out forecasts) MAE = 0.062 °C. The starter's flat 3-day average scored 1.536 °C on the same held-out days.",
+        "city": "Sapporo"
+      },
+      {
+        "split": {
+          "strategy": "fraction",
+          "description": "time-ordered fraction: earliest 70% of each city's observations train, latest 30% are held out",
+          "shuffled": false,
+          "train_fraction": 0.7,
+          "cutoff_date": null,
+          "train_count": 29,
+          "evaluation_count": 13,
+          "train_start": "2026-08-01",
+          "train_end": "2026-08-29",
+          "evaluation_start": "2026-08-30",
+          "evaluation_end": "2026-09-11",
+          "no_leakage": true
+        },
+        "selection": {
+          "method": "seasonal_naive_drift",
+          "label": "Seasonal naive with drift",
+          "period": 12,
+          "train_backtest_mae": 0.08,
+          "backtest_start_index": 14,
+          "backtest_targets": 15,
+          "candidates": [
+            {
+              "method": "recent_average",
+              "label": "Recent average (last 3 days)",
+              "period": null,
+              "train_backtest_mae": 1.515556
+            },
+            {
+              "method": "historical_average",
+              "label": "Historical average",
+              "period": null,
+              "train_backtest_mae": 1.168889
+            },
+            {
+              "method": "linear_trend",
+              "label": "Linear trend (least squares)",
+              "period": null,
+              "train_backtest_mae": 1.553333
+            },
+            {
+              "method": "seasonal_naive",
+              "label": "Seasonal naive",
+              "period": 12,
+              "train_backtest_mae": 0.226667
+            },
+            {
+              "method": "seasonal_naive_drift",
+              "label": "Seasonal naive with drift",
+              "period": 12,
+              "train_backtest_mae": 0.08
+            }
+          ],
+          "basis": "rolling-origin backtest on the training set only; the evaluation set was not used"
+        },
+        "formula": "MAE = (1/n) × Σ |Actual Temperature − Predicted Temperature|",
+        "metrics": {
+          "by_horizon": [
+            {
+              "horizon": 1,
+              "n": 13,
+              "mae": 0.061538,
+              "sum_abs_error": 0.8
+            },
+            {
+              "horizon": 2,
+              "n": 13,
+              "mae": 0.061538,
+              "sum_abs_error": 0.8
+            },
+            {
+              "horizon": 3,
+              "n": 13,
+              "mae": 0.061538,
+              "sum_abs_error": 0.8
+            }
+          ],
+          "pooled": {
+            "n": 39,
+            "mae": 0.061538
+          },
+          "train_only_fixed_origin": {
+            "n": 13,
+            "mae": 0.053846,
+            "note": "Model sees only the training set and forecasts each evaluation day directly (horizon = days after the end of training, up to 13)."
+          }
+        },
+        "evaluation_rows": [
+          {
+            "horizon": 1,
+            "rows": [
+              {
+                "date": "2026-08-30",
+                "actual": 17.1,
+                "predicted": 17.0,
+                "abs_error": 0.1
+              },
+              {
+                "date": "2026-08-31",
+                "actual": 17.5,
+                "predicted": 17.4,
+                "abs_error": 0.1
+              },
+              {
+                "date": "2026-09-01",
+                "actual": 17.9,
+                "predicted": 17.8,
+                "abs_error": 0.1
+              },
+              {
+                "date": "2026-09-02",
+                "actual": 18.3,
+                "predicted": 18.2,
+                "abs_error": 0.1
+              },
+              {
+                "date": "2026-09-03",
+                "actual": 18.7,
+                "predicted": 18.8,
+                "abs_error": 0.1
+              },
+              {
+                "date": "2026-09-04",
+                "actual": 19.1,
+                "predicted": 19.2,
+                "abs_error": 0.1
+              },
+              {
+                "date": "2026-09-05",
+                "actual": 19.6,
+                "predicted": 19.6,
+                "abs_error": 0.0
+              },
+              {
+                "date": "2026-09-06",
+                "actual": 15.2,
+                "predicted": 15.2,
+                "abs_error": 0.0
+              },
+              {
+                "date": "2026-09-07",
+                "actual": 15.6,
+                "predicted": 15.6,
+                "abs_error": 0.0
+              },
+              {
+                "date": "2026-09-08",
+                "actual": 16.0,
+                "predicted": 16.0,
+                "abs_error": 0.0
+              },
+              {
+                "date": "2026-09-09",
+                "actual": 16.4,
+                "predicted": 16.4,
+                "abs_error": 0.0
+              },
+              {
+                "date": "2026-09-10",
+                "actual": 16.8,
+                "predicted": 16.9,
+                "abs_error": 0.1
+              },
+              {
+                "date": "2026-09-11",
+                "actual": 17.2,
+                "predicted": 17.3,
+                "abs_error": 0.1
+              }
+            ]
+          },
+          {
+            "horizon": 2,
+            "rows": [
+              {
+                "date": "2026-08-30",
+                "actual": 17.1,
+                "predicted": 17.0,
+                "abs_error": 0.1
+              },
+              {
+                "date": "2026-08-31",
+                "actual": 17.5,
+                "predicted": 17.4,
+                "abs_error": 0.1
+              },
+              {
+                "date": "2026-09-01",
+                "actual": 17.9,
+                "predicted": 17.8,
+                "abs_error": 0.1
+              },
+              {
+                "date": "2026-09-02",
+                "actual": 18.3,
+                "predicted": 18.2,
+                "abs_error": 0.1
+              },
+              {
+                "date": "2026-09-03",
+                "actual": 18.7,
+                "predicted": 18.8,
+                "abs_error": 0.1
+              },
+              {
+                "date": "2026-09-04",
+                "actual": 19.1,
+                "predicted": 19.2,
+                "abs_error": 0.1
+              },
+              {
+                "date": "2026-09-05",
+                "actual": 19.6,
+                "predicted": 19.6,
+                "abs_error": 0.0
+              },
+              {
+                "date": "2026-09-06",
+                "actual": 15.2,
+                "predicted": 15.2,
+                "abs_error": 0.0
+              },
+              {
+                "date": "2026-09-07",
+                "actual": 15.6,
+                "predicted": 15.6,
+                "abs_error": 0.0
+              },
+              {
+                "date": "2026-09-08",
+                "actual": 16.0,
+                "predicted": 16.0,
+                "abs_error": 0.0
+              },
+              {
+                "date": "2026-09-09",
+                "actual": 16.4,
+                "predicted": 16.4,
+                "abs_error": 0.0
+              },
+              {
+                "date": "2026-09-10",
+                "actual": 16.8,
+                "predicted": 16.9,
+                "abs_error": 0.1
+              },
+              {
+                "date": "2026-09-11",
+                "actual": 17.2,
+                "predicted": 17.3,
+                "abs_error": 0.1
+              }
+            ]
+          },
+          {
+            "horizon": 3,
+            "rows": [
+              {
+                "date": "2026-08-30",
+                "actual": 17.1,
+                "predicted": 17.0,
+                "abs_error": 0.1
+              },
+              {
+                "date": "2026-08-31",
+                "actual": 17.5,
+                "predicted": 17.4,
+                "abs_error": 0.1
+              },
+              {
+                "date": "2026-09-01",
+                "actual": 17.9,
+                "predicted": 17.8,
+                "abs_error": 0.1
+              },
+              {
+                "date": "2026-09-02",
+                "actual": 18.3,
+                "predicted": 18.2,
+                "abs_error": 0.1
+              },
+              {
+                "date": "2026-09-03",
+                "actual": 18.7,
+                "predicted": 18.8,
+                "abs_error": 0.1
+              },
+              {
+                "date": "2026-09-04",
+                "actual": 19.1,
+                "predicted": 19.2,
+                "abs_error": 0.1
+              },
+              {
+                "date": "2026-09-05",
+                "actual": 19.6,
+                "predicted": 19.6,
+                "abs_error": 0.0
+              },
+              {
+                "date": "2026-09-06",
+                "actual": 15.2,
+                "predicted": 15.2,
+                "abs_error": 0.0
+              },
+              {
+                "date": "2026-09-07",
+                "actual": 15.6,
+                "predicted": 15.6,
+                "abs_error": 0.0
+              },
+              {
+                "date": "2026-09-08",
+                "actual": 16.0,
+                "predicted": 16.0,
+                "abs_error": 0.0
+              },
+              {
+                "date": "2026-09-09",
+                "actual": 16.4,
+                "predicted": 16.4,
+                "abs_error": 0.0
+              },
+              {
+                "date": "2026-09-10",
+                "actual": 16.8,
+                "predicted": 16.9,
+                "abs_error": 0.1
+              },
+              {
+                "date": "2026-09-11",
+                "actual": 17.2,
+                "predicted": 17.3,
+                "abs_error": 0.1
+              }
+            ]
+          }
+        ],
+        "comparison": [
+          {
+            "method": "recent_average",
+            "label": "Recent average (last 3 days)",
+            "period": null,
+            "train_backtest_mae": 1.515556,
+            "heldout_mae": 1.535897,
+            "heldout_mae_by_horizon": [
+              1.176923,
+              1.576923,
+              1.853846
+            ],
+            "selected": false
+          },
+          {
+            "method": "historical_average",
+            "label": "Historical average",
+            "period": null,
+            "train_backtest_mae": 1.168889,
+            "heldout_mae": 1.207692,
+            "heldout_mae_by_horizon": [
+              1.184615,
+              1.215385,
+              1.223077
+            ],
+            "selected": false
+          },
+          {
+            "method": "linear_trend",
+            "label": "Linear trend (least squares)",
+            "period": null,
+            "train_backtest_mae": 1.553333,
+            "heldout_mae": 1.258974,
+            "heldout_mae_by_horizon": [
+              1.161538,
+              1.269231,
+              1.346154
+            ],
+            "selected": false
+          },
+          {
+            "method": "seasonal_naive",
+            "label": "Seasonal naive",
+            "period": 12,
+            "train_backtest_mae": 0.226667,
+            "heldout_mae": 0.2,
+            "heldout_mae_by_horizon": [
+              0.2,
+              0.2,
+              0.2
+            ],
+            "selected": false
+          },
+          {
+            "method": "seasonal_naive_drift",
+            "label": "Seasonal naive with drift",
+            "period": 12,
+            "train_backtest_mae": 0.08,
+            "heldout_mae": 0.061538,
+            "heldout_mae_by_horizon": [
+              0.061538,
+              0.061538,
+              0.061538
+            ],
+            "selected": true
+          }
+        ],
+        "baseline_recent_average_mae": 1.535897,
+        "explanation": "The 29 earliest observations (2026-08-01 to 2026-08-29) were used for training and the 13 latest (2026-08-30 to 2026-09-11) were held out; nothing was shuffled. Seasonal naive with drift with a 12-day cycle was chosen from 5 candidates using the training set only. 1-day-ahead example: 13 held-out days, absolute errors sum to 0.8 °C, so MAE = 0.8 / 13 = 0.062 °C. Pooled over horizons 1-3 (39 held-out forecasts) MAE = 0.062 °C. The starter's flat 3-day average scored 1.536 °C on the same held-out days.",
+        "city": "Tokyo"
+      }
+    ],
+    "skipped_cities": [],
+    "overall": {
+      "n": 117,
+      "mae": 0.061538,
+      "by_horizon": [
+        {
+          "horizon": 1,
+          "n": 39,
+          "mae": 0.061538
+        },
+        {
+          "horizon": 2,
+          "n": 39,
+          "mae": 0.061538
+        },
+        {
+          "horizon": 3,
+          "n": 39,
+          "mae": 0.061538
+        }
+      ],
+      "basis": "pooled over all cities and horizons 1-3; every held-out forecast counts once"
+    }
+  },
+  "demonstrations": {
+    "cities": [
+      "Tokyo",
+      "Sapporo"
+    ],
+    "horizons": [
+      1,
+      2,
+      3
+    ],
+    "cases": [
+      {
+        "case": "Tokyo – 1-day",
+        "city": "Tokyo",
+        "horizon_days": 1,
+        "method": "Seasonal naive with drift",
+        "method_key": "seasonal_naive_drift",
+        "period_days": 12,
+        "generated_on": "2026-11-10",
+        "last_observation_date": "2026-09-11",
+        "predictions": [
+          {
+            "day": 1,
+            "date": "2026-09-12",
+            "predicted_temp_c": 17.7,
+            "calculation": "Observed value 12 days earlier (2026-08-31) was 17.5 °C; average cycle-to-cycle change in the history is +0.21 °C. 17.5 +0.21 = 17.71 °C, shown as 17.7 °C."
+          }
+        ],
+        "heldout_mae_by_forecast_day": [
+          {
+            "day": 1,
+            "mae": 0.061538,
+            "n": 13
+          }
+        ],
+        "heldout_mae_pooled": 0.061538,
+        "disclaimer": "Educational demonstration using synthetic observations – not a real weather forecast.",
+        "synthetic_data": true
+      },
+      {
+        "case": "Tokyo – 2-day",
+        "city": "Tokyo",
+        "horizon_days": 2,
+        "method": "Seasonal naive with drift",
+        "method_key": "seasonal_naive_drift",
+        "period_days": 12,
+        "generated_on": "2026-11-10",
+        "last_observation_date": "2026-09-11",
+        "predictions": [
+          {
+            "day": 1,
+            "date": "2026-09-12",
+            "predicted_temp_c": 17.7,
+            "calculation": "Observed value 12 days earlier (2026-08-31) was 17.5 °C; average cycle-to-cycle change in the history is +0.21 °C. 17.5 +0.21 = 17.71 °C, shown as 17.7 °C."
+          },
+          {
+            "day": 2,
+            "date": "2026-09-13",
+            "predicted_temp_c": 18.1,
+            "calculation": "Observed value 12 days earlier (2026-09-01) was 17.9 °C; average cycle-to-cycle change in the history is +0.21 °C. 17.9 +0.21 = 18.11 °C, shown as 18.1 °C."
+          }
+        ],
+        "heldout_mae_by_forecast_day": [
+          {
+            "day": 1,
+            "mae": 0.061538,
+            "n": 13
+          },
+          {
+            "day": 2,
+            "mae": 0.061538,
+            "n": 13
+          }
+        ],
+        "heldout_mae_pooled": 0.061538,
+        "disclaimer": "Educational demonstration using synthetic observations – not a real weather forecast.",
+        "synthetic_data": true
+      },
+      {
+        "case": "Tokyo – 3-day",
+        "city": "Tokyo",
+        "horizon_days": 3,
+        "method": "Seasonal naive with drift",
+        "method_key": "seasonal_naive_drift",
+        "period_days": 12,
+        "generated_on": "2026-11-10",
+        "last_observation_date": "2026-09-11",
+        "predictions": [
+          {
+            "day": 1,
+            "date": "2026-09-12",
+            "predicted_temp_c": 17.7,
+            "calculation": "Observed value 12 days earlier (2026-08-31) was 17.5 °C; average cycle-to-cycle change in the history is +0.21 °C. 17.5 +0.21 = 17.71 °C, shown as 17.7 °C."
+          },
+          {
+            "day": 2,
+            "date": "2026-09-13",
+            "predicted_temp_c": 18.1,
+            "calculation": "Observed value 12 days earlier (2026-09-01) was 17.9 °C; average cycle-to-cycle change in the history is +0.21 °C. 17.9 +0.21 = 18.11 °C, shown as 18.1 °C."
+          },
+          {
+            "day": 3,
+            "date": "2026-09-14",
+            "predicted_temp_c": 18.5,
+            "calculation": "Observed value 12 days earlier (2026-09-02) was 18.3 °C; average cycle-to-cycle change in the history is +0.21 °C. 18.3 +0.21 = 18.51 °C, shown as 18.5 °C."
+          }
+        ],
+        "heldout_mae_by_forecast_day": [
+          {
+            "day": 1,
+            "mae": 0.061538,
+            "n": 13
+          },
+          {
+            "day": 2,
+            "mae": 0.061538,
+            "n": 13
+          },
+          {
+            "day": 3,
+            "mae": 0.061538,
+            "n": 13
+          }
+        ],
+        "heldout_mae_pooled": 0.061538,
+        "disclaimer": "Educational demonstration using synthetic observations – not a real weather forecast.",
+        "synthetic_data": true
+      },
+      {
+        "case": "Sapporo – 1-day",
+        "city": "Sapporo",
+        "horizon_days": 1,
+        "method": "Seasonal naive with drift",
+        "method_key": "seasonal_naive_drift",
+        "period_days": 12,
+        "generated_on": "2026-11-10",
+        "last_observation_date": "2026-09-11",
+        "predictions": [
+          {
+            "day": 1,
+            "date": "2026-09-12",
+            "predicted_temp_c": 10.7,
+            "calculation": "Observed value 12 days earlier (2026-08-31) was 10.5 °C; average cycle-to-cycle change in the history is +0.21 °C. 10.5 +0.21 = 10.71 °C, shown as 10.7 °C."
+          }
+        ],
+        "heldout_mae_by_forecast_day": [
+          {
+            "day": 1,
+            "mae": 0.061538,
+            "n": 13
+          }
+        ],
+        "heldout_mae_pooled": 0.061538,
+        "disclaimer": "Educational demonstration using synthetic observations – not a real weather forecast.",
+        "synthetic_data": true
+      },
+      {
+        "case": "Sapporo – 2-day",
+        "city": "Sapporo",
+        "horizon_days": 2,
+        "method": "Seasonal naive with drift",
+        "method_key": "seasonal_naive_drift",
+        "period_days": 12,
+        "generated_on": "2026-11-10",
+        "last_observation_date": "2026-09-11",
+        "predictions": [
+          {
+            "day": 1,
+            "date": "2026-09-12",
+            "predicted_temp_c": 10.7,
+            "calculation": "Observed value 12 days earlier (2026-08-31) was 10.5 °C; average cycle-to-cycle change in the history is +0.21 °C. 10.5 +0.21 = 10.71 °C, shown as 10.7 °C."
+          },
+          {
+            "day": 2,
+            "date": "2026-09-13",
+            "predicted_temp_c": 11.1,
+            "calculation": "Observed value 12 days earlier (2026-09-01) was 10.9 °C; average cycle-to-cycle change in the history is +0.21 °C. 10.9 +0.21 = 11.11 °C, shown as 11.1 °C."
+          }
+        ],
+        "heldout_mae_by_forecast_day": [
+          {
+            "day": 1,
+            "mae": 0.061538,
+            "n": 13
+          },
+          {
+            "day": 2,
+            "mae": 0.061538,
+            "n": 13
+          }
+        ],
+        "heldout_mae_pooled": 0.061538,
+        "disclaimer": "Educational demonstration using synthetic observations – not a real weather forecast.",
+        "synthetic_data": true
+      },
+      {
+        "case": "Sapporo – 3-day",
+        "city": "Sapporo",
+        "horizon_days": 3,
+        "method": "Seasonal naive with drift",
+        "method_key": "seasonal_naive_drift",
+        "period_days": 12,
+        "generated_on": "2026-11-10",
+        "last_observation_date": "2026-09-11",
+        "predictions": [
+          {
+            "day": 1,
+            "date": "2026-09-12",
+            "predicted_temp_c": 10.7,
+            "calculation": "Observed value 12 days earlier (2026-08-31) was 10.5 °C; average cycle-to-cycle change in the history is +0.21 °C. 10.5 +0.21 = 10.71 °C, shown as 10.7 °C."
+          },
+          {
+            "day": 2,
+            "date": "2026-09-13",
+            "predicted_temp_c": 11.1,
+            "calculation": "Observed value 12 days earlier (2026-09-01) was 10.9 °C; average cycle-to-cycle change in the history is +0.21 °C. 10.9 +0.21 = 11.11 °C, shown as 11.1 °C."
+          },
+          {
+            "day": 3,
+            "date": "2026-09-14",
+            "predicted_temp_c": 11.5,
+            "calculation": "Observed value 12 days earlier (2026-09-02) was 11.3 °C; average cycle-to-cycle change in the history is +0.21 °C. 11.3 +0.21 = 11.51 °C, shown as 11.5 °C."
+          }
+        ],
+        "heldout_mae_by_forecast_day": [
+          {
+            "day": 1,
+            "mae": 0.061538,
+            "n": 13
+          },
+          {
+            "day": 2,
+            "mae": 0.061538,
+            "n": 13
+          },
+          {
+            "day": 3,
+            "mae": 0.061538,
+            "n": 13
+          }
+        ],
+        "heldout_mae_pooled": 0.061538,
+        "disclaimer": "Educational demonstration using synthetic observations – not a real weather forecast.",
+        "synthetic_data": true
+      }
+    ],
+    "note": "All six cases were produced by WeatherService.forecast(); none of the values are typed in."
+  },
+  "robustness_checks": [
+    {
+      "name": "Unknown city",
+      "group": "Input validation",
+      "input": "city='Paris', days=2",
+      "outcome": "invalid_city: Unknown city 'Paris'. Available cities in the supplied dataset: Osaka, Sapporo, Tokyo.",
+      "passed": true
+    },
+    {
+      "name": "Empty city",
+      "group": "Input validation",
+      "input": "city='', days=2",
+      "outcome": "invalid_city: Please choose a city; it must not be empty. Available cities in the supplied dataset: Osaka, Sapporo, Tokyo.",
+      "passed": true
+    },
+    {
+      "name": "Whitespace city",
+      "group": "Input validation",
+      "input": "city='   ', days=2",
+      "outcome": "invalid_city: Please choose a city; it must not be empty. Available cities in the supplied dataset: Osaka, Sapporo, Tokyo.",
+      "passed": true
+    },
+    {
+      "name": "Non-string city",
+      "group": "Input validation",
+      "input": "city=42, days=2",
+      "outcome": "invalid_city: The city must be given as text. Available cities in the supplied dataset: Osaka, Sapporo, Tokyo.",
+      "passed": true
+    },
+    {
+      "name": "City, different case + padding",
+      "group": "Input validation",
+      "input": "city='  toKYo ', days=2",
+      "outcome": "accepted: Tokyo",
+      "passed": true
+    },
+    {
+      "name": "Horizon 0",
+      "group": "Input validation",
+      "input": "city='Tokyo', days=0",
+      "outcome": "invalid_horizon: Unsupported forecast horizon (0). Choose 1, 2 or 3 days.",
+      "passed": true
+    },
+    {
+      "name": "Horizon 4",
+      "group": "Input validation",
+      "input": "city='Tokyo', days=6",
+      "outcome": "invalid_horizon: Unsupported forecast horizon (6). Choose 1, 2 or 3 days.",
+      "passed": true
+    },
+    {
+      "name": "Horizon -1",
+      "group": "Input validation",
+      "input": "city='Tokyo', days=-1",
+      "outcome": "invalid_horizon: Unsupported forecast horizon (-1). Choose 1, 2 or 3 days.",
+      "passed": true
+    },
+    {
+      "name": "Horizon text",
+      "group": "Input validation",
+      "input": "city='Tokyo', days='abc'",
+      "outcome": "invalid_horizon: Unsupported forecast horizon ('abc'). Choose 1, 2 or 3 days.",
+      "passed": true
+    },
+    {
+      "name": "Horizon decimal",
+      "group": "Input validation",
+      "input": "city='Tokyo', days=2.5",
+      "outcome": "invalid_horizon: Unsupported forecast horizon (2.5). Choose 1, 2 or 3 days.",
+      "passed": true
+    },
+    {
+      "name": "Horizon missing",
+      "group": "Input validation",
+      "input": "city='Tokyo', days=None",
+      "outcome": "invalid_horizon: Unsupported forecast horizon (empty). Choose 1, 2 or 3 days.",
+      "passed": true
+    },
+    {
+      "name": "Horizon boolean",
+      "group": "Input validation",
+      "input": "city='Tokyo', days=True",
+      "outcome": "invalid_horizon: Unsupported forecast horizon (True). Choose 1, 2 or 3 days.",
+      "passed": true
+    },
+    {
+      "name": "Horizon 7 (string)",
+      "group": "Input validation",
+      "input": "city='Tokyo', days='7'",
+      "outcome": "invalid_horizon: Unsupported forecast horizon ('7'). Choose 1, 2 or 3 days.",
+      "passed": true
+    },
+    {
+      "name": "Valid horizon 1",
+      "group": "Input validation",
+      "input": "city='Tokyo', days=1",
+      "outcome": "accepted: 1",
+      "passed": true
+    },
+    {
+      "name": "Valid horizon 2",
+      "group": "Input validation",
+      "input": "city='Tokyo', days=2",
+      "outcome": "accepted: 2",
+      "passed": true
+    },
+    {
+      "name": "Valid horizon 3",
+      "group": "Input validation",
+      "input": "city='Tokyo', days=3",
+      "outcome": "accepted: 3",
+      "passed": true
+    },
+    {
+      "name": "Malformed / missing / duplicate rows",
+      "group": "Data validation",
+      "input": "13 rows: blank temp, 'warm', bad dates, 2 duplicates, blank city, 999 °C, extra field",
+      "outcome": "no crash; 4 of 13 rows retained; excluded: duplicate_conflicting=1, duplicate_identical=1, implausible_temperature=1, invalid_date=2, missing_city=1, missing_temperature=1, non_numeric_temperature=1, wrong_column_count=1",
+      "passed": true,
+      "detail": {
+        "source": "malformed fixture",
+        "columns": [],
+        "synthetic": true,
+        "total_rows": 13,
+        "valid_rows": 4,
+        "excluded_total": 9,
+        "excluded": [
+          {
+            "reason": "duplicate_conflicting",
+            "description": "Earlier row for a city+date replaced by a later conflicting row (last row wins)",
+            "count": 1
+          },
+          {
+            "reason": "duplicate_identical",
+            "description": "Exact duplicate of an already retained observation",
+            "count": 1
+          },
+          {
+            "reason": "implausible_temperature",
+            "description": "Temperature outside -90..60 °C",
+            "count": 1
+          },
+          {
+            "reason": "invalid_date",
+            "description": "Date is not a valid YYYY-MM-DD calendar date",
+            "count": 2
+          },
+          {
+            "reason": "missing_city",
+            "description": "City is blank",
+            "count": 1
+          },
+          {
+            "reason": "missing_temperature",
+            "description": "Temperature is blank or absent",
+            "count": 1
+          },
+          {
+            "reason": "non_numeric_temperature",
+            "description": "Temperature is not a plain decimal number",
+            "count": 1
+          },
+          {
+            "reason": "wrong_column_count",
+            "description": "Row has more fields than the header",
+            "count": 1
+          }
+        ],
+        "examples": [
+          {
+            "line": 3,
+            "reason": "missing_temperature",
+            "value": ""
+          },
+          {
+            "line": 4,
+            "reason": "non_numeric_temperature",
+            "value": "warm"
+          },
+          {
+            "line": 5,
+            "reason": "invalid_date",
+            "value": "not-a-date"
+          },
+          {
+            "line": 6,
+            "reason": "invalid_date",
+            "value": "2026-02-30"
+          },
+          {
+            "line": 8,
+            "reason": "duplicate_identical",
+            "value": "16.2"
+          },
+          {
+            "line": 10,
+            "reason": "duplicate_conflicting",
+            "value": "16.6 -> 17.0"
+          },
+          {
+            "line": 11,
+            "reason": "missing_city",
+            "value": null
+          },
+          {
+            "line": 12,
+            "reason": "implausible_temperature",
+            "value": "999"
+          },
+          {
+            "line": 13,
+            "reason": "wrong_column_count",
+            "value": "['extra-field']"
+          }
+        ],
+        "cities": [
+          {
+            "city": "Tokyo",
+            "observations": 4,
+            "first_date": "2026-08-01",
+            "last_date": "2026-08-10",
+            "missing_calendar_days": 6,
+            "min_temp_c": 14.6,
+            "max_temp_c": 18.3,
+            "sufficient": false
+          }
+        ],
+        "malformed_total": 7,
+        "duplicates_total": 2,
+        "missing_values_total": 1
+      }
+    },
+    {
+      "name": "Header only (empty dataset)",
+      "group": "Data validation",
+      "input": "CSV with a header and no rows",
+      "outcome": "data_error: The dataset contains no valid observations after validation (0 row(s) read, 0 excluded).",
+      "passed": true
+    },
+    {
+      "name": "All rows invalid",
+      "group": "Data validation",
+      "input": "CSV where every temperature is non-numeric",
+      "outcome": "data_error: The dataset contains no valid observations after validation (1 row(s) read, 1 excluded).",
+      "passed": true
+    },
+    {
+      "name": "Dataset file missing",
+      "group": "Data validation",
+      "input": "path=does_not_exist.csv",
+      "outcome": "data_error: Dataset file not found: does_not_exist.csv. Expected a CSV with columns city, date, temp_c.",
+      "passed": true
+    },
+    {
+      "name": "Too few observations",
+      "group": "Data validation",
+      "input": "city with 5 valid observations",
+      "outcome": "insufficient_data: Tiny has only 5 valid observations; at least 12 are required.",
+      "passed": true
+    }
+  ],
+  "independent_check": {
+    "description": "Held-out MAE recomputed with plain csv + arithmetic (no weather_app code).",
+    "cities": [
+      {
+        "city": "Osaka",
+        "method": "seasonal_naive_drift",
+        "period": 12,
+        "n": 39,
+        "mae_reported": 0.061538,
+        "mae_independent": 0.061538,
+        "match": true
+      },
+      {
+        "city": "Sapporo",
+        "method": "seasonal_naive_drift",
+        "period": 12,
+        "n": 39,
+        "mae_reported": 0.061538,
+        "mae_independent": 0.061538,
+        "match": true
+      },
+      {
+        "city": "Tokyo",
+        "method": "seasonal_naive_drift",
+        "period": 12,
+        "n": 39,
+        "mae_reported": 0.061538,
+        "mae_independent": 0.061538,
+        "match": true
+      }
+    ],
+    "all_match": true
+  },
+  "synthetic_structure_check": {
+    "Osaka": true,
+    "Sapporo": true
+  },
+  "tests": {
+    "passed": 84,
+    "failed": 0,
+    "suites": [
+      {
+        "id": "original-tests",
+        "title": "Starter tests (original, untouched baseline)",
+        "passed": 2,
+        "failed": 0
+      },
+      {
+        "id": "weather-unittest",
+        "title": "Weather unit tests (modified source)",
+        "passed": 59,
+        "failed": 0
+      },
+      {
+        "id": "browser-ui",
+        "title": "Browser UI checks (Playwright + Microsoft Edge: desktop 1280px and mobile 375px)",
+        "passed": 23,
+        "failed": 0
+      }
+    ]
+  },
+  "known_limitations": [
+    "All observations are synthetic. Nothing here describes real weather; forecasts are an educational demonstration.",
+    "The very low MAE (about 0.06 °C) is a property of the synthetic generator: every city repeats the same exact 12-day ramp. It is not evidence of forecasting skill.",
+    "Only 42 daily observations per city (about 3.5 cycles): the chosen cycle length is estimated from 29 training days and the held-out set has 13 days.",
+    "The seasonal methods assume a fixed repeating cycle and stable drift; real weather has neither.",
+    "Held-out MAE is identical for horizons 1, 2 and 3 because the method copies the value one cycle earlier; horizon only changes the drift estimate slightly.",
+    "Only temperature is forecast; humidity and rain columns are loaded but unused. No uncertainty interval is produced.",
+    "Missing calendar days are not imputed; the dataset has none, so that code path is covered by unit tests only.",
+    "Predictions are rounded to 0.1 °C (the data precision) before scoring."
+  ]
+}

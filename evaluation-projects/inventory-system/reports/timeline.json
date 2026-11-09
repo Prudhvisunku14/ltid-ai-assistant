@@ -1,0 +1,83 @@
+[
+  {
+    "n": 1,
+    "title": "Skeleton repository",
+    "status": "completed",
+    "timestamp": "2026-11-09T20:16:40Z",
+    "description": "Initial repository skeleton (README and .gitignore).",
+    "output": "chore: initial repository skeleton",
+    "evidence": "commit 65e4e4c"
+  },
+  {
+    "n": 2,
+    "title": "Data layer: schema, validation, search, CSV",
+    "status": "completed",
+    "timestamp": "2026-11-09T20:16:40Z",
+    "description": "SQLite persistence, validation, search, CSV import and export.",
+    "output": "feat(db): SQLite persistence, validation, search, CSV import/export",
+    "evidence": "commit def0db1"
+  },
+  {
+    "n": 3,
+    "title": "HTTP API, single-page UI, low-stock banner",
+    "status": "completed",
+    "timestamp": "2026-11-09T20:17:19Z",
+    "description": "JSON API, UI, low-stock alert banner.",
+    "output": "feat(api,ui): HTTP API, single-page UI, low-stock banner",
+    "evidence": "commit 9ef9338"
+  },
+  {
+    "n": 4,
+    "title": "Unit and live-HTTP tests",
+    "status": "completed",
+    "timestamp": "2026-11-09T20:23:21Z",
+    "description": "Unit and HTTP tests; one fix found by them (oversized body returns 413).",
+    "output": "test: unit + live-HTTP tests; fix(server): drain oversized body and return 413 instead of resetting the connection",
+    "evidence": "commit 8ca83fd"
+  },
+  {
+    "n": 5,
+    "title": "Real-browser end-to-end test and screenshots",
+    "status": "completed",
+    "timestamp": "2026-11-09T20:24:07Z",
+    "description": "Playwright end-to-end test with screenshots.",
+    "output": "test(e2e): Chromium end-to-end test + screenshots; docs: README, development report, CI workflow, sample CSV",
+    "evidence": "commit 0f98671"
+  },
+  {
+    "n": 6,
+    "title": "Re-run of all tests (evidence)",
+    "status": "completed",
+    "timestamp": "2026-11-09T20:32:04+00:00",
+    "description": "Unit/HTTP and browser suites re-executed by scripts/run_evidence.py.",
+    "output": "unit-http: 24 passed; browser: 10 steps passed",
+    "evidence": "reports/test-results.json"
+  },
+  {
+    "n": 7,
+    "title": "Fix: favicon request answered 404",
+    "status": "completed",
+    "timestamp": "2026-11-09T20:32:04+00:00",
+    "description": "The browser test found that /favicon.ico returned 404; now 204. Change is uncommitted in the working tree.",
+    "output": "M app/server.py;  M docs/screenshot-after.png;  M docs/screenshot-main.png;  M tests/test_api.py",
+    "evidence": "app/server.py, tests/test_api.py (uncommitted)"
+  },
+  {
+    "n": 8,
+    "title": "Integrated into LTID Assistant",
+    "status": "completed",
+    "timestamp": "2026-11-09T20:32:04+00:00",
+    "description": "Gallery card, workspace, Source Explorer, tests, report, live preview and settings in the dashboard.",
+    "output": "28/28 browser checks pass (scripts/verify_dashboard.py); backend tests 27 passed",
+    "evidence": "reports/dashboard-verification.json"
+  },
+  {
+    "n": 9,
+    "title": "Publish to GitHub and open Draft PR",
+    "status": "blocked",
+    "timestamp": null,
+    "description": "No remote is configured, so nothing can be pushed. The PR is never merged.",
+    "output": "No remote is configured in the local repository, so nothing has been pushed.",
+    "evidence": "reports/git.json"
+  }
+]

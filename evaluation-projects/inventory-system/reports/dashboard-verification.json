@@ -1,0 +1,119 @@
+{
+  "ui": "http://localhost:13000",
+  "passed": 28,
+  "total": 28,
+  "checks": [
+    {
+      "name": "gallery_inventory_card_after_prompt_b",
+      "passed": true
+    },
+    {
+      "name": "inventory_card_status_and_tests",
+      "passed": true
+    },
+    {
+      "name": "inventory_card_buttons",
+      "passed": true
+    },
+    {
+      "name": "inventory_card_not_claiming_push",
+      "passed": true
+    },
+    {
+      "name": "inventory_workspace_tabs",
+      "passed": true
+    },
+    {
+      "name": "inventory_workspace_shows_repo_status",
+      "passed": true
+    },
+    {
+      "name": "repo_tab_lists_observed_issue",
+      "passed": true
+    },
+    {
+      "name": "requirements_tab_has_six_rows",
+      "passed": true
+    },
+    {
+      "name": "tests_tab_real_suites",
+      "passed": true
+    },
+    {
+      "name": "live_preview_runs_inventory_app",
+      "passed": true
+    },
+    {
+      "name": "live_preview_shows_running",
+      "passed": true
+    },
+    {
+      "name": "code_changes_show_app_db",
+      "passed": true
+    },
+    {
+      "name": "github_tab_truthful",
+      "passed": true
+    },
+    {
+      "name": "final_report_renders",
+      "passed": true
+    },
+    {
+      "name": "source_explorer_shows_real_files",
+      "passed": true
+    },
+    {
+      "name": "source_explorer_opens_code",
+      "passed": true
+    },
+    {
+      "name": "tests_page_inventory",
+      "passed": true
+    },
+    {
+      "name": "github_page_inventory",
+      "passed": true
+    },
+    {
+      "name": "reports_page_inventory_report",
+      "passed": true
+    },
+    {
+      "name": "settings_shows_inventory_preview",
+      "passed": true
+    },
+    {
+      "name": "prompt_b_still_opens",
+      "passed": true
+    },
+    {
+      "name": "prompt_a_still_opens",
+      "passed": true
+    },
+    {
+      "name": "overview_loads_with_inventory_in_totals",
+      "passed": true
+    },
+    {
+      "name": "overview_shows_inventory_status_card",
+      "passed": true
+    },
+    {
+      "name": "overview_inventory_status_is_running",
+      "passed": true
+    },
+    {
+      "name": "overview_chart_has_inventory_bars",
+      "passed": true
+    },
+    {
+      "name": "overview_agent_activity_has_inventory_column",
+      "passed": true
+    },
+    {
+      "name": "no_uncaught_js_errors",
+      "passed": true
+    }
+  ]
+}

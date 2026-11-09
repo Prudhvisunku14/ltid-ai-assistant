@@ -1,0 +1,10 @@
+{
+  "url": "http://127.0.0.1:8005/",
+  "started_at": "2026-11-09T21:15:09+00:00",
+  "reachable": true,
+  "http_status": 200,
+  "screenshot": "screenshots/expense-system-home.png",
+  "error": null,
+  "page_title": "Expense Management \u2014 Northstar Services (demo)",
+  "stopped_at": "2026-11-09T21:15:13+00:00"
+}

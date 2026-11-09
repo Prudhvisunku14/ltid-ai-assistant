@@ -1,0 +1,571 @@
+# MASTER BUILD PROMPT – LTID ASSISTANT
+## Build the Complete Platform + First Evaluation Project (Prompt A)
+
+Act as a senior full-stack software architect, AI engineering platform developer, and UI/UX designer.
+
+I want you to build a complete, professional, deployment-ready application named **LTID Assistant** for the LTID AI Competition.
+
+This project has TWO major parts:
+
+1. LTID Assistant – The main AI software engineering platform.
+2. Prompt A – Website Development – The first actual software project handled and showcased by LTID Assistant.
+
+Both must have working source code and functional application previews.
+
+Do not create only a UI prototype. Build the actual application.
+
+---
+
+# PART 1 – LTID ASSISTANT BASE PLATFORM
+
+## 1. Product Objective
+
+LTID Assistant is an AI-powered autonomous software engineering platform.
+
+It should demonstrate how an AI agent can:
+- Understand software requirements.
+- Access GitHub repositories.
+- Read Google Drive requirement documents.
+- Analyse existing source code.
+- Select suitable development tools.
+- Generate an implementation plan.
+- Modify existing code.
+- Execute tests.
+- Fix errors.
+- Verify application functionality.
+- Create development branches.
+- Push code to GitHub.
+- Prepare draft pull requests.
+- Generate execution reports.
+
+The platform should provide a central dashboard where evaluators can inspect every step.
+
+## 2. Design Requirements
+
+Create a premium, professional LIGHT THEME interface.
+
+Design inspiration:
+- Linear
+- Vercel
+- Stripe
+- Modern developer platforms
+
+Use this color palette:
+
+- Main background: #F8FAFC
+- Sidebar: #FFFFFF
+- Cards: #FFFFFF
+- Primary text: #172033
+- Secondary text: #64748B
+- Primary blue: #4F6BED
+- Soft blue: #EEF2FF
+- Borders: #E5EAF1
+- Success: #16A36A
+- Warning: #E6A23C
+- Error: #DC5555
+
+Use:
+- Clean typography.
+- White cards.
+- Subtle borders.
+- Soft shadows.
+- Rounded corners.
+- Professional spacing.
+- Minimal animations.
+- Responsive layouts.
+
+Do not use dark backgrounds.
+
+## 3. Main Navigation
+
+Create a persistent sidebar containing:
+
+- Overview
+- Project Gallery
+- Agent Workspace
+- Source Explorer
+- Test Results
+- Evaluation Reports
+- GitHub Activity
+- Settings
+
+Add a top navigation bar with:
+- Page title.
+- Project search.
+- Notifications.
+- Agent status.
+- User profile.
+
+## 4. Overview Dashboard
+
+Display:
+- Total Projects.
+- Successfully Built Projects.
+- Tests Passed.
+- Failed Builds.
+- Active Agent Tasks.
+- GitHub Pull Requests.
+
+Include:
+- Recent projects.
+- Agent execution activity.
+- Recent test results.
+- Project status.
+- Quick access to the project gallery.
+
+Use real backend data where available. Clearly label demonstration data.
+
+## 5. Project Gallery
+
+Create a beautiful gallery of generated applications.
+
+Initially include:
+
+1. Prompt A – Website Development.
+2. Project Website B.
+3. E-commerce Application.
+4. Habit Tracker.
+5. Task Management Application.
+6. Portfolio Website.
+
+For now, Prompt A is the first project to implement fully.
+
+Other projects can have clearly labelled demonstration or pending states.
+
+Each project card should display:
+- Project name.
+- Description.
+- Technology stack.
+- Build status.
+- Last updated.
+- Preview thumbnail.
+- Open Application.
+- View Source Code.
+- View Reports.
+
+When clicking a project, open its dedicated workspace.
+
+## 6. Project Workspace
+
+Create these tabs:
+
+1. Overview
+2. Requirements
+3. Repository Analysis
+4. Tool Selection
+5. Implementation Plan
+6. Code Changes
+7. Live Preview
+8. Tests
+9. GitHub / Pull Request
+10. Final Report
+
+All screens should be navigable and connected to the project's actual data.
+
+---
+
+# PART 2 – FIRST REAL PROJECT: PROMPT A WEBSITE
+
+## 7. Evaluation Task
+
+The first project is:
+
+**Prompt A – Website Development**
+
+Original GitHub repository:
+
+`LTID-rep/ltid-ai-competition-website`
+
+Requirements document:
+
+`01_Website_Requirements.docx`
+
+The document is located in the shared Google Drive competition folder.
+
+I will provide:
+- The existing website repository as a ZIP file.
+- The requirements document as a DOCX file.
+
+These files must be used as the actual project inputs.
+
+The intended evaluation workflow is:
+
+1. Access the GitHub repository.
+2. Read the Google Drive requirements document.
+3. Analyse existing source code.
+4. Identify missing functionality.
+5. Explain available development tools and their selection.
+6. Prepare an implementation plan.
+7. Modify the existing website code.
+8. Run tests and fix errors.
+9. Verify desktop and mobile compatibility.
+10. Create a development branch.
+11. Push the modified code to the original repository.
+12. Create a draft pull request.
+13. Generate a final report with evidence.
+
+Do not merge or deploy the changes automatically.
+
+Do not claim an action was completed unless it actually happened.
+
+## 8. Existing Website Code – Critical Requirement
+
+Do not create an unrelated website from scratch.
+
+You must work on the existing website source code that I provide.
+
+Before modifying:
+- Inspect its complete folder structure.
+- Identify the frontend framework.
+- Identify backend technology, if present.
+- Understand existing routes and components.
+- Identify existing functionality.
+- Read the supplied requirements document.
+- Compare the requirements with the current implementation.
+
+Then modify the existing project.
+
+Preserve:
+- Existing architecture.
+- Working components.
+- Existing styles where appropriate.
+- Existing configurations.
+- Existing functionality.
+
+Add missing features and fix issues without unnecessarily rewriting the application.
+
+The modified website must be a complete, working application.
+
+## 9. Actual Website Preview
+
+This is extremely important.
+
+I want the actual modified website to be visible inside LTID Assistant.
+
+Create a Live Preview tab.
+
+Requirements:
+- Run the actual Prompt A application.
+- Display it inside an embedded browser/iframe where supported.
+- Show the local preview URL.
+- Add refresh functionality.
+- Add open-in-new-tab functionality.
+- Add full-screen preview.
+- Display a useful error message if the preview server is not running.
+
+The preview must show the actual modified application, not a screenshot or an invented demonstration page.
+
+Use a separate service or isolated runtime for the generated application.
+
+Do not execute untrusted generated code directly inside the main dashboard backend.
+
+## 10. Source Code Explorer
+
+Build a professional light-theme code explorer inspired by VS Code and GitHub.
+
+Left side:
+- Complete project folder tree.
+- Expandable folders.
+- Search files.
+- Frontend files.
+- Backend files.
+- Configuration files.
+- Tests.
+
+Right side:
+- Syntax-highlighted code.
+- File name and breadcrumb.
+- Copy button.
+- Download button.
+- Line numbers.
+
+Show actual source files from the modified Prompt A repository.
+
+The evaluator should be able to inspect all important code.
+
+Also show:
+- Original code.
+- Modified code.
+- Files added.
+- Files modified.
+- Files deleted.
+
+Provide a diff viewer.
+
+## 11. Agent Execution Timeline
+
+Display the actual execution steps:
+
+1. Repository imported/accessed.
+2. Requirements imported/accessed.
+3. Source code inspected.
+4. Requirements analysed.
+5. Tools evaluated.
+6. Implementation plan created.
+7. Code changes implemented.
+8. Tests executed.
+9. Errors fixed.
+10. Desktop/mobile compatibility checked.
+11. Development branch created.
+12. Changes pushed.
+13. Draft PR created.
+14. Final report generated.
+
+For each step show:
+- Status.
+- Timestamp, if available.
+- Description.
+- Actual output.
+- Evidence.
+
+Never mark a pending action as completed.
+
+## 12. GitHub Integration
+
+The final modifications should be published to the original repository:
+
+`LTID-rep/ltid-ai-competition-website`
+
+Workflow:
+- Identify the original base branch.
+- Create a new development branch.
+- Commit modifications.
+- Push the development branch.
+- Create a Draft Pull Request against the original base branch.
+
+Display:
+- Repository URL.
+- Base branch.
+- Development branch.
+- Commit history.
+- Push status.
+- Draft PR status.
+- Pull request URL.
+
+Never merge automatically.
+
+Never deploy the original repository automatically.
+
+If only a ZIP file is available and GitHub credentials are not configured, prepare the changes locally and show GitHub publication as pending. Do not fabricate a remote branch or PR.
+
+## 13. Evaluation Reports
+
+Create a report containing:
+- Original requirements.
+- Existing repository analysis.
+- Missing functionality.
+- Selected development tools and reasoning.
+- Implementation plan.
+- Files modified.
+- Files created.
+- Tests executed.
+- Test results.
+- Desktop verification.
+- Mobile verification.
+- Known limitations.
+- GitHub branch and PR details.
+- Final completion status.
+
+Allow the evaluator to download the report.
+
+---
+
+# PART 3 – TECHNICAL ARCHITECTURE
+
+## 14. Recommended Technology Stack
+
+First inspect the existing repository.
+
+For the LTID Assistant base platform, use:
+
+Frontend:
+- React.
+- TypeScript.
+- Vite.
+- Tailwind CSS.
+- React Router.
+- Lucide React.
+- Recharts.
+
+Backend:
+- Python FastAPI.
+- Pydantic.
+- SQLAlchemy if persistence is required.
+- PostgreSQL or SQLite for local development.
+
+Agent integration:
+- OpenAI API for reasoning and orchestration.
+- OpenCode as the coding execution tool.
+- n8n for workflow orchestration where appropriate.
+- Git for version control.
+- Pytest for Python tests.
+- Playwright for browser testing.
+
+Do not replace existing working agent infrastructure unnecessarily.
+
+Keep the AI provider and tool execution layer separate from the frontend.
+
+## 15. Project Directory Structure
+
+Organise the repository cleanly.
+
+Suggested structure:
+
+LTID-Assistant/
+│
+├── frontend/
+│   ├── src/
+│   │   ├── components/
+│   │   ├── pages/
+│   │   ├── layouts/
+│   │   ├── services/
+│   │   └── data/
+│   └── package.json
+│
+├── backend/
+│   ├── app/
+│   │   ├── api/
+│   │   ├── services/
+│   │   ├── agents/
+│   │   ├── integrations/
+│   │   └── models/
+│   └── requirements.txt
+│
+├── evaluation-projects/
+│   └── prompt-a-website/
+│       ├── source/
+│       ├── reports/
+│       └── README.md
+│
+├── docker/
+├── docker-compose.yml
+├── .env.example
+├── README.md
+└── LICENSE
+
+Adapt this structure if the existing project requires a better arrangement.
+
+Keep the original Prompt A repository history and source information where practical. Clearly document imported snapshots versus the actual Git repository.
+
+## 16. Local Execution
+
+The entire platform must be runnable locally.
+
+Provide:
+- Docker Compose configuration.
+- Frontend service.
+- Backend service.
+- Database service if needed.
+- Prompt A preview service.
+
+The evaluator should be able to start the platform with one command:
+
+`docker compose up --build`
+
+The dashboard should be accessible at:
+
+`http://localhost:3000`
+
+Use separate ports for backend and Prompt A preview.
+
+Provide a Windows-friendly launcher (`start.bat`) and Linux/macOS launcher (`start.sh`) if practical.
+
+Make sure the application works even when optional external integrations are not configured.
+
+Do not require paid API calls just to open and inspect the gallery.
+
+## 17. Deployment Readiness
+
+I want to deploy the LTID Assistant base platform.
+
+Prepare the application for deployment with:
+- Production frontend build.
+- Backend deployment configuration.
+- Environment variable management.
+- CORS configuration.
+- Health-check endpoints.
+- Error handling.
+- Database configuration.
+- Secure secret handling.
+- README deployment instructions.
+
+Keep frontend and backend deployable independently.
+
+Do not hardcode API keys or GitHub tokens.
+
+Do not claim that the platform has been deployed unless you actually deploy it.
+
+The Prompt A application should also have its own independent preview deployment configuration, if its stack supports it.
+
+---
+
+# PART 4 – QUALITY AND DELIVERY
+
+## 18. Implementation Rules
+
+Before writing code:
+1. Inspect the current working directory.
+2. Inspect existing files and repositories.
+3. Identify what is already implemented.
+4. Create an implementation plan.
+5. Identify dependencies and integration requirements.
+
+Then implement the application.
+
+Do not stop after giving a plan.
+
+Do not overwrite existing work without understanding it.
+
+Do not generate fake GitHub information, fake test results, fake execution logs, or fake application previews.
+
+Clearly separate:
+- Real execution data.
+- Imported source files.
+- Mock data.
+- Pending integrations.
+
+## 19. Final Deliverables
+
+I expect all of the following:
+
+1. Complete LTID Assistant frontend source code.
+2. Complete LTID Assistant backend source code.
+3. Fully functional navigation and dashboard.
+4. Project Gallery.
+5. Prompt A actual modified website source code.
+6. Prompt A live local preview.
+7. Source Code Explorer.
+8. Code diff viewer.
+9. Agent execution timeline.
+10. Test results dashboard.
+11. Evaluation reports.
+12. GitHub integration structure.
+13. Docker Compose configuration.
+14. `.env.example`.
+15. Complete README.
+16. Local execution instructions.
+17. Deployment instructions.
+
+## 20. Final Evaluator Experience
+
+The evaluator should be able to:
+
+1. Clone the LTID Assistant repository.
+2. Run one command.
+3. Open the LTID Assistant dashboard.
+4. Select Prompt A – Website Development.
+5. See the original repository and requirements.
+6. Inspect the agent's analysis and implementation plan.
+7. Open the actual modified website.
+8. Browse the modified source code.
+9. Inspect the code differences.
+10. Check real test results.
+11. Open the GitHub development branch and Draft PR, if created.
+12. Download the evaluation report.
+13. Switch to another project from the gallery.
+
+The finished product must look like a real AI software engineering platform suitable for a serious competition demonstration.
+
+**Most important: Build working source code, not just UI mockups. Build the actual Prompt A website using the provided existing repository and requirements document. Make the entire platform locally runnable and deployment-ready.**
+
+Start by inspecting the existing repository and the provided project files. Then implement everything in manageable stages and verify each stage.

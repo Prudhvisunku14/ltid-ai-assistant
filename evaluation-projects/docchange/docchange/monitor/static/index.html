@@ -1,0 +1,63 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Document Change Monitor</title>
+<style>
+:root{--bg:#f7f7f5;--card:#fff;--tx:#1d1d1b;--mut:#6b6b66;--bd:#dcdcd6;--ok:#0b6b3a;--okbg:#e3f4ea;--ai:#6a3fb5;--aibg:#efe9fa;--hi:#b3261e;--me:#a15c00;--lo:#555;--del:#fbd9d6;--ins:#d4f0dd}
+@media(prefers-color-scheme:dark){:root{--bg:#161615;--card:#212120;--tx:#ecece8;--mut:#9a9a94;--bd:#3a3a37;--ok:#6fdc9c;--okbg:#14301f;--ai:#c1a4f5;--aibg:#2a2040;--hi:#ff8a80;--me:#ffb74d;--lo:#aaa;--del:#4a2523;--ins:#173a24}}
+*{box-sizing:border-box}body{margin:0;font:14px/1.5 system-ui,sans-serif;background:var(--bg);color:var(--tx)}
+header{padding:14px 20px;border-bottom:1px solid var(--bd);display:flex;gap:12px;align-items:center;flex-wrap:wrap}h1{font-size:18px;margin:0;flex:1}
+main{display:grid;grid-template-columns:320px 1fr;gap:16px;padding:16px 20px}@media(max-width:800px){main{grid-template-columns:1fr}}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:10px;padding:12px;margin-bottom:12px}
+button,select{font:inherit;padding:5px 10px;border:1px solid var(--bd);border-radius:6px;background:var(--card);color:var(--tx);cursor:pointer}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.mut{color:var(--mut)}
+.hist{cursor:pointer;padding:6px;border-radius:6px}.hist:hover{background:var(--bg)}
+.tag{display:inline-block;padding:1px 8px;border-radius:99px;font-size:12px;font-weight:600}
+.ver{background:var(--okbg);color:var(--ok)}.ai{background:var(--aibg);color:var(--ai)}
+.high{color:var(--hi)}.medium{color:var(--me)}.low{color:var(--lo)}
+.panel{border-left:4px solid var(--ok);padding:8px 10px;margin-top:8px;background:var(--okbg);border-radius:0 6px 6px 0}
+.panel.ai{border-color:var(--ai);background:var(--aibg);color:var(--tx)}
+pre{white-space:pre-wrap;margin:4px 0;font:12.5px/1.5 ui-monospace,monospace}
+.del{background:var(--del);text-decoration:line-through}.ins{background:var(--ins)}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:8px}@media(max-width:700px){.cols{grid-template-columns:1fr}}
+.src{background:var(--bg);border:1px solid var(--bd);border-radius:6px;padding:6px 8px}
+h3{margin:0 0 6px;font-size:14px}details summary{cursor:pointer;color:var(--mut)}
+</style></head><body>
+<header><h1>Document Change Monitor <span class="mut" id="src"></span></h1>
+<select id="doc"></select><select id="a"></select><span>→</span><select id="b"></select>
+<button id="go">Compare</button><button id="scan">Scan all documents</button></header>
+<main><aside><div class="card"><h3>Change history</h3><div id="hist" class="mut">No comparisons yet – click “Scan all documents”.</div></div></aside>
+<section id="out"><div class="card mut">Pick a document and two versions, or select an item from history. Read-only: source documents are never modified.</div></section></main>
+<script>
+const $=id=>document.getElementById(id);let docs=[];
+const el=(t,c,x)=>{const e=document.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e};
+async function api(u,o){const r=await fetch(u,o);return r.json()}
+function fill(s,v,sel){s.replaceChildren(...v.map(x=>{const o=el('option',0,x.label);o.value=x.id;return o}));if(sel!=null)s.selectedIndex=sel}
+function onDoc(){const d=docs.find(x=>x.name===$('doc').value);fill($('a'),d.versions,Math.max(0,d.versions.length-2));fill($('b'),d.versions,d.versions.length-1)}
+async function init(){const r=await api('/api/documents');docs=r.documents;$('src').textContent='· source: '+r.source+' (read-only)';
+ $('doc').replaceChildren(...docs.map(d=>{const o=el('option',0,d.name);o.value=d.name;return o}));$('doc').onchange=onDoc;onDoc();loadHist()}
+async function loadHist(){const h=await api('/api/history');const box=$('hist');if(!h.length)return;box.replaceChildren();
+ let last='';for(const x of h){if(x.doc!==last){const t=el('div','mut',x.doc);t.style.cssText='margin-top:8px;font-weight:600';box.append(t);last=x.doc}
+ const d=el('div','hist');d.append(el('span',0,`${x.v_old} → ${x.v_new}  `),el('span','mut',`${x.n_changes} changes, ${x.n_impacting} req-impact `),el('b',x.max_severity,x.max_severity));
+ d.onclick=async()=>render(await api('/api/history/item?id='+x.id));box.append(d)}}
+function lines(a){const p=el('pre');p.textContent=a.length?a.join('\n'):'(none)';return p}
+function srcBox(title,s){const d=el('div','src');d.append(el('b',0,title));if(!s){d.append(el('pre','mut','n/a'));return d}
+ d.append(el('pre',0,`file: ${s.file}\nsection: ${s.section}\nlines: ${s.lines?s.lines.join('–'):'n/a'}`));return d}
+function render(r){const o=$('out');o.replaceChildren();const s=r.verified.summary,i=r.interpretation.summary;
+ const top=el('div','card');top.append(el('h3',0,`${r.doc}: ${r.v_old} → ${r.v_new}`));
+ const og=r.origins;if(og){const m=x=>x.origin.startsWith('MOCK');const q=el('div','mut',`Origin - old: ${og.old.file} [${og.old.origin}] · new: ${og.new.file} [${og.new.origin}]`);if(m(og.old)||m(og.new))q.style.color='var(--me)';top.append(q)}
+ let p=el('div','panel');p.append(el('span','tag ver','VERIFIED FACT'),el('div',0,s.text));top.append(p);
+ p=el('div','panel ai');p.append(el('span','tag ai','AI INTERPRETATION (unverified)'),el('div',0,i.text),el('div','mut',r.interpretation.summary.label));top.append(p);o.append(top);
+ const order={high:0,medium:1,low:2};const cs=[...r.changes].sort((x,y)=>order[r.interpretation.items[x.id].severity]-order[r.interpretation.items[y.id].severity]);
+ for(const c of cs){const it=r.interpretation.items[c.id];const k=el('div','card');
+  const hd=el('div','row');hd.append(el('span','tag ver','VERIFIED'),el('b',0,c.kind.replace('_',' ')+' · '+c.section),el('span','tag ai','impact: '+it.severity));hd.lastChild.classList.add(it.severity);k.append(hd);
+  const cols=el('div','cols');const b=el('div'),a=el('div');b.append(el('div','mut','Before'),lines(c.before));a.append(el('div','mut','After'),lines(c.after));cols.append(b,a);k.append(cols);
+  if(c.word_diff){const w=el('pre');for(const [op,t] of c.word_diff){const sp=el('span',op==='eq'?'':op,t+' ');w.append(sp)}k.append(el('div','mut','Word-level diff'),w)}
+  const sc=el('div','cols');sc.append(srcBox('Source (old)',c.old_source),srcBox('Source (new)',c.new_source));k.append(sc);
+  const ai=el('div','panel ai');ai.append(el('span','tag ai','AI INTERPRETATION'));
+  ai.append(el('div',0,it.reasons.join(' ')||'No requirement impact detected.'));
+  if(it.categories.length||it.requirement_ids.length)ai.append(el('div','mut',`Areas: ${it.categories.join(', ')||'-'} · IDs: ${it.requirement_ids.join(', ')||'-'}`));
+  k.append(ai);o.append(k)}
+ if(!cs.length)o.append(el('div','card mut','No differences.'))}
+$('go').onclick=async()=>{const q=new URLSearchParams({doc:$('doc').value,a:$('a').value,b:$('b').value});render(await api('/api/compare?'+q));loadHist()};
+$('scan').onclick=async()=>{await api('/api/scan',{method:'POST'});loadHist()};
+init();
+</script></body></html>

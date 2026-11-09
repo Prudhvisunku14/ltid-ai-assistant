@@ -1,0 +1,143 @@
+{
+  "generated_at": "2026-11-10T00:00:00+00:00",
+  "requirements_source": {
+    "document": "Company rules: Policy_Expense_v2_Current.txt (Drive document; the copy in docs/source_policy is the one the project uses)",
+    "access": "The project's README and docs/POLICY_SOURCES.md describe the policy source. The policy text was not re-verified against Drive in this session."
+  },
+  "repository": {
+    "slug": "uploaded folder: evaluation-projects/expense-system/expense-system",
+    "url": null,
+    "base_branch": null,
+    "base_branch_note": "Not a git repository.",
+    "import_method": "Uploaded folder. No version-control history and no original snapshot, so code changes cannot be compared with a baseline.",
+    "framework": "Flask (Python) with one static page (static/index.html) using vanilla JavaScript.",
+    "backend": "Python 3.12, Flask; SQLite file database (EXPENSE_DB) with foreign keys and CHECK/UNIQUE constraints.",
+    "routes": "Single page at /; JSON API under /api (expenses, decisions, monthly reports, CSV export, policy).",
+    "original_files": []
+  },
+  "requirements": [
+    {
+      "id": "E1",
+      "area": "Claims",
+      "text": "Employees register expenses.",
+      "original": "not applicable",
+      "result": "Stated in README; covered by the test suite.",
+      "evidence": "tests/test_expenses.py (64 tests)"
+    },
+    {
+      "id": "E2",
+      "area": "Approval",
+      "text": "Managers, and finance where required, approve or reject; international travel needs manager and finance in either order; any rejection is final.",
+      "original": "not applicable",
+      "result": "Stated in README; the status workflow is tested.",
+      "evidence": "tests/test_expenses.py"
+    },
+    {
+      "id": "E3",
+      "area": "History",
+      "text": "Every decision is kept in an append-only history; simultaneous decisions cannot both succeed.",
+      "original": "not applicable",
+      "result": "README: UNIQUE(expense, role) plus BEGIN IMMEDIATE.",
+      "evidence": "tests/test_expenses.py"
+    },
+    {
+      "id": "E4",
+      "area": "Reports",
+      "text": "Monthly totals by employee and category, exported as four CSV views (UTF-8 with BOM).",
+      "original": "not applicable",
+      "result": "Stated in README.",
+      "evidence": "tests/test_expenses.py"
+    },
+    {
+      "id": "E5",
+      "area": "Access control",
+      "text": "Managers see direct reports, finance sees all, employees see no reports.",
+      "original": "not applicable",
+      "result": "Stated in README; enforced in app/service.py.",
+      "evidence": "tests/test_expenses.py"
+    }
+  ],
+  "tools": [
+    {
+      "name": "Python 3 + Flask",
+      "decision": "Selected",
+      "reason": "Small, readable REST API with no build step."
+    },
+    {
+      "name": "SQLite",
+      "decision": "Selected",
+      "reason": "Zero-setup database with constraints that protect integrity. The README notes PostgreSQL for many concurrent users."
+    },
+    {
+      "name": "Vanilla HTML/JS",
+      "decision": "Selected",
+      "reason": "One static page, nothing to compile."
+    },
+    {
+      "name": "Python csv",
+      "decision": "Selected",
+      "reason": "Correct quoting and formula-injection protection for spreadsheet users."
+    },
+    {
+      "name": "pytest",
+      "decision": "Selected",
+      "reason": "Parametrised tests with a frozen clock."
+    }
+  ],
+  "plan": [
+    {
+      "n": 1,
+      "task": "Inspect the uploaded project and its policy sources",
+      "files": "README, docs/",
+      "tools": "Python",
+      "status": "completed",
+      "evidence": "structure and README read"
+    },
+    {
+      "n": 2,
+      "task": "Run the project's test suite",
+      "files": "tests/test_expenses.py",
+      "tools": "pytest",
+      "status": "completed",
+      "evidence": "64 of 64 pass (reports/test-results.json)"
+    },
+    {
+      "n": 3,
+      "task": "Make the host configurable for Docker",
+      "files": "run.py (HOST variable)",
+      "tools": "Python",
+      "status": "completed",
+      "evidence": "default unchanged (127.0.0.1)"
+    },
+    {
+      "n": 4,
+      "task": "Declare the Windows time-zone dependency",
+      "files": "requirements.txt (tzdata)",
+      "tools": "pip",
+      "status": "completed",
+      "evidence": "tests fail on Windows without it and pass with it"
+    },
+    {
+      "n": 5,
+      "task": "Start the live app and capture a screenshot",
+      "files": "reports/screenshots",
+      "tools": "Flask, Microsoft Edge",
+      "status": "completed",
+      "evidence": "reports/live-check.json"
+    },
+    {
+      "n": 6,
+      "task": "Integrate into LTID Assistant dashboard",
+      "files": "backend and frontend",
+      "tools": "FastAPI, React",
+      "status": "completed",
+      "evidence": "evaluation-projects/scripts/verify_projects.py: 67 of 67 browser checks pass; reports/dashboard-verification-projects.json"
+    }
+  ],
+  "limitations": [
+    "Identity is a demo picker (X-User-Id header), not real authentication. The README says to use SSO before real use.",
+    "The demo data is fictional and loaded on first start (SEED_DEMO=1).",
+    "Company policy comes from a Drive document; the copy used here was not re-checked against Drive in this session.",
+    "No git history or original snapshot was supplied, so changes cannot be compared with a baseline."
+  ]
+}

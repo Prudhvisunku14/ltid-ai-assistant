@@ -1,0 +1,375 @@
+{
+  "ran_at": "2026-11-09T19:16:56+00:00",
+  "ui": "http://localhost:13000",
+  "api": "http://localhost:18001",
+  "all_passed": true,
+  "passed": 73,
+  "failed": 0,
+  "checks": [
+    {
+      "name": "backend_pytest_all_pass",
+      "passed": true,
+      "detail": "19 passed, 1 warning in 3.95s"
+    },
+    {
+      "name": "frontend_typescript_clean",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "gallery_lists_prompt_a_and_prompt_b_side_by_side",
+      "passed": true,
+      "detail": "['Prompt A \u2014 Website Development', 'Prompt B \u2014 Weather Forecasting Demo', 'Project Website B']"
+    },
+    {
+      "name": "prompt_b_card_shows_eastbay_city_lab",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "prompt_b_card_shows_data_science_/_machine_learning",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "prompt_b_card_shows_educational_temperature_forecasting_application",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "prompt_b_card_shows_synthetic_dataset",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "prompt_b_card_shows_build",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "prompt_b_card_shows_tests",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "prompt_b_card_shows_last_updated",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "prompt_b_card_shows_stdlib_only",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "prompt_b_card_shows_unittest",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "prompt_b_card_shows_ltid-rep/ltid-ai-competition-weather",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "prompt_b_card_shows_imported_zip_snapshot",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "prompt_b_card_button_open_workspace",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "prompt_b_card_button_launch_weather_demo",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "prompt_b_card_button_view_source_code",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "prompt_b_card_button_view_test_results",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "prompt_b_card_button_view_evaluation_report",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "prompt_b_card_has_thumbnail",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "prompt_a_card_still_present_with_buttons",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "prompt_b_workspace_has_all_tabs",
+      "passed": true,
+      "detail": "['Overview', 'Requirements', 'Repository Analysis', 'Tool Selection', 'Data & Method', 'Implementation Plan', 'Code Changes', 'Live Preview', 'Tests', 'Evaluation', 'GitHub / Pull Request', 'Final Report']"
+    },
+    {
+      "name": "workspace_labels_zip_snapshot",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "workspace_overview_shows_synthetic_disclaimer",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "requirements_tab_reads_drive_docx",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "repository_tab_shows_zip_snapshot_and_real_issues",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "tool_tab_lists_selected_and_rejected_tools",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "data_tab_shows_actual_dataset_facts",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "method_tab_explains_method_and_limits",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "architecture_diagram_has_all_8_stages",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "plan_table_has_15_numbered_tasks",
+      "passed": true,
+      "detail": "15"
+    },
+    {
+      "name": "code_changes_show_actual_diffs",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "tests_tab_shows_real_suites",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "github_tab_is_truthful_about_unpushed_state",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "report_tab_renders_17_sections_and_tables",
+      "passed": true,
+      "detail": "12"
+    },
+    {
+      "name": "report_download_links_present",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "evaluation_shows_actual_overall_mae",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "evaluation_shows_six_demonstrations",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "evaluation_shows_charts_tables_limitations",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "evaluation_lists_robustness_checks",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "evaluation_downloads_work",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "preview_shows_local_url_and_controls",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "live_preview_runs_actual_weather_app_and_matches_api",
+      "passed": true,
+      "detail": "iframe=['10.7', '11.1'] api=['10.7', '11.1']"
+    },
+    {
+      "name": "live_preview_invalid_city_error_inside_iframe",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "preview_refresh_reloads_iframe",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "preview_full_screen_toggles",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "preview_full_screen_exits_with_escape",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "source_explorer_defaults_to_prompt_b_when_requested",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "source_explorer_shows_actual_tree",
+      "passed": true,
+      "detail": "LT\nLTID Assistant\nAI software engineering\nOverview\nProject Gallery\nAgent Workspace\nSource Explorer\nTest Results\nEvaluation Reports\nGitHub Activity\nSettings\nv1.0.0 \u00b7 evidence viewer mode\nSource Explore"
+    },
+    {
+      "name": "source_explorer_shows_added_modified_deleted_counts",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "source_explorer_shows_code_and_diff",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "source_explorer_original_view",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "changed_only_filter_hides_unchanged_files",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "project_switcher_moves_to_prompt_a_source",
+      "passed": true,
+      "detail": "http://localhost:13000/source?project=prompt-a"
+    },
+    {
+      "name": "project_switcher_returns_to_prompt_b",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "prompt_a_workspace_tabs_unchanged",
+      "passed": true,
+      "detail": "['Overview', 'Requirements', 'Repository Analysis', 'Tool Selection', 'Implementation Plan', 'Code Changes', 'Live Preview', 'Tests', 'GitHub / Pull Request', 'Final Report']"
+    },
+    {
+      "name": "prompt_a_tests_tab_shows_recorded_results",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "prompt_a_live_preview_still_renders_website",
+      "passed": true,
+      "detail": "Skip to content\nNORTHSTARSTUDIO\nServices\nWork\nContact\n\nDESIGN \u2022 DEVELOPMENT \u2022 AU"
+    },
+    {
+      "name": "prompt_a_report_still_renders",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "reports_page_defaults_to_prompt_a",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "reports_page_prompt_b_has_dashboard_and_report_toggle",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "tests_page_defaults_to_prompt_a",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "github_page_prompt_b",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "overview_counts_both_projects",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "agent_page_shows_prompt_b_timeline",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "gallery_search_finds_prompt_b",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "mobile_375_gallery_no_page_overflow",
+      "passed": true,
+      "detail": "375"
+    },
+    {
+      "name": "mobile_375_workspace_overview_no_page_overflow",
+      "passed": true,
+      "detail": "375"
+    },
+    {
+      "name": "mobile_375_evaluation_no_page_overflow",
+      "passed": true,
+      "detail": "375"
+    },
+    {
+      "name": "mobile_375_data_method_no_page_overflow",
+      "passed": true,
+      "detail": "375"
+    },
+    {
+      "name": "mobile_375_live_preview_no_page_overflow",
+      "passed": true,
+      "detail": "375"
+    },
+    {
+      "name": "mobile_375_report_no_page_overflow",
+      "passed": true,
+      "detail": "375"
+    },
+    {
+      "name": "no_uncaught_javascript_errors_in_dashboard",
+      "passed": true,
+      "detail": ""
+    }
+  ]
+}

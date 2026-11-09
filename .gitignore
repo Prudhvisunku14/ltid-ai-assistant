@@ -1,0 +1,20 @@
+.env
+node_modules/
+dist/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Inventory app database (runtime data, backed up separately)
+evaluation-projects/inventory-system/data/
+
+# Database folders of the uploaded projects (runtime data)
+evaluation-projects/*/data/
+
+# Local virtual environment
+.venv/
+
+# Nested repositories with their own history (kept out of this repo)
+evaluation-projects/inventory-system/inventory/
+evaluation-projects/prompt-b-weather/source/
+evaluation-projects/prompt-c-rag/ltid-ai-competition-rag-main/

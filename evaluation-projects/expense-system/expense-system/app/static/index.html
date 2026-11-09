@@ -1,0 +1,126 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Expense Management — Northstar Services (demo)</title>
+<style>
+:root{--bg:#f6f7f9;--card:#fff;--ink:#1c2430;--mut:#6b7686;--acc:#1f5eff;--line:#dfe3ea;--ok:#1a7f45;--bad:#c62828;--warn:#b26a00}
+@media(prefers-color-scheme:dark){:root{--bg:#12161c;--card:#1b212b;--ink:#e8ecf2;--mut:#98a3b3;--acc:#6c9bff;--line:#2b3442;--ok:#55c486;--bad:#ff7b7b;--warn:#f0b24d}}
+*{box-sizing:border-box}body{margin:0;font:15px/1.5 system-ui,sans-serif;background:var(--bg);color:var(--ink)}
+header{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;padding:12px 20px;background:var(--card);border-bottom:1px solid var(--line)}
+main{max-width:1000px;margin:0 auto;padding:16px}h1{font-size:1.1rem;margin:0}h2{font-size:1.05rem;margin:0 0 8px}
+.tabs button{background:none;border:0;padding:8px 12px;color:var(--mut);cursor:pointer;font:inherit;border-bottom:2px solid transparent}
+.tabs button.on{color:var(--ink);border-color:var(--acc)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px;margin-bottom:14px}
+label{display:block;font-size:.8rem;color:var(--mut);margin:8px 0 3px}
+input,select,textarea{width:100%;padding:8px;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--ink);font:inherit}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:0 12px}
+button.p{background:var(--acc);color:#fff;border:0;border-radius:6px;padding:8px 14px;cursor:pointer;font:inherit;margin:10px 8px 0 0}
+button.s{background:none;color:var(--ink);border:1px solid var(--line);border-radius:6px;padding:8px 14px;cursor:pointer;font:inherit;margin:10px 8px 0 0}
+button.ok{background:var(--ok)}button.bad{background:var(--bad)}
+table{border-collapse:collapse;width:100%;font-size:.85rem}th,td{text-align:left;padding:6px 8px;border-bottom:1px solid var(--line)}th{color:var(--mut);font-weight:600}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}tr.row{cursor:pointer}tr.row:hover{background:var(--bg)}
+.badge{padding:2px 8px;border-radius:10px;font-size:.75rem;border:1px solid currentColor}.pending{color:var(--warn)}.approved{color:var(--ok)}.rejected{color:var(--bad)}
+.msg{padding:8px 10px;border-radius:6px;margin-top:8px;border:1px solid currentColor}.msg.err{color:var(--bad)}.msg.good{color:var(--ok)}
+.mut{color:var(--mut);font-size:.85rem}.wrap{overflow-x:auto}dialog{max-width:640px;width:92%;border:1px solid var(--line);border-radius:10px;background:var(--card);color:var(--ink)}
+.hide{display:none}
+</style></head><body>
+<header><h1>Northstar Services — Expenses <span class="mut">(fictional demo)</span></h1>
+<div><label for="who" style="display:inline;margin-right:6px">Signed in as</label><select id="who" style="width:auto"></select></div></header>
+<main>
+<div class="tabs" id="tabs"></div>
+
+<section id="t-new" class="card hide"><h2>Register an expense</h2>
+<div class="grid"><div><label>Date of expense</label><input id="f_date" type="date"></div>
+<div><label>Amount (JPY, whole yen)</label><input id="f_amt" type="number" min="1" step="1"></div>
+<div><label>Category</label><select id="f_cat"></select></div></div>
+<label>Description</label><textarea id="f_desc" rows="2" maxlength="500"></textarea>
+<div id="f_receipt"><label>Receipt reference (file name / number)</label><input id="f_rec" maxlength="200"><div class="mut" id="f_recHint"></div></div>
+<div id="f_hotel" class="grid hide"><div><label>Nights</label><input id="f_nights" type="number" min="1"></div><div><label>Tax portion included (JPY)</label><input id="f_tax" type="number" min="0" value="0"></div></div>
+<div id="f_trip" class="grid hide"><div><label>Trip start date</label><input id="f_trip_start" type="date"></div><div><label>Date manager pre-approved the trip</label><input id="f_pre" type="date"></div></div>
+<div class="mut" id="f_hint"></div>
+<button class="p" id="submit">Submit expense</button><div id="newMsg"></div></section>
+
+<section id="t-mine" class="card hide"><h2>My expenses</h2><div class="wrap" id="mineBox"></div></section>
+<section id="t-appr" class="card hide"><h2>Awaiting my decision</h2><div class="wrap" id="apprBox"></div></section>
+<section id="t-all" class="card hide"><h2>Expenses I can see</h2><div class="wrap" id="allBox"></div></section>
+<section id="t-hist" class="card hide"><h2>Approval decision history</h2><div class="wrap" id="histBox"></div></section>
+<section id="t-rep" class="card hide"><h2>Monthly report</h2>
+<div class="grid"><div><label>Month</label><input id="r_month" type="month"></div></div>
+<button class="p" id="r_go">Show</button>
+<span id="r_dl"><button class="s" data-v="summary">CSV: employee × category</button><button class="s" data-v="by_employee">CSV: by employee</button><button class="s" data-v="by_category">CSV: by category</button><button class="s" data-v="detail">CSV: detail</button></span>
+<div id="repBox" class="wrap"></div></section>
+<section id="t-pol" class="card hide"><h2>Rules and their sources</h2><div id="polBox"></div></section>
+<div id="gmsg"></div>
+</main>
+<dialog id="dlg"><div id="dlgBody"></div><button class="s" onclick="dlg.close()">Close</button></dialog>
+<script>
+const $=id=>document.getElementById(id), dlg=$('dlg');
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const yen=n=>'¥'+Number(n).toLocaleString('en-US');
+let me=null,POL=null;
+async function api(m,u,b){const r=await fetch(u,{method:m,headers:{'Content-Type':'application/json','X-User-Id':me?me.id:''},body:b?JSON.stringify(b):undefined});
+  const j=await r.json();if(!r.ok)throw new Error(j.error||'Error');return j}
+const say=(el,t,ok)=>{el.innerHTML=`<div class="msg ${ok?'good':'err'}">${esc(t)}</div>`};
+const badge=s=>`<span class="badge ${s}">${s}</span>`;
+function table(rows,cols,click){ if(!rows.length)return '<p class="mut">Nothing here.</p>';
+  return `<table><tr>${cols.map(c=>`<th class="${c.n?'n':''}">${c.h}</th>`).join('')}</tr>`+
+   rows.map(r=>`<tr class="row" ${click?`data-id="${r.id}"`:''}>${cols.map(c=>`<td class="${c.n?'n':''}">${c.f(r)}</td>`).join('')}</tr>`).join('')+'</table>'}
+const expCols=[{h:'#',f:r=>r.id},{h:'Date',f:r=>r.expense_date},{h:'Employee',f:r=>esc(r.employee_name)},{h:'Category',f:r=>esc(r.category)},
+ {h:'Description',f:r=>esc(r.description)},{h:'Amount',n:1,f:r=>yen(r.amount_jpy)},{h:'Status',f:r=>badge(r.status)+(r.awaiting.length?` <span class="mut">awaiting ${r.awaiting.join(' + ')}</span>`:'')}];
+function bindRows(box){box.querySelectorAll('tr.row').forEach(tr=>tr.onclick=()=>openDetail(tr.dataset.id))}
+async function openDetail(id){
+  const e=await api('GET','/api/expenses/'+id);
+  const h=e.decisions.length?table(e.decisions,[{h:'When',f:d=>esc(d.decided_at)},{h:'Role',f:d=>d.role},{h:'By',f:d=>esc(d.approver_name)},{h:'Decision',f:d=>badge(d.decision)},{h:'Comment',f:d=>esc(d.comment||'')}]):'<p class="mut">No decisions yet.</p>';
+  let extra='';
+  if(e.category===POL.special.domestic_hotel)extra+=`<p>Nights: ${e.nights} · Tax: ${yen(e.tax_jpy)} · Cap excess: <b>${yen(e.cap_excess_jpy)}</b> · Reimbursable: <b>${yen(e.reimbursable_jpy)}</b></p>`;
+  if(e.trip_start)extra+=`<p>Trip start ${e.trip_start} · Manager pre-approval ${e.pre_approval_date}</p>`;
+  $('dlgBody').innerHTML=`<h2>Expense #${e.id} ${badge(e.status)}</h2><p><b>${esc(e.employee_name)}</b> · ${esc(e.category)} · ${yen(e.amount_jpy)} · ${e.expense_date}<br>${esc(e.description)}<br><span class="mut">Receipt: ${esc(e.receipt_ref||'—')} · Submitted ${e.submitted_on} · Needs: ${e.required_approvals.join(' + ')}${e.awaiting.length?' · Awaiting: '+e.awaiting.join(' + '):''}</span></p>${extra}<h2>Decision history</h2>${h}`+
+   (e.can_decide?`<label>Comment (optional)</label><textarea id="dcomment" rows="2"></textarea><button class="p ok" id="dA">Approve</button><button class="p bad" id="dR">Reject</button><div id="dMsg"></div>`:'');
+  dlg.showModal();
+  if(e.can_decide){const go=async d=>{try{await api('POST',`/api/expenses/${id}/decision`,{decision:d,comment:$('dcomment').value});dlg.close();refresh()}catch(x){say($('dMsg'),x.message)}};
+    $('dA').onclick=()=>go('approved');$('dR').onclick=()=>go('rejected')}
+}
+async function refresh(){
+  const t=cur;
+  if(t==='mine'){$('mineBox').innerHTML=table((await api('GET','/api/expenses?scope=mine')).expenses,expCols,1);bindRows($('mineBox'))}
+  if(t==='appr'){$('apprBox').innerHTML=table((await api('GET','/api/expenses?scope=approvals')).expenses,expCols,1);bindRows($('apprBox'))}
+  if(t==='all'){$('allBox').innerHTML=table((await api('GET','/api/expenses')).expenses,expCols,1);bindRows($('allBox'))}
+  if(t==='hist'){$('histBox').innerHTML=table((await api('GET','/api/decisions')).decisions,[{h:'When',f:d=>esc(d.decided_at)},{h:'Expense',f:d=>'#'+d.expense_id+' '+esc(d.employee_name)+' · '+esc(d.category)},{h:'Amount',n:1,f:d=>yen(d.amount_jpy)},{h:'Role',f:d=>d.role},{h:'Decided by',f:d=>esc(d.approver_name)},{h:'Decision',f:d=>badge(d.decision)},{h:'Comment',f:d=>esc(d.comment||'')}])}
+}
+const money=[{h:'#',n:1,f:r=>r.expenses},{h:'Claimed',n:1,f:r=>yen(r.claimed_jpy)},{h:'Approved',n:1,f:r=>yen(r.approved_jpy)},{h:'Pending',n:1,f:r=>yen(r.pending_jpy)},{h:'Rejected',n:1,f:r=>yen(r.rejected_jpy)},{h:'Approved reimbursable',n:1,f:r=>yen(r.approved_reimbursable_jpy)}];
+async function report(){try{const m=$('r_month').value;const r=await api('GET','/api/reports/monthly?month='+m);
+  $('repBox').innerHTML='<h2 style="margin-top:14px">By employee and category</h2>'+table(r.by_employee_category,[{h:'Employee',f:x=>esc(x.employee)},{h:'Category',f:x=>esc(x.category)},...money])+
+   '<h2 style="margin-top:14px">By employee</h2>'+table(r.by_employee,[{h:'Employee',f:x=>esc(x.employee)},...money])+
+   '<h2 style="margin-top:14px">By category</h2>'+table(r.by_category,[{h:'Category',f:x=>esc(x.category)},...money])+
+   `<p><b>Grand total claimed ${yen(r.grand_total.claimed_jpy)}</b> · approved ${yen(r.grand_total.approved_jpy)} · pending ${yen(r.grand_total.pending_jpy)} · rejected ${yen(r.grand_total.rejected_jpy)}</p><p class="mut">Months are by expense date.</p>`}
+  catch(x){say($('repBox'),x.message)}}
+document.querySelectorAll('#r_dl button').forEach(b=>b.onclick=async()=>{try{
+  const m=$('r_month').value;const r=await fetch(`/api/reports/monthly.csv?month=${m}&view=${b.dataset.v}`,{headers:{'X-User-Id':me.id}});
+  if(!r.ok)throw new Error((await r.json()).error);const u=URL.createObjectURL(await r.blob());const a=document.createElement('a');a.href=u;a.download=`expenses-${m}-${b.dataset.v}.csv`;a.click();URL.revokeObjectURL(u)}catch(x){say($('repBox'),x.message)}});
+$('r_go').onclick=report;
+function policyView(){$('polBox').innerHTML=`<p>Source: <b>${esc(POL.source)}</b>, effective ${POL.effective} (<a href="${POL.url}" target="_blank" rel="noopener">Drive</a>). Version 1 is superseded and not used.</p>`+
+  table(POL.rules,[{h:'ID',f:r=>r.id},{h:'Rule',f:r=>esc(r.text)},{h:'Source',f:r=>esc(r.source)},{h:'How the app applies it',f:r=>esc(r.how)}])+
+  '<h2 style="margin-top:14px">Not specified in the documents (not enforced as policy)</h2><ul>'+POL.not_specified.map(x=>`<li>${esc(x)}</li>`).join('')+'</ul>'}
+function catUi(){const c=$('f_cat').value,s=POL.special;
+  $('f_hotel').classList.toggle('hide',c!==s.domestic_hotel);$('f_trip').classList.toggle('hide',c!==s.domestic_travel);
+  $('f_recHint').textContent=`Required for any expense of ¥${POL.constants.receipt_threshold_jpy.toLocaleString()} or more.`;
+  $('f_hint').textContent=c===s.international_travel?'International travel needs both manager and finance approval.':c===s.domestic_hotel?`Reimbursement cap ¥${POL.constants.hotel_cap_per_night_jpy.toLocaleString()} per night excluding taxes.`:c===s.domestic_travel?'Domestic travel needs manager approval before the trip.':'';}
+$('f_cat').onchange=catUi;
+$('submit').onclick=async()=>{try{const c=$('f_cat').value,s=POL.special;
+  const b={expense_date:$('f_date').value,amount_jpy:$('f_amt').value,category:c,description:$('f_desc').value,receipt_ref:$('f_rec').value};
+  if(c===s.domestic_hotel){b.nights=$('f_nights').value;b.tax_jpy=$('f_tax').value}
+  if(c===s.domestic_travel){b.trip_start=$('f_trip_start').value;b.pre_approval_date=$('f_pre').value}
+  const e=await api('POST','/api/expenses',b);say($('newMsg'),`Submitted as #${e.id}. Waiting for: ${e.awaiting.join(' + ')}.`,true);
+  ['f_amt','f_desc','f_rec','f_nights'].forEach(i=>$(i).value='')}catch(x){say($('newMsg'),x.message)}};
+let cur='mine';
+const TABS=[['new','New expense'],['mine','My expenses'],['appr','Approvals',u=>u.role!=='employee'],['all','All visible',u=>u.role!=='employee'],['hist','Decision history'],['rep','Monthly report',u=>u.role!=='employee'],['pol','Policy & sources']];
+function show(t){cur=t;document.querySelectorAll('main > section').forEach(s=>s.classList.add('hide'));$('t-'+t).classList.remove('hide');
+  document.querySelectorAll('#tabs button').forEach(b=>b.classList.toggle('on',b.dataset.t===t));$('gmsg').replaceChildren();
+  if(t==='pol')policyView();refresh().catch(x=>say($('gmsg'),x.message))}
+function buildTabs(){$('tabs').innerHTML='';TABS.filter(t=>!t[2]||t[2](me)).forEach(t=>{const b=document.createElement('button');b.textContent=t[1];b.dataset.t=t[0];b.onclick=()=>show(t[0]);$('tabs').appendChild(b)});show(me.role==='employee'?'mine':'appr')}
+(async()=>{POL=await (await fetch('/api/policy')).json();
+  $('f_cat').innerHTML=POL.categories.map(c=>`<option>${esc(c)}</option>`).join('');catUi();
+  const us=(await (await fetch('/api/users')).json()).users;
+  $('who').innerHTML=us.map(u=>`<option value="${u.id}">${esc(u.name)} — ${u.role}${u.department?' ('+esc(u.department)+')':''}</option>`).join('');
+  const pick=()=>{me=us.find(u=>u.id==$('who').value);buildTabs()};$('who').onchange=pick;$('who').value=2;
+  $('f_date').value=new Date().toLocaleDateString('en-CA',{timeZone:'Asia/Tokyo'});
+  $('r_month').value='2026-10';pick()})();
+</script></body></html>

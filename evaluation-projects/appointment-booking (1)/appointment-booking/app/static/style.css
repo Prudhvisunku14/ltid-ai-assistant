@@ -1,0 +1,19 @@
+:root{--bg:#f6f7f9;--card:#fff;--ink:#1c2430;--mut:#6b7686;--acc:#1f5eff;--ok:#e8f7ee;--bad:#fdecec;--line:#dfe3ea}
+@media(prefers-color-scheme:dark){:root{--bg:#12161c;--card:#1b212b;--ink:#e8ecf2;--mut:#98a3b3;--acc:#6c9bff;--ok:#16301f;--bad:#3a1b1b;--line:#2b3442}}
+*{box-sizing:border-box}body{margin:0;font:16px/1.5 system-ui,sans-serif;background:var(--bg);color:var(--ink)}
+main{max-width:860px;margin:0 auto;padding:20px}h1{font-size:1.5rem}h2{font-size:1.1rem;margin-top:0}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;margin-bottom:16px}
+label{display:block;font-size:.85rem;color:var(--mut);margin:10px 0 4px}
+input,textarea,select{width:100%;padding:9px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);font:inherit}
+button{padding:9px 16px;border:0;border-radius:8px;background:var(--acc);color:#fff;font:inherit;cursor:pointer;margin:10px 8px 0 0}
+button.sec{background:transparent;color:var(--ink);border:1px solid var(--line)}button.danger{background:#d33}
+.slots{display:grid;grid-template-columns:repeat(auto-fill,minmax(80px,1fr));gap:8px;margin-top:8px}
+.slot{padding:8px;text-align:center;border:1px solid var(--line);border-radius:8px;cursor:pointer;margin:0;background:var(--card);color:var(--ink)}
+.slot.sel{background:var(--acc);color:#fff}.slot:disabled{opacity:.35;cursor:not-allowed;text-decoration:line-through}
+.msg{padding:10px;border-radius:8px;margin-top:10px}.msg.ok{background:var(--ok)}.msg.err{background:var(--bad)}
+.mut{color:var(--mut);font-size:.85rem}nav a{margin-right:14px;color:var(--acc)}
+table.cal{border-collapse:collapse;width:100%;font-size:.8rem;table-layout:fixed}
+.cal th,.cal td{border:1px solid var(--line);padding:4px;vertical-align:top;height:34px;overflow:hidden}
+.cal th{background:var(--card)}.cal td.t{width:56px;color:var(--mut)}
+.cal .ev{background:var(--acc);color:#fff;border-radius:6px;padding:2px 5px;font-size:.75rem;line-height:1.2;cursor:pointer}
+.wrap{overflow-x:auto}

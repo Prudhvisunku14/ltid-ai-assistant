@@ -1,0 +1,4 @@
+NORTHSTAR SERVICES — INTERNAL DEPLOYMENT GUIDE (revision 2026-10-12)  
+All new application changes require a pull request and at least one reviewer approval before merging.  
+Continuous integration tests must pass before release. API keys must be stored in secret-management services, never in GitHub source files.  
+Production deployment requires an explicit release approval. Automated agents may propose deployments but cannot approve their own deployments.  

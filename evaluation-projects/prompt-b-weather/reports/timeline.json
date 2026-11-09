@@ -1,0 +1,155 @@
+[
+  {
+    "n": 1,
+    "title": "Repository imported / accessed",
+    "status": "partial",
+    "timestamp": null,
+    "description": "Imported from the user-supplied ZIP snapshot. Anonymous read access to GitHub confirmed the default branch and that the ZIP equals upstream main; no authenticated connection exists (push failed), so the import is labelled a ZIP snapshot.",
+    "output": "ref: refs/heads/main HEAD\na7022f373a92806cf05de55f089b0454b16730c8 HEAD",
+    "evidence": "reports/git.json; analysis.json -> repository"
+  },
+  {
+    "n": 2,
+    "title": "Requirements imported / accessed",
+    "status": "completed",
+    "timestamp": "2026-11-09T19:17:14+00:00",
+    "description": "02_Weather_Requirements.docx was read directly from Google Drive through the Drive connector (plain-text rendering).",
+    "output": "5 functional + 2 acceptance requirements",
+    "evidence": "inputs/02_Weather_Requirements.md"
+  },
+  {
+    "n": 3,
+    "title": "Source code inspected",
+    "status": "completed",
+    "timestamp": "2026-11-09T19:17:14+00:00",
+    "description": "Python CLI starter, no framework or web layer; 7 files.",
+    "output": "README.md, TASK_PUBLIC.md, data/weather_history.csv, tests/test_core.py, weather_app/__init__.py, weather_app/__main__.py, weather_app/core.py",
+    "evidence": "analysis.json -> repository"
+  },
+  {
+    "n": 4,
+    "title": "Dataset analysed",
+    "status": "completed",
+    "timestamp": "2026-11-09T19:17:14+00:00",
+    "description": "Profiled the supplied synthetic CSV (columns, types, cities, range, missing/malformed/duplicate rows).",
+    "output": "126 rows, 3 cities, 2026-08-01 to 2026-09-11; 0 rows invalid",
+    "evidence": "analysis.json -> dataset"
+  },
+  {
+    "n": 5,
+    "title": "Existing tests executed",
+    "status": "completed",
+    "timestamp": "2026-11-09T19:16:57+00:00",
+    "description": "Ran the starter's own tests on the untouched baseline before changing anything.",
+    "output": "Ran 2 tests in 0.002s\n\nOK",
+    "evidence": "test-results.json -> original-tests"
+  },
+  {
+    "n": 6,
+    "title": "Starter compared with requirements",
+    "status": "completed",
+    "timestamp": "2026-11-09T19:17:14+00:00",
+    "description": "Ran the starter on malformed and boundary inputs to find real defects and gaps.",
+    "output": "E1: Forecast; E2: Robustness; E3: Robustness; E4: Inputs; E5: Data handling; E6: Evaluation; E7: Tests; E8: Output",
+    "evidence": "analysis.json -> existing_issues, requirements"
+  },
+  {
+    "n": 7,
+    "title": "Tools and forecasting method selected",
+    "status": "completed",
+    "timestamp": "2026-11-09T19:17:14+00:00",
+    "description": "Chose a standard-library stack and five transparent candidate methods; the method is selected by backtest on training data only.",
+    "output": "Seasonal naive with drift (selected per city from five transparent candidates)",
+    "evidence": "analysis.json -> tools, method"
+  },
+  {
+    "n": 8,
+    "title": "Implementation plan produced",
+    "status": "completed",
+    "timestamp": "2026-11-09T19:17:14+00:00",
+    "description": "Numbered plan with files, tools, status and verification evidence.",
+    "output": "15 tasks",
+    "evidence": "analysis.json -> plan"
+  },
+  {
+    "n": 9,
+    "title": "Validation, forecasting and evaluation implemented",
+    "status": "completed",
+    "timestamp": "2026-11-09T19:17:11+00:00",
+    "description": "Data validation, five forecast methods, time-ordered split, held-out MAE.",
+    "output": "selected: Seasonal naive with drift (period 12); independent MAE recomputation matches: True",
+    "evidence": "evaluation.json -> independent_check"
+  },
+  {
+    "n": 10,
+    "title": "CLI, JSON API and interactive UI implemented",
+    "status": "completed",
+    "timestamp": null,
+    "description": "Hardened original CLI; stdlib JSON API; interactive UI with chart, cards, table and evaluation views.",
+    "output": "weather_app/server.py, weather_app/web/*",
+    "evidence": "reports/screenshots"
+  },
+  {
+    "n": 11,
+    "title": "Unit tests added and executed",
+    "status": "completed",
+    "timestamp": "2026-11-09T19:16:57+00:00",
+    "description": "Added tests for invalid city/horizon, malformed data, split, leakage, MAE (hand-computed and independent), output format, disclaimer, CLI, HTTP API.",
+    "output": "59 passed, 0 failed",
+    "evidence": "test-results.json -> weather-unittest"
+  },
+  {
+    "n": 12,
+    "title": "Browser verification (desktop + mobile)",
+    "status": "completed",
+    "timestamp": "2026-11-09T19:17:11+00:00",
+    "description": "Playwright drove the real UI in Edge at 1280px and 375px; displayed numbers cross-checked against the API.",
+    "output": "23 passed, 0 failed",
+    "evidence": "test-results.json -> browser-ui; reports/screenshots"
+  },
+  {
+    "n": 13,
+    "title": "Two cities x three horizons demonstrated",
+    "status": "completed",
+    "timestamp": "2026-11-09T19:17:11+00:00",
+    "description": "Six cases generated by the implementation.",
+    "output": "Tokyo – 1-day, Tokyo – 2-day, Tokyo – 3-day, Sapporo – 1-day, Sapporo – 2-day, Sapporo – 3-day",
+    "evidence": "evaluation.json -> demonstrations"
+  },
+  {
+    "n": 14,
+    "title": "Integrated into LTID Assistant",
+    "status": "completed",
+    "timestamp": "2026-11-09T19:16:56+00:00",
+    "description": "Gallery card, workspace, Source Explorer, tests, report, live preview and GitHub tabs reuse the existing components; Prompt A regression checked.",
+    "output": "backend_pytest_all_pass: ok; frontend_typescript_clean: ok; gallery_lists_prompt_a_and_prompt_b_side_by_side: ok; prompt_b_card_shows_eastbay_city_lab: ok; prompt_b_card_shows_data_science_/_machine_learning: ok; prompt_b_card_shows_educational_temperature_forecasting_application: ok; prompt_b_card_shows_synthetic_dataset: ok; prompt_b_card_shows_build: ok; prompt_b_card_shows_tests: ok; prompt_b_card_shows_last_updated: ok; prompt_b_card_shows_stdlib_only: ok; prompt_b_card_shows_unittest: ok; prompt_b_card_shows_ltid-rep/ltid-ai-competition-weather: ok; prompt_b_card_shows_imported_zip_snapshot: ok; prompt_b_card_button_open_workspace: ok; prompt_b_card_button_launch_weather_demo: ok; prompt_b_card_button_view_source_code: ok; prompt_b_card_button_view_test_results: ok; prompt_b_card_button_view_evaluation_report: ok; prompt_b_card_has_thumbnail: ok; prompt_a_card_still_present_with_buttons: ok; prompt_b_workspace_has_all_tabs: ok; workspace_labels_zip_snapshot: ok; workspace_overview_shows_synthetic_disclaimer: ok; requirements_tab_reads_drive_docx: ok; repository_tab_shows_zip_snapshot_and_real_issues: ok; tool_tab_lists_selected_and_rejected_tools: ok; data_tab_shows_actual_dataset_facts: ok; method_tab_explains_method_and_limits: ok; architecture_diagram_has_all_8_stages: ok; plan_table_has_15_numbered_tasks: ok; code_changes_show_actual_diffs: ok; tests_tab_shows_real_suites: ok; github_tab_is_truthful_about_unpushed_state: ok; report_tab_renders_17_sections_and_tables: ok; report_download_links_present: ok; evaluation_shows_actual_overall_mae: ok; evaluation_shows_six_demonstrations: ok; evaluation_shows_charts_tables_limitations: ok; evaluation_lists_robustness_checks: ok; evaluation_downloads_work: ok; preview_shows_local_url_and_controls: ok; live_preview_runs_actual_weather_app_and_matches_api: ok; live_preview_invalid_city_error_inside_iframe: ok; preview_refresh_reloads_iframe: ok; preview_full_screen_toggles: ok; preview_full_screen_exits_with_escape: ok; source_explorer_defaults_to_prompt_b_when_requested: ok; source_explorer_shows_actual_tree: ok; source_explorer_shows_added_modified_deleted_counts: ok; source_explorer_shows_code_and_diff: ok; source_explorer_original_view: ok; changed_only_filter_hides_unchanged_files: ok; project_switcher_moves_to_prompt_a_source: ok; project_switcher_returns_to_prompt_b: ok; prompt_a_workspace_tabs_unchanged: ok; prompt_a_tests_tab_shows_recorded_results: ok; prompt_a_live_preview_still_renders_website: ok; prompt_a_report_still_renders: ok; reports_page_defaults_to_prompt_a: ok; reports_page_prompt_b_has_dashboard_and_report_toggle: ok; tests_page_defaults_to_prompt_a: ok; github_page_prompt_b: ok; overview_counts_both_projects: ok; agent_page_shows_prompt_b_timeline: ok; gallery_search_finds_prompt_b: ok; mobile_375_gallery_no_page_overflow: ok; mobile_375_workspace_overview_no_page_overflow: ok; mobile_375_evaluation_no_page_overflow: ok; mobile_375_data_method_no_page_overflow: ok; mobile_375_live_preview_no_page_overflow: ok; mobile_375_report_no_page_overflow: ok; no_uncaught_javascript_errors_in_dashboard: ok",
+    "evidence": "reports/platform-verification.json"
+  },
+  {
+    "n": 15,
+    "title": "Local development branch committed",
+    "status": "completed",
+    "timestamp": "2026-11-10T00:28:38+05:30",
+    "description": "Branch created on a clone of upstream main and the modifications committed.",
+    "output": "ltid-assistant/prompt-b-weather @ e0bb888 (base a7022f3)",
+    "evidence": "reports/git.json"
+  },
+  {
+    "n": 16,
+    "title": "Push branch and open Draft PR",
+    "status": "blocked",
+    "timestamp": "2026-11-09T18:59:41+00:00",
+    "description": "Pushing needs GitHub credentials. Nothing is reported as pushed unless git ls-remote confirms it; the PR is never merged.",
+    "output": "push: not_pushed — git push failed (fatal: Authentication failed for 'https://github.com/LTID-rep/ltid-ai-competition-weather/'); the branch was verified absent from the remote with git ls-remote.\nDraft PR: not_created — Requires a pushed branch (push failed: no valid credentials).",
+    "evidence": "reports/git.json"
+  },
+  {
+    "n": 17,
+    "title": "Final report generated",
+    "status": "completed",
+    "timestamp": null,
+    "description": "Seventeen-section report (Markdown/PDF) and evaluation JSON are generated on demand from these evidence files.",
+    "output": "GET /api/projects/prompt-b/report",
+    "evidence": "backend/app/services/prompt_b.py"
+  }
+]

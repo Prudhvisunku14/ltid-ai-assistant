@@ -1,0 +1,158 @@
+{
+  "generated_at": "2026-11-09T21:14:59+00:00",
+  "build": {
+    "status": "passed",
+    "command": "compile() every .py file in the project, in memory",
+    "ran_at": "2026-11-09T21:14:59+00:00",
+    "output": "compiled 5 files OK"
+  },
+  "suites": [
+    {
+      "id": "pytest",
+      "title": "Automated test suite (pytest)",
+      "command": "python -m pytest -v",
+      "ran_at": "2026-11-09T21:14:57+00:00",
+      "exit_code": 0,
+      "cases": [
+        {
+          "name": "test_book_and_view",
+          "class": "tests/test_booking.py",
+          "status": "passed"
+        },
+        {
+          "name": "test_slot_list_has_16_slots_9_to_1630",
+          "class": "tests/test_booking.py",
+          "status": "passed"
+        },
+        {
+          "name": "test_rejects_times_outside_hours_or_grid[08:30]",
+          "class": "tests/test_booking.py",
+          "status": "passed"
+        },
+        {
+          "name": "test_rejects_times_outside_hours_or_grid[17:00]",
+          "class": "tests/test_booking.py",
+          "status": "passed"
+        },
+        {
+          "name": "test_rejects_times_outside_hours_or_grid[09:15]",
+          "class": "tests/test_booking.py",
+          "status": "passed"
+        },
+        {
+          "name": "test_rejects_times_outside_hours_or_grid[12:45]",
+          "class": "tests/test_booking.py",
+          "status": "passed"
+        },
+        {
+          "name": "test_rejects_times_outside_hours_or_grid[abc]",
+          "class": "tests/test_booking.py",
+          "status": "passed"
+        },
+        {
+          "name": "test_rejects_times_outside_hours_or_grid[]",
+          "class": "tests/test_booking.py",
+          "status": "passed"
+        },
+        {
+          "name": "test_rejects_weekends[2030-01-12]",
+          "class": "tests/test_booking.py",
+          "status": "passed"
+        },
+        {
+          "name": "test_rejects_weekends[2030-01-13]",
+          "class": "tests/test_booking.py",
+          "status": "passed"
+        },
+        {
+          "name": "test_rejects_past_and_bad_date",
+          "class": "tests/test_booking.py",
+          "status": "passed"
+        },
+        {
+          "name": "test_requires_name_and_purpose",
+          "class": "tests/test_booking.py",
+          "status": "passed"
+        },
+        {
+          "name": "test_double_booking_prevented",
+          "class": "tests/test_booking.py",
+          "status": "passed"
+        },
+        {
+          "name": "test_adjacent_slots_do_not_conflict",
+          "class": "tests/test_booking.py",
+          "status": "passed"
+        },
+        {
+          "name": "test_concurrent_bookings_only_one_wins",
+          "class": "tests/test_booking.py",
+          "status": "passed"
+        },
+        {
+          "name": "test_cancel_frees_slot_and_allows_rebooking",
+          "class": "tests/test_booking.py",
+          "status": "passed"
+        },
+        {
+          "name": "test_cancel_twice_and_unknown",
+          "class": "tests/test_booking.py",
+          "status": "passed"
+        },
+        {
+          "name": "test_cancelled_cannot_be_modified",
+          "class": "tests/test_booking.py",
+          "status": "passed"
+        },
+        {
+          "name": "test_modify_time_and_details",
+          "class": "tests/test_booking.py",
+          "status": "passed"
+        },
+        {
+          "name": "test_modify_into_taken_slot_conflicts_and_keeps_original",
+          "class": "tests/test_booking.py",
+          "status": "passed"
+        },
+        {
+          "name": "test_modify_same_slot_other_fields_ok",
+          "class": "tests/test_booking.py",
+          "status": "passed"
+        },
+        {
+          "name": "test_modify_to_invalid_slot_rejected",
+          "class": "tests/test_booking.py",
+          "status": "passed"
+        },
+        {
+          "name": "test_records_persist_across_app_restart",
+          "class": "tests/test_booking.py",
+          "status": "passed"
+        },
+        {
+          "name": "test_admin_calendar_requires_token_and_lists_only_active",
+          "class": "tests/test_booking.py",
+          "status": "passed"
+        },
+        {
+          "name": "test_timezone_is_japan_time",
+          "class": "tests/test_booking.py",
+          "status": "passed"
+        }
+      ],
+      "output_tail": [
+        "tests/test_booking.py::test_timezone_is_japan_time PASSED                [100%]",
+        "",
+        "============================= 25 passed in 1.00s =============================="
+      ],
+      "summary_line": "25 passed",
+      "parsed_count": 25,
+      "reported_count": 25,
+      "parse_complete": true
+    }
+  ],
+  "totals": {
+    "passed": 25,
+    "failed": 0
+  }
+}

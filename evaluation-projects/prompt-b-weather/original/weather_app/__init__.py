@@ -1,0 +1,1 @@
+"""Synthetic weather demo starter."""

@@ -1,0 +1,10 @@
+{
+  "url": "http://127.0.0.1:8006/",
+  "started_at": "2026-11-09T21:15:17+00:00",
+  "reachable": true,
+  "http_status": 200,
+  "screenshot": "screenshots/support-ticket-system-home.png",
+  "error": null,
+  "page_title": "Support Ticket Manager",
+  "stopped_at": "2026-11-09T21:15:22+00:00"
+}

@@ -1,0 +1,5 @@
+# Core app and tests: Python 3.9+ standard library only (no installs needed).
+# Optional, only for DRIVE_SOURCE=gdrive:
+# google-api-python-client
+# google-auth
+# python-docx   # only if the Drive folder contains .docx files
