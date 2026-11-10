@@ -1,6 +1,6 @@
 # LTID Assistant
 
-An AI-software-engineering **evidence platform**: a light-theme dashboard (React + TypeScript + Vite + Tailwind, FastAPI backend) that lets an evaluator inspect project work. It includes **Prompt A — Website Development**, **Prompt B — Weather Forecasting Demo**, **Prompt C — Grounded RAG**, and **Prompt D — DevPilot Explainability**.
+An AI-software-engineering **evidence platform**: a light-theme dashboard (React + TypeScript + Vite + Tailwind, FastAPI backend) that lets an evaluator inspect project work. It includes **Prompt A — Website Development**, **Prompt B — Weather Forecasting Demo**, **Prompt C — Grounded RAG**, **Prompt D — DevPilot Explainability**, and five further projects: the **Inventory** system, **Appointment booking**, **Expense management**, **Support tickets** and the **Document change monitor**.
 
 ## What is real, and what is not
 | Item | Status |
@@ -18,9 +18,15 @@ An AI-software-engineering **evidence platform**: a light-theme dashboard (React
 | Prompt B data | The supplied observations are **synthetic**; every forecast is labelled "not a real weather forecast" |
 | Prompt C RAG project (`evaluation-projects/prompt-c-rag/ltid-ai-competition-rag-main`) | **Real local source and knowledge base**; 29 passing recorded unittest cases. No live LLM service or application preview is configured |
 | Prompt D DevPilot (`evaluation-projects/prompt-d-explicit/prompt-d`) | **Real local source**; 23 passing recorded unittest cases. Dashboard describes its five stages and displays recorded tests; it does not trigger tool probes, file edits, or remote actions |
-| Gallery projects other than Prompts A, B, C and D | **Placeholders**, labelled, excluded from counts |
-| `docker compose up` | Config validated (`docker compose config`) but **not run** (no Docker daemon in the build sandbox); services were verified natively |
-| Deployment | **Not deployed** |
+| Inventory (`evaluation-projects/inventory-system/inventory`) | **Real**; its own local git repository (5 commits, no remote, nothing pushed). 24 unit/HTTP tests and a 10-step browser test pass (browser test run on Edge). One uncommitted fix: `/favicon.ico` returned 404 |
+| Appointment booking, Expense management, Support tickets, Document change monitor (`evaluation-projects/<name>/`) | **Real uploaded folders**: 25, 64, 32 and 23 passing tests, re-run here and recorded in each `reports/`. No git history or baseline was supplied, so the dashboard shows no code changes for them. Small edits made: configurable `HOST` (Flask apps, docchange) and `tzdata` in two requirements files for Windows |
+| Support tickets — GPT classification | **Not exercised**: no OpenAI key here. Only the rule-based fallback ran; GPT is covered by mocked tests |
+| Document change monitor — live Google Drive mode | **Not exercised** against the real folder (no credentials). Covered by tests with a fake Drive service |
+| Expense management — identity | A demo user picker, **not real authentication** |
+| Requirements check | `docs/REQUIREMENTS_CHECK.md` maps every written requirement (Scenarios 01–03 and the project-context rules) to its evidence |
+| Gallery projects other than the nine above | **Placeholders**, labelled, excluded from counts |
+| `docker compose up` | Config validated, and the stack has been started on the developer's machine (containers observed running: dashboard, API, Prompt A/B previews, inventory and the four new apps). Container-level behaviour was only spot-checked; the apps' functions were verified natively |
+| Deployment | **Not deployed.** An InsForge project (`ltid-assistant`) was created and linked, but no backend or frontend has been deployed to it: the backend deploy needs `flyctl`, which could not be installed. InsForge Compute has no persistent volumes, so the SQLite-backed apps would lose data on redeploy |
 
 ## Run (one command)
 ```bash
