@@ -32,16 +32,74 @@ docker compose up --build      # or ./start.sh  /  start.bat (falls back to nati
 | API (+ `/docs`, `/health`) | http://localhost:8001 |
 | Prompt A live preview (isolated nginx, read-only static files) | http://localhost:8000 |
 | Prompt B weather demo (isolated Python process, source mounted read-only) | http://localhost:8002 |
+| Inventory management app | http://localhost:8003 |
+| Appointment booking app | http://localhost:8004 |
+| Expense management app | http://localhost:8005 |
+| Support ticket app | http://localhost:8006 |
+| Document change monitor | http://localhost:8007 |
 
-Native run (a project-local virtualenv avoids global-Python problems):
+## Run locally (every project, without Docker)
+
+Start each service in its own terminal, from the repository root. Prerequisites: **Python 3.12** and **Node.js 20+**. Microsoft Edge (or Chromium) is needed only for the browser tests.
+
+### 1. Dashboard and API (needed to see anything)
 ```bash
-python -m venv .venv && .venv/Scripts/python -m pip install -r backend/requirements.txt     # Windows; on Linux/macOS use .venv/bin/python
-cd backend && ../.venv/Scripts/python -m uvicorn app.main:app --port 8001
-cd evaluation-projects/prompt-a-website/source && python -m http.server 8000
-cd evaluation-projects/prompt-b-weather/source && python -m weather_app --serve --port 8002     # no dependencies
-cd frontend && npm i && npm run build && npx vite preview --port 3000
+python -m venv .venv                                  # Windows: .venv\Scripts\python ; Linux/macOS: .venv/bin/python
+.venv/Scripts/python -m pip install -r backend/requirements.txt
+cd backend && ../.venv/Scripts/python -m uvicorn app.main:app --port 8001      # API on :8001 (docs at /docs)
+
+cd frontend && npm install && npm run dev -- --port 3000                      # dashboard on :3000
 ```
-> If `docker compose` is already running an older build, run `docker compose up --build` again: containers keep the code they were built with, so Prompt B only appears after a rebuild.
+Then open http://localhost:3000. The API must run on port 8001, or set `VITE_API_URL` before `npm run dev`.
+
+### 2. Project applications
+Install each project's requirements once, then start it. Each one keeps its database in a temporary or local file (see the env variables).
+
+| Project | Port | Install (once) | Start |
+|---|---|---|---|
+| Prompt A — website | 8000 | none (static files) | `cd evaluation-projects/prompt-a-website/source && python -m http.server 8000` |
+| Prompt B — weather demo | 8002 | none (standard library) | `cd evaluation-projects/prompt-b-weather/source && python -m weather_app --serve --port 8002` |
+| Inventory | 8003 | none (standard library) | `cd evaluation-projects/inventory-system/inventory && INVENTORY_PORT=8003 python -m app` |
+| Appointment booking | 8004 | `pip install -r requirements.txt` | `cd evaluation-projects/appointment-booking/appointment-booking && PORT=8004 python run.py` |
+| Expense management | 8005 | `pip install -r requirements.txt` | `cd evaluation-projects/expense-system/expense-system && PORT=8005 python run.py` |
+| Support tickets | 8006 | `pip install -r requirements.txt` | `cd evaluation-projects/support-ticket-system/support-ticket-system && uvicorn app.main:app --port 8006` |
+| Document change monitor | 8007 | none (standard library) | `cd evaluation-projects/docchange/docchange && PORT=8007 python run.py` |
+
+On Windows, use `set VAR=value&& ...` or set the variable first, for example `set PORT=8004` and then `python run.py`.
+
+Optional settings:
+- Appointment: `BOOKING_DB` (database file), `ADMIN_TOKEN` (change the default `admin123`).
+- Expense: `EXPENSE_DB` (database file), `SEED_DEMO=0` for an empty database.
+- Support: `DATABASE_PATH`, and `OPENAI_API_KEY` for GPT classification. Without a key, the rule-based classifier is used.
+- Document change monitor: `HISTORY_DB` (history file). Open the app and click **Scan all documents** to fill its history.
+
+### 3. Prompts C and D (command line only; no web app)
+```bash
+cd evaluation-projects/prompt-c-rag/ltid-ai-competition-rag-main
+python -m rag_app --demo            # acceptance questions A-E
+python -m unittest discover -s tests -v
+
+cd evaluation-projects/prompt-d-explicit/prompt-d
+python -m devpilot weather          # other stages: tools, website, rag, change --demo, all
+python -m unittest discover -s tests -t . -v
+```
+Prompt D's `change` stage needs `OPENAI_API_KEY`; `change --demo` works offline.
+
+### 4. Tests for the uploaded projects
+```bash
+cd evaluation-projects/appointment-booking/appointment-booking && python -m pytest -v
+cd evaluation-projects/expense-system/expense-system && python -m pytest -v
+cd evaluation-projects/support-ticket-system/support-ticket-system && python -m pytest -v
+cd evaluation-projects/inventory-system/inventory && python -m unittest discover -s tests -t . -v
+cd evaluation-projects/docchange/docchange && python -m unittest discover -s tests -v
+```
+(`pytest` needs `pip install pytest` in the active environment; the requirements files list it.)
+
+### 5. Refresh the evidence the dashboard shows
+```bash
+.venv/Scripts/python evaluation-projects/scripts/collect_external.py        # re-runs the three uploaded projects, rewrites reports/
+.venv/Scripts/python evaluation-projects/scripts/verify_projects.py http://localhost:3000   # browser checks; needs Playwright + Edge, all apps running
+```
 
 No API keys are needed to browse everything. Copy `.env.example` to `.env` only to set URLs/optional keys.
 
@@ -52,6 +110,9 @@ evaluation-projects/prompt-a-website/{inputs,original,source,reports,scripts}
 evaluation-projects/prompt-b-weather/{inputs,original,source,reports,scripts}      (source = upstream clone + agent branch; reports/*.json = recorded evidence)
 evaluation-projects/prompt-c-rag/ltid-ai-competition-rag-main/{knowledge_base,rag_app,tests,docs}
 evaluation-projects/prompt-d-explicit/prompt-d/{data,devpilot,tests,workspace}     (docs/test_results.txt = recorded local unittest run)
+evaluation-projects/inventory-system/{inventory,original,reports,scripts}
+evaluation-projects/appointment-booking/{appointment-booking,reports}   evaluation-projects/expense-system/{expense-system,reports}   evaluation-projects/support-ticket-system/{support-ticket-system,reports}
+evaluation-projects/docchange/{docchange,reports}   evaluation-projects/scripts/{collect_external.py,verify_projects.py}
 docker/  docker-compose.yml  .env.example  start.sh  start.bat
 ```
 The backend never runs generated code: it only reads files/JSON. The generated site is served by a separate read-only nginx container.

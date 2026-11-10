@@ -18,3 +18,21 @@ evaluation-projects/*/data/
 evaluation-projects/inventory-system/inventory/
 evaluation-projects/prompt-b-weather/source/
 evaluation-projects/prompt-c-rag/ltid-ai-competition-rag-main/
+
+# InsForge & AI agent skills
+.insforge
+.agent
+.agents
+.augment
+.claude
+.cline
+.github/copilot*
+.kilocode
+.qoder
+.qwen
+.roo
+.trae
+.windsurf
+
+# Local secrets and CLI-generated environment (never commit)
+.env.local
