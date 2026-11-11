@@ -10,7 +10,6 @@ def _root() -> Path:
 EVAL_ROOT = _root()
 PROMPT_A = EVAL_ROOT / "prompt-a-website"
 PROMPT_B = EVAL_ROOT / "prompt-b-weather"
-PROMPT_C = EVAL_ROOT / "prompt-c-rag" / "ltid-ai-competition-rag-main"
 PROMPT_D = EVAL_ROOT / "prompt-d-explicit" / "prompt-d"
 INVENTORY = EVAL_ROOT / "inventory-system"
 PREVIEW_URL = os.getenv("PROMPT_A_PREVIEW_URL", "http://localhost:8000")

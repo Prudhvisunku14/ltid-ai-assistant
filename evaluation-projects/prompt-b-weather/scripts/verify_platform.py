@@ -183,8 +183,8 @@ def main():
         pg.goto(UI + "/reports?project=prompt-b"); pg.wait_for_selector("text=Weather evaluation"); check("reports_page_prompt_b_has_dashboard_and_report_toggle", pg.get_by_role("tab", name="Final report").count() == 1)
         pg.goto(UI + "/tests"); pg.wait_for_selector("text=Test results"); check("tests_page_defaults_to_prompt_a", "Node" in pg.inner_text("body") or "Playwright" in pg.inner_text("body") or "Python" in pg.inner_text("body"))
         pg.goto(UI + "/github?project=prompt-b"); pg.wait_for_selector("text=Local commit history"); check("github_page_prompt_b", "ltid-ai-competition-weather" in pg.inner_text("body"))
-        pg.goto(UI + "/"); pg.wait_for_selector("text=Total projects"); body = pg.inner_text("body")
-        check("overview_counts_both_projects", "Prompt A and Prompt B figures are real" in body and "Prompt B" in body)
+        pg.goto(UI + "/"); pg.wait_for_selector("text=Live applications"); pg.wait_for_selector("text=Running at", timeout=20000); body = pg.inner_text("body")
+        check("overview_lists_prompt_b_live_app_and_cards", "Prompt B" in body and "Launch Weather Demo" in body and "Implemented projects" in body)
         pg.goto(UI + "/agent?project=prompt-b"); pg.wait_for_selector("text=Agent execution timeline"); check("agent_page_shows_prompt_b_timeline", "Push branch and open Draft PR" in pg.inner_text("body"))
         pg.goto(UI + "/gallery?q=weather"); pg.wait_for_selector("text=Prompt B"); check("gallery_search_finds_prompt_b", pg.locator("a.font-semibold").count() == 1)
 

@@ -11,7 +11,7 @@ import { RequirementsTab, RepoTab, ToolsTab, PlanTab, TestsTab, GitTab, Timeline
 import { DiffViewer } from '../components/Code'
 import type { DiffFile } from '../services/types'
 
-const REAL = ['prompt-a', 'prompt-b', 'inventory', 'appointment-booking', 'expense-system', 'support-ticket-system', 'docchange']      // projects with a full recorded evaluation workspace
+const REAL = ['prompt-a', 'prompt-b', 'inventory', 'appointment-booking', 'expense-system', 'support-ticket-system', 'docchange', 'prompt-c-rag']      // projects with a full recorded evaluation workspace
 
 function Stat({ label, value, note, tone = '' }: { label: string; value: number | string; note?: string; tone?: string }) {
   return <Card className="p-4"><div className="text-xs text-muted">{label}</div><div className={`text-2xl font-semibold mt-1 ${tone}`}>{value}</div>{note && <div className="text-[11px] text-muted mt-1">{note}</div>}</Card> }
@@ -69,7 +69,7 @@ function PromptDOverview({ project }: { project: Project }) {
       </div>
 }
 
-const SHORT: Record<string, string> = { 'prompt-a': 'Prompt A', 'prompt-b': 'Prompt B', 'inventory': 'Inventory', 'appointment-booking': 'Appointments', 'expense-system': 'Expenses', 'support-ticket-system': 'Support tickets', 'prompt-c-rag': 'Prompt C', 'prompt-d-explicit': 'Prompt D' }
+const SHORT: Record<string, string> = { 'prompt-a': 'Prompt A', 'prompt-b': 'Prompt B', 'inventory': 'Inventory', 'appointment-booking': 'Appointments', 'expense-system': 'Expenses', 'support-ticket-system': 'Support tickets', 'prompt-c-rag': 'LTID AI Competition – RAG', 'prompt-d-explicit': 'Prompt D' }
 /** One row of the live-applications card: checks the app's address from the browser and offers a launch link. */
 function LiveAppRow({ p }: { p: Project }) {
   const [up, setUp] = useState<boolean | null>(null)
@@ -115,8 +115,7 @@ export function Workspace() {
   if (!p.data) return <Loading error={p.error} />
   const pr = p.data
   if (!real) return <div><button className="btn mb-4" onClick={() => nav('/gallery')}>← Gallery</button><Card className="p-8"><div className="flex gap-2 mb-2"><Pill s={pr.status} /><KindBadge kind={pr.data_kind} /></div><h2 className="text-lg font-semibold">{pr.name}</h2><p className="text-sm text-muted mt-2">{pr.description}</p>
-    {id === 'prompt-c-rag' ? <><div className="flex gap-1.5 mt-3 flex-wrap">{pr.stack.map(s => <span key={s} className="text-[11px] bg-slate-100 px-2 py-0.5 rounded">{s}</span>)}</div><p className="text-sm mt-4">{pr.import_note}</p><Link className="btn mt-4" to={`/tests?project=${id}`}><FlaskConical size={13} />View recorded test results</Link></> :
-      id === 'prompt-d-explicit' ? <PromptDOverview project={pr} /> :
+    {id === 'prompt-d-explicit' ? <PromptDOverview project={pr} /> :
       <p className="text-sm mt-4">This project has no recorded agent run, tests, or source yet, so no workspace data is shown rather than inventing any.</p>}</Card></div>
   const TABS = id === 'prompt-b' ? TABS_B : TABS_A; const B = id === 'prompt-b'
   return <div>
@@ -142,7 +141,7 @@ export const AgentWorkspace = () => { const [pid] = useProjectParam(); const i =
       <div className="grid md:grid-cols-4 gap-3">{i.data?.map(x => <Card key={x.id} className="p-4"><div className="font-medium text-sm">{x.name}</div><div className="text-xs text-muted mb-2">{x.role}</div><Pill s={x.configured ? 'completed' : 'pending'} /><div className="text-[11px] text-muted mt-2 font-mono">{x.env}</div></Card>)}</div>
       <p className="text-xs text-muted mt-3">Integration layer is a structure only: the Prompt A and Prompt B evidence was produced in a Claude Code session, not by these providers. No paid API is needed to browse the dashboard.</p></div></div> }
 export const SourcePage = () => { const [pid] = useProjectParam(); return <div><ProjectSwitcher /><H title="Source Explorer" sub={`${PROJECT_NAMES[pid]} — original/modified/diff views of the real repository.`} /><Explorer pid={pid} /></div> }
-export const TestsPage = () => { const [pid] = useProjectParam(); return <div><ProjectSwitcher includePromptC includePromptD /><TestsTab pid={pid} /></div> }
+export const TestsPage = () => { const [pid] = useProjectParam(); return <div><ProjectSwitcher includePromptD /><TestsTab pid={pid} /></div> }
 export const ReportsPage = () => { const [pid] = useProjectParam(); const [view, setView] = useState<'evaluation' | 'report'>('evaluation')
   return <div><ProjectSwitcher /><H title="Evaluation Reports" sub={PROJECT_NAMES[pid]} />
     {pid === 'prompt-b' && <div role="tablist" className="inline-flex rounded-lg border border-line bg-white p-0.5 mb-4">{([['evaluation', 'Weather Evaluation dashboard'], ['report', 'Final report']] as const).map(([k, l]) => <button key={k} role="tab" aria-selected={view === k} onClick={() => setView(k)} className={`px-3 py-1.5 text-sm rounded-md ${view === k ? 'bg-soft text-brand font-medium' : 'text-muted hover:text-ink'}`}>{l}</button>)}</div>}

@@ -1,25 +1,15 @@
 {
-  "ran_at": "2026-11-09T19:16:56+00:00",
-  "ui": "http://localhost:13000",
-  "api": "http://localhost:18001",
+  "ran_at": "2026-11-11T04:40:35+00:00",
+  "ui": "http://localhost:3000",
+  "api": "http://localhost:8001",
   "all_passed": true,
-  "passed": 73,
+  "passed": 71,
   "failed": 0,
   "checks": [
     {
-      "name": "backend_pytest_all_pass",
-      "passed": true,
-      "detail": "19 passed, 1 warning in 3.95s"
-    },
-    {
-      "name": "frontend_typescript_clean",
-      "passed": true,
-      "detail": ""
-    },
-    {
       "name": "gallery_lists_prompt_a_and_prompt_b_side_by_side",
       "passed": true,
-      "detail": "['Prompt A \u2014 Website Development', 'Prompt B \u2014 Weather Forecasting Demo', 'Project Website B']"
+      "detail": "['Prompt A \u2014 Website Development', 'Prompt B \u2014 Weather Forecasting Demo', 'Inventory Management System']"
     },
     {
       "name": "prompt_b_card_shows_eastbay_city_lab",
@@ -274,7 +264,7 @@
     {
       "name": "project_switcher_moves_to_prompt_a_source",
       "passed": true,
-      "detail": "http://localhost:13000/source?project=prompt-a"
+      "detail": "http://localhost:3000/source?project=prompt-a"
     },
     {
       "name": "project_switcher_returns_to_prompt_b",
@@ -322,7 +312,7 @@
       "detail": ""
     },
     {
-      "name": "overview_counts_both_projects",
+      "name": "overview_lists_prompt_b_live_app_and_cards",
       "passed": true,
       "detail": ""
     },

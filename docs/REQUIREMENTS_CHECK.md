@@ -15,7 +15,9 @@ Statuses: **Met** = implemented and shown by a test or a run today · **Not met*
 | Dashboard backend | `pytest` | 35 passed |
 | Prompt A | `unittest discover` (browser tests on Edge) + `node --test` | 17 + 7 passed |
 | Prompt B | `unittest discover` | 59 passed |
-| Prompt C | `unittest discover` | 29 passed (after fixing one test — see defects) |
+| Prompt C — LTID AI Competition – RAG (project `prompt-c-rag/`) | `unittest discover` | 18 passed |
+| Prompt C — web interface (`web_demo/`) | `unittest discover` | 17 passed |
+| Prompt C — browser checks (`web_demo/ui_check.py`, Edge) | Playwright | 16 passed |
 | Prompt D | `unittest discover -t .` | 23 passed |
 | Inventory | `unittest discover` | 24 passed |
 | Appointment booking | `pytest` | 25 passed |
@@ -50,20 +52,22 @@ Statuses: **Met** = implemented and shown by a test or a run today · **Not met*
 | Unit tests for invalid city, invalid horizon and one evaluation calculation | Met | `test_02`, `test_06`, `test_10`, `test_11` |
 | Draft pull request on the original repository (build-prompt Part 12) | **Not met** | A development branch is committed locally on top of upstream `main` (`a7022f3`). The push to `LTID-rep/ltid-ai-competition-weather` failed with an authentication error, so no PR exists. Needs write access to that repository |
 
-## Scenario 03 — Document RAG (Prompt C)
+## Scenario 03 — Document RAG (Prompt C = LTID AI Competition – RAG)
 
-Checked by running `python -m rag_app --list-docs` and `--demo` today.
+Prompt C is `evaluation-projects/ltid-ai-competition-rag-final` (the earlier Prompt C implementation was replaced and archived). Checked by running its CLI demo, its 18 tests, the 17 web-interface tests and 16 real-browser checks, then re-checked in the dashboard.
 
 | Requirement | Status | Evidence |
 |---|---|---|
-| Read at least 5 files from the knowledge base | Met | 5 files ingested (deployment guide, expense v1 and v2, leave, helpdesk spec) |
-| Retrieve relevant passages for a natural-language question | Met | Demo answers for the four listed topics |
-| Answers contain filenames and evidence/location | Met | Every supported answer shows `Source: <file>, line N` and a quoted excerpt |
-| State "not found" when the documents do not support an answer | Met | "Who approved our acquisition of Company Z?" and "statutory leave entitlement" both abstain |
-| Expense Policy v2 supersedes v1; no obsolete answers | Met | Deadline answer is the v2 value (10 days) and notes that v1 was ignored; v1 is used only when history is asked for, and labelled `[SUPERSEDED]` |
-| CLI or web interface; explain the role of the selected tools | Met | CLI; "Tools and their roles" table in its README |
-| Demonstrate expense submission, hotel limit, leave notice, deployment approval, and one unanswerable question | Met | All shown in the `--demo` output |
-| Generated answers by GPT / local LLM | Not used | The project answers by extraction only; the optional Claude backend was tested with a fake transport and **never run against the live API** (Unverified) |
+| Read at least 5 files from the knowledge base | Met | 5 files ingested; `test_ingests_at_least_five_files`; the web layer also accepts uploaded `.txt`/`.md` files |
+| Retrieve relevant passages for a natural-language question | Met (keyword retrieval) | BM25 with stemming and synonyms. **No embeddings, no vector database** (allowed by the requirement) |
+| Answers contain filenames and evidence/location | Met | Every supported answer shows file, line, status, date and the quoted sentence (`test_every_found_answer_has_filename`; browser check `example_question_is_answered_with_filename_line_and_quote`) |
+| State "not found" when the documents do not support an answer | Met for the cases tested | "Acquisition of Company Z", "capital of France", nonsense and empty input abstain; documents that disclaim a topic abstain. **One near-miss fails — see below** |
+| Expense Policy v2 supersedes v1; no obsolete answers | Met | `test_superseded_never_used_for_current_question`; web: a newly uploaded v3 supersedes v2 (`test_a_newer_uploaded_version_supersedes_the_shipped_one`) |
+| CLI or web interface; explain the role of the selected tools | Met | CLI and web interface; "Tools and their roles" table in the project README |
+| Demonstrate expense submission, hotel limit, leave notice, deployment approval, and an unanswerable question | Met | `web: test_the_four_required_topics_are_answered_from_the_right_files`, `test_unanswerable_questions_abstain_without_citations` |
+| Generated answers by GPT / local LLM | Optional, **Unverified** | The default answers are extractive. The optional OpenAI-compatible rephrasing was tested with fake transports only and never run against a live model. Without credentials the web interface says so (`llm_not_configured`) |
+
+**Known failure (not fixed — the project was preserved as supplied):** asked *"What is the international hotel reimbursement limit?"* the system answers with the **domestic** limit (JPY 15,000). The earlier Prompt C implementation answered "not found". A second, safe miss: *"when is the cutoff for expense claims?"* is not matched.
 
 ## Project-context rules (`05_Project_Context.md`)
 
@@ -91,7 +95,8 @@ Checked by running `python -m rag_app --list-docs` and `--demo` today.
 
 ## Defects found and fixed during this check
 
-1. **Prompt C test failed on Windows** (`test_higher_version_wins_even_without_superseded_wording`): the test wrote a file containing "—" using the platform default encoding while the app reads UTF-8. Fixed by writing the test files as UTF-8. The fix is in the Prompt C repository's working tree (it is a nested git repository and was not committed there).
+1. **(Earlier Prompt C, now archived)** a test failed on Windows because it wrote a file containing "—" in the platform default encoding while the app reads UTF-8. Fixed in the archived copy's working tree only.
+   **(New Prompt C web interface)** requests whose body was not read before replying (`PUT`, unknown `POST`/`DELETE` routes) had their connection aborted for 4–20% of requests on Windows. Fixed by reading every request body first; guarded by a regression test that fails without the fix. The server also now exits cleanly on `docker stop` (exit 0 instead of being force-killed).
 2. **Root README status table was out of date**: it omitted five projects and still said Docker had not been run. Updated.
 3. **Inventory README** said 23 tests; there are now 24 (a favicon test was added). Updated in its working tree.
 4. **Earlier in this work:** the inventory server returned 404 for `/favicon.ico` (fixed); the appointment and expense apps needed `tzdata` on Windows (added to their requirements).
@@ -99,6 +104,6 @@ Checked by running `python -m rag_app --list-docs` and `--demo` today.
 ## Still open
 
 * Prompt B draft PR — needs push access to the original repository.
-* GPT classification (support), live Drive mode (document change monitor) and the live Claude backend (Prompt C) — need credentials.
+* GPT classification (support), live Drive mode (document change monitor) and the optional LLM rephrasing in Prompt C — need credentials.
 * Deployment — nothing is deployed (see the README).
 * Prompt A's browser tests error instead of skipping when Playwright's own Chromium is not installed; on this machine they were run against Edge.

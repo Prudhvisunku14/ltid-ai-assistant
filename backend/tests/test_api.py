@@ -90,14 +90,6 @@ def test_overview_counts_all_implemented_projects():
     o = c.get("/api/overview").json()
     assert o["built_projects"] == 9 and o["tests_passed"] > 100 and o["failed_builds"] == 0 and o["placeholder_projects"] == 5
 
-def test_prompt_c_card_and_recorded_test_evidence():
-    p = c.get("/api/projects/prompt-c-rag").json()
-    assert p["name"] == "Prompt C — Grounded RAG" and p["data_kind"] == "imported"
-    assert p["test_status"] == "29 passed, 0 failed" and p["preview_url"] is None
-    t = c.get("/api/projects/prompt-c-rag/tests").json()
-    assert t["totals"] == {"passed": 29, "failed": 0}
-    assert len(t["suites"][0]["cases"]) == 29 and t["suites"][0]["exit_code"] == 0
-
 def test_prompt_d_card_and_recorded_test_evidence():
     p = c.get("/api/projects/prompt-d-explicit").json()
     assert p["name"] == "Prompt D — DevPilot Explainability" and p["data_kind"] == "real"

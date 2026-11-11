@@ -1,0 +1,226 @@
+{
+  "generated_at": "2026-11-11T00:00:00+00:00",
+  "requirements_source": {
+    "document": "Scenario 03 — Company-Document RAG System (03_RAG_Requirements_v1)",
+    "access": "Text taken from the Drive snapshot kept in evaluation-projects/docchange/docchange/drive_snapshot/03_RAG_Requirements_v1.md (a real Drive export). The v2_MOCK file in the same folder is an invented test revision and was not used."
+  },
+  "repository": {
+    "slug": "local folder: evaluation-projects/ltid-ai-competition-rag-final",
+    "url": null,
+    "base_branch": null,
+    "base_branch_note": "The project's own git repository (prompt-c-rag/) has one commit on branch feature/rag-system and no remote. No starter baseline commit exists.",
+    "import_method": "Supplied project folder (and a .zip of it). The web interface in web_demo/ was added next to it by this integration; the project's own repository and source files were not modified.",
+    "framework": "Python standard library only. Project: command-line app (rag_app). Added by this integration: a stdlib HTTP server with a single-page web interface (web_demo/).",
+    "backend": "Python 3.12. BM25 keyword retrieval with stemming and synonyms (rag_app/retrieve.py); version resolution and chunking (rag_app/ingest.py); extractive answers with citations and abstention (rag_app/answer.py); optional OpenAI-compatible LLM rephrasing.",
+    "routes": "CLI: python -m rag_app --question/--demo/--interactive/--json/--kb/--llm. Web (port 8008): / and /api/health, /api/config, /api/examples, /api/documents (list, upload, remove), /api/ask, /api/reset.",
+    "original_files": []
+  },
+  "requirements": [
+    {
+      "id": "R1",
+      "area": "Ingestion",
+      "text": "Read at least 5 files from the supplied Drive knowledge base or an export of that folder.",
+      "original": "not applicable",
+      "result": "Met. The 5-file export is in prompt-c-rag/knowledge_base; the web layer also accepts uploaded .txt/.md files.",
+      "evidence": "test_ingests_at_least_five_files; web: test_documents_lists_shipped_files_with_versions"
+    },
+    {
+      "id": "R2",
+      "area": "Search",
+      "text": "Retrieve relevant passages for a natural-language question (simple local retrieval or a vector database is acceptable).",
+      "original": "not applicable",
+      "result": "Met with BM25 keyword retrieval. There are no embeddings and no vector database.",
+      "evidence": "test_expense_submission; test_hotel_limit; test_leave_notice; test_deployment_approval"
+    },
+    {
+      "id": "R3",
+      "area": "Answer",
+      "text": "Answers contain document filenames and evidence excerpts or location references.",
+      "original": "not applicable",
+      "result": "Met. Every supported answer lists filename, line number, status, date and the quoted sentence.",
+      "evidence": "test_every_found_answer_has_filename; web: test_supported_answer_has_filename_line_and_excerpt"
+    },
+    {
+      "id": "R4",
+      "area": "Unknowns",
+      "text": "When the documents do not support an answer, state that it is not found.",
+      "original": "not applicable",
+      "result": "Met for the cases tested. One near-miss case answers wrongly (see limitations).",
+      "evidence": "test_abstains_when_unsupported; test_explicit_gap_statements_are_not_answers; web: test_unanswerable_questions_abstain_without_citations"
+    },
+    {
+      "id": "R5",
+      "area": "Versions",
+      "text": "Expense Policy v2 supersedes v1; do not answer with obsolete rules when current information exists.",
+      "original": "not applicable",
+      "result": "Met, including for newly uploaded versions.",
+      "evidence": "test_superseded_never_used_for_current_question; test_version_resolved_even_without_superseded_label; test_history_question_labels_versions; web: test_a_newer_uploaded_version_supersedes_the_shipped_one"
+    },
+    {
+      "id": "R6",
+      "area": "Interface",
+      "text": "Provide a CLI or web interface and explain the role of all selected tools.",
+      "original": "not applicable",
+      "result": "Met. The project provides a CLI and a README table of tools and roles; the integration adds a web interface.",
+      "evidence": "README 'Tools and their roles'; web tests (16)"
+    },
+    {
+      "id": "A1",
+      "area": "Acceptance",
+      "text": "Demonstrate expense submission, hotel reimbursement limit, leave notice and deployment approval questions.",
+      "original": "not applicable",
+      "result": "Met. Run in the web layer tests against the real code.",
+      "evidence": "web: test_the_four_required_topics_are_answered_from_the_right_files"
+    },
+    {
+      "id": "A2",
+      "area": "Acceptance",
+      "text": "Demonstrate an unanswerable question and show abstention, not invented facts.",
+      "original": "not applicable",
+      "result": "Met for 'acquisition of Company Z', 'capital of France' and nonsense input.",
+      "evidence": "web: test_unanswerable_questions_abstain_without_citations; python -m rag_app --demo"
+    },
+    {
+      "id": "A3",
+      "area": "Acceptance",
+      "text": "Show the relevant document filename for every supported answer.",
+      "original": "not applicable",
+      "result": "Met.",
+      "evidence": "test_every_found_answer_has_filename"
+    },
+    {
+      "id": "X1",
+      "area": "Added by integration",
+      "text": "Document upload and processing in a web interface (not part of the Scenario 03 requirements or of the project itself).",
+      "original": "not present in the project",
+      "result": "Added in web_demo: .txt/.md upload with validation, re-indexing with the project's own Index, and removal. Uploads live only in a temporary folder.",
+      "evidence": "web: test_uploaded_document_becomes_searchable_and_can_be_removed; test_invalid_uploads_are_rejected_and_do_not_change_the_knowledge_base; test_uploads_never_touch_the_project_files"
+    }
+  ],
+  "tools": [
+    {
+      "name": "Python standard library",
+      "decision": "Selected",
+      "reason": "The project has no third-party dependencies, so it runs anywhere Python 3.9+ runs. The web layer follows the same rule (http.server, json)."
+    },
+    {
+      "name": "BM25 + stemming + synonyms (own implementation)",
+      "decision": "Selected",
+      "reason": "Transparent, deterministic and enough for a five-document knowledge base. An IDF-weighted key-term coverage check decides when to abstain."
+    },
+    {
+      "name": "Extractive answering",
+      "decision": "Selected",
+      "reason": "Every answer sentence is copied from a document, so the default path cannot invent facts."
+    },
+    {
+      "name": "OpenAI-compatible LLM (optional)",
+      "decision": "Optional",
+      "reason": "May rephrase from retrieved evidence only; output that cites an unknown file is rejected. Needs OPENAI_API_KEY or RAG_LLM_BASE_URL. Tested with fake transports; never run against a live model in this environment."
+    },
+    {
+      "name": "Embeddings / vector database",
+      "decision": "Not used",
+      "reason": "Not needed for five short documents; the requirements allow simple local retrieval. The interface says so explicitly."
+    },
+    {
+      "name": "Live Google Drive sync",
+      "decision": "Not implemented",
+      "reason": "The README states live Drive sync is not implemented; point --kb at a fresh export instead."
+    },
+    {
+      "name": "Playwright + Microsoft Edge",
+      "decision": "Selected (verification only)",
+      "reason": "Used to take the screenshot and to check the dashboard integration; not a dependency of the app."
+    }
+  ],
+  "plan": [
+    {
+      "n": 1,
+      "task": "Inspect the new project and the old Prompt C",
+      "files": "ltid-ai-competition-rag-final/, prompt-c-rag/",
+      "tools": "Python",
+      "status": "completed",
+      "evidence": "Both are standard-library CLI apps; the five knowledge-base files are byte-identical"
+    },
+    {
+      "n": 2,
+      "task": "Compare the old project's behaviour with the new one",
+      "files": "tests and CLI of both",
+      "tools": "Python",
+      "status": "completed",
+      "evidence": "11 hard cases run against the new code: one wrong answer (international hotel limit) and one safe miss (cutoff paraphrase)"
+    },
+    {
+      "n": 3,
+      "task": "Run the new project's own tests",
+      "files": "prompt-c-rag/tests",
+      "tools": "unittest",
+      "status": "completed",
+      "evidence": "18 of 18 pass (reports/test-results.json)"
+    },
+    {
+      "n": 4,
+      "task": "Add a web interface with upload, next to the project",
+      "files": "web_demo/server.py, web_demo/static/index.html",
+      "tools": "http.server",
+      "status": "completed",
+      "evidence": "The project's repository and files are unchanged"
+    },
+    {
+      "n": 5,
+      "task": "Test the web interface against the real RAG code",
+      "files": "web_demo/tests/test_server.py",
+      "tools": "unittest",
+      "status": "completed",
+      "evidence": "16 of 16 pass"
+    },
+    {
+      "n": 6,
+      "task": "Start the live app and capture a screenshot",
+      "files": "reports/screenshots",
+      "tools": "Python, Microsoft Edge",
+      "status": "completed",
+      "evidence": "reports/live-check.json"
+    },
+    {
+      "n": 7,
+      "task": "Replace the old Prompt C in the LTID Assistant dashboard",
+      "files": "backend and frontend",
+      "tools": "FastAPI, React",
+      "status": "completed",
+      "evidence": "100 of 100 dashboard checks pass against the Docker stack (gallery card, workspace, tests, source files, live preview, overview); backend 41 tests pass"
+    },
+    {
+      "n": 8,
+      "task": "Archive the old Prompt C folder",
+      "files": "evaluation-projects/prompt-c-rag",
+      "tools": "file system",
+      "status": "completed",
+      "evidence": "Moved to evaluation-projects/_archive/prompt-c-rag-OLD-ltid-ai-competition-rag-main (git history and one test fix kept locally; not published)"
+    }
+  ],
+  "limitations": [
+    "Wrong answer on a near-miss: asked 'What is the international hotel reimbursement limit?', the system answers with the DOMESTIC limit (JPY 15,000) as if it applied. The old Prompt C abstained correctly. Retrieval does not treat 'international' versus 'domestic' as a qualifier that must match.",
+    "Safe miss on a paraphrase: 'when is the cutoff for expense claims?' is answered 'not found' although the document states the deadline; the old Prompt C answered it. The failure is safe (no invented fact) but unhelpful.",
+    "No embeddings or vector database: retrieval is keyword-based, so questions that share no words with the documents are not found.",
+    "The optional LLM rephrasing has only been run against fake transports, never a live model. Without OPENAI_API_KEY or RAG_LLM_BASE_URL the web interface reports that clearly and uses the extractive answer.",
+    "Live Google Drive sync is not implemented; the knowledge base is a folder export.",
+    "Uploaded documents exist only in a temporary folder and disappear when the server restarts.",
+    "No original snapshot of the project was supplied, and its repository has no remote. Its working tree shows deleted, previously committed .pyc files."
+  ],
+  "existing_issues": [
+    {
+      "id": "N1",
+      "area": "Grounding",
+      "finding": "A question about the INTERNATIONAL hotel limit is answered with the domestic limit.",
+      "observed": "Q: What is the international hotel reimbursement limit? -> A: The reimbursement cap for one domestic hotel night is JPY 15,000, excluding applicable taxes."
+    },
+    {
+      "id": "N2",
+      "area": "Recall",
+      "finding": "A paraphrased deadline question is not matched.",
+      "observed": "Q: when is the cutoff for expense claims? -> A: The answer is not found in the available documents. (best passage covers only 46% of the question's key terms)"
+    }
+  ]
+}

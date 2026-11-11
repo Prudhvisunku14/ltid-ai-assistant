@@ -1,0 +1,36 @@
+{
+  "exported_at": "2026-11-11T04:44:44+00:00",
+  "repository_url": null,
+  "base_branch": null,
+  "base_branch_verified": false,
+  "base_branch_evidence": "no remote configured; the repository exists only on this machine",
+  "import_kind": "Project folder with its own local git repository (1 commit, no starter baseline commit and no remote)",
+  "dev_branch": "feature/rag-system",
+  "baseline_commit": {},
+  "commits": [
+    {
+      "hash": "6b5d35a",
+      "author": "Prudhvi",
+      "date": "2026-11-10T18:52:33Z",
+      "subject": "Implement grounded RAG system with citations, versioning and abstention"
+    }
+  ],
+  "uncommitted_changes": [
+    "D rag_app/__pycache__/__init__.cpython-313.pyc",
+    " D rag_app/__pycache__/__main__.cpython-313.pyc",
+    " D rag_app/__pycache__/answer.cpython-313.pyc",
+    " D rag_app/__pycache__/ingest.cpython-313.pyc",
+    " D rag_app/__pycache__/retrieve.cpython-313.pyc",
+    " D tests/__pycache__/test_rag.cpython-313.pyc",
+    " D tests/__pycache__/test_retrieve.cpython-313.pyc"
+  ],
+  "push": {
+    "status": "not_pushed",
+    "reason": "No remote is configured in the project's repository, so nothing has been pushed."
+  },
+  "draft_pr": {
+    "status": "not_created",
+    "url": null,
+    "reason": "Requires a pushed branch."
+  }
+}

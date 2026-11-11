@@ -1,9 +1,9 @@
 {
-  "exported_at": "2026-11-09T21:35:18+00:00",
+  "exported_at": "2026-11-10T19:14:27+00:00",
   "repository_url": null,
   "base_branch": null,
   "base_branch_verified": false,
-  "base_branch_evidence": "not a git repository (uploaded folder)",
+  "base_branch_evidence": "git repository detected",
   "import_kind": "Uploaded folder (no version-control history and no baseline snapshot available)",
   "dev_branch": null,
   "baseline_commit": {},

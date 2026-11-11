@@ -1,0 +1,10 @@
+{
+  "url": "http://127.0.0.1:8008/",
+  "started_at": "2026-11-11T04:44:41+00:00",
+  "reachable": true,
+  "http_status": 200,
+  "screenshot": "screenshots/prompt-c-rag-home.png",
+  "error": null,
+  "page_title": "LTID AI Competition \u2013 RAG",
+  "stopped_at": "2026-11-11T04:44:44+00:00"
+}

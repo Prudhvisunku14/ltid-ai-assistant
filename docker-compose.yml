@@ -18,6 +18,7 @@ services:
       EXPENSE_PREVIEW_URL: "${EXPENSE_PREVIEW_URL:-http://localhost:8005}"
       SUPPORT_PREVIEW_URL: "${SUPPORT_PREVIEW_URL:-http://localhost:8006}"
       DOCCHANGE_PREVIEW_URL: "${DOCCHANGE_PREVIEW_URL:-http://localhost:8007}"
+      RAG_PREVIEW_URL: "${RAG_PREVIEW_URL:-http://localhost:8008}"
     volumes: ["./evaluation-projects:/data/evaluation-projects:ro"]
   prompt-a-preview:
     # Separate, isolated runtime: serves ONLY the static Prompt A files, read-only. The dashboard backend never executes generated code.
@@ -106,4 +107,30 @@ services:
     volumes:
       - ./evaluation-projects/docchange/docchange:/app:ro
       - ./evaluation-projects/docchange/data:/data
-
+  rag:
+    # LTID AI Competition - RAG (Prompt C): the project's rag_app package plus its web interface (web_demo).
+    # Standard library only. Source mounted read-only; uploaded documents live in /tmp inside the container.
+    # LLM rephrasing is optional: set OPENAI_API_KEY (or RAG_LLM_BASE_URL) in your shell or .env; without it the
+    # interface says so and answers extractively.
+    image: python:3.12-slim
+    working_dir: /app/web_demo
+    command: ["python", "server.py"]
+    ports: ["8008:8008"]
+    environment:
+      PYTHONDONTWRITEBYTECODE: "1"
+      HOST: "0.0.0.0"
+      PORT: "8008"
+      OPENAI_API_KEY: "${OPENAI_API_KEY:-}"
+      RAG_LLM_BASE_URL: "${RAG_LLM_BASE_URL:-}"
+      RAG_LLM_MODEL: "${RAG_LLM_MODEL:-}"
+    user: "1000:1000"
+    read_only: true
+    tmpfs: ["/tmp"]
+    volumes:
+      - ./evaluation-projects/ltid-ai-competition-rag-final:/app:ro
+    healthcheck:
+      test: ["CMD", "python", "-c", "import sys, urllib.request; sys.exit(0 if urllib.request.urlopen('http://127.0.0.1:8008/api/health', timeout=3).status == 200 else 1)"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+      start_period: 5s

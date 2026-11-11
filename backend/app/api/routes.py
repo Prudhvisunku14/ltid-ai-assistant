@@ -1,7 +1,7 @@
 import mimetypes, os
 from fastapi import APIRouter, HTTPException
 from fastapi.responses import FileResponse, JSONResponse, Response
-from ..services import gallery, prompt_a, prompt_b, prompt_c, prompt_d, inventory, external
+from ..services import gallery, prompt_a, prompt_b, prompt_d, inventory, external
 from ..services.pdf import markdown_to_pdf
 from ..agents import orchestrator
 from ..config import PREVIEW_URL, PROMPT_B_PREVIEW_URL, INVENTORY_PREVIEW_URL
@@ -42,8 +42,6 @@ def analysis(pid: str): return _svc(pid).analysis()
 def timeline(pid: str): return _svc(pid).timeline()
 @router.get("/projects/{pid}/tests")
 def tests(pid: str):
-    if pid == "prompt-c-rag":
-        return prompt_c.tests()
     if pid == "prompt-d-explicit":
         return prompt_d.tests()
     return _svc(pid).tests()

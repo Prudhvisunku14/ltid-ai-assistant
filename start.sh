@@ -11,6 +11,7 @@ else
   (cd backend && python -m uvicorn app.main:app --port 8001) &
   (cd evaluation-projects/prompt-a-website/source && python -m http.server 8000) &
   (cd evaluation-projects/prompt-b-weather/source && python -m weather_app --serve --port 8002) &
+  (cd evaluation-projects/ltid-ai-competition-rag-final/web_demo && PORT=8008 python server.py) &
   (cd frontend && npx vite preview --port 3000 --host) &
-  echo "Dashboard: http://localhost:3000   Prompt B weather demo: http://localhost:8002"; wait
+  echo "Dashboard: http://localhost:3000   Prompt B weather demo: http://localhost:8002   LTID RAG: http://localhost:8008"; wait
 fi

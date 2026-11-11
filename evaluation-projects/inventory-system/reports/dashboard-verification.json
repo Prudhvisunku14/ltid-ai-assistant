@@ -1,7 +1,7 @@
 {
-  "ui": "http://localhost:13000",
-  "passed": 28,
-  "total": 28,
+  "ui": "http://localhost:3000",
+  "passed": 26,
+  "total": 26,
   "checks": [
     {
       "name": "gallery_inventory_card_after_prompt_b",
@@ -101,14 +101,6 @@
     },
     {
       "name": "overview_inventory_status_is_running",
-      "passed": true
-    },
-    {
-      "name": "overview_chart_has_inventory_bars",
-      "passed": true
-    },
-    {
-      "name": "overview_agent_activity_has_inventory_column",
       "passed": true
     },
     {

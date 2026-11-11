@@ -20,6 +20,8 @@ PROJECTS = {
     "expense-system": {"name": "Expense Management & Approval System", "launch": "Launch Expense App", "port": 8005, "tests": 64, "files": ["app/service.py", "app/policy.py", "tests/test_expenses.py"]},
     "support-ticket-system": {"name": "AI-Supported Support Ticket System", "launch": "Launch Ticket App", "port": 8006, "tests": 32, "files": ["app/main.py", "app/classifier.py", "tests/test_api.py"]},
     "docchange": {"name": "Document Change Monitoring System", "launch": "Launch Monitor", "port": 8007, "tests": 23, "files": ["monitor/differ.py", "monitor/analyzer.py", "tests/test_all.py"]},
+    "prompt-c-rag": {"name": "LTID AI Competition – RAG", "launch": "Launch RAG App", "port": 8008, "tests": 51, "note": "Supplied project folder", "dir": "ltid-ai-competition-rag-final",
+                     "files": ["answer.py", "retrieve.py", "ingest.py", "server.py", "index.html", "test_server.py"]},
 }
 results = {pid: [] for pid in PROJECTS}
 shared = []
@@ -57,7 +59,7 @@ def main():
             ck(results[pid], "gallery_card_present", card.count() == 1, cfg["name"])
             ck(results[pid], "gallery_card_test_status", f"Tests: {cfg['tests']} passed, 0 failed" in t, t[:200])
             ck(results[pid], "gallery_card_build_passing", "Build:" in t and "passing" in t or "built" in t.lower())
-            ck(results[pid], "gallery_card_import_note", "Uploaded folder" in t)
+            ck(results[pid], "gallery_card_import_note", cfg.get("note", "Uploaded folder") in t, t[-300:])
             for btn in ("Open Workspace", cfg["launch"], "View Source Code", "View Test Results", "View Evaluation Report"):
                 ck(results[pid], f"gallery_button_{btn.lower().replace(' ', '_')}", card.get_by_role("link", name=btn).count() == 1, btn)
 
@@ -67,17 +69,17 @@ def main():
             pg.goto(f"{UI}/projects/{pid}", wait_until="networkidle"); pg.wait_for_selector("role=tablist")
             tabs = pg.locator("[role=tab]").all_inner_texts()
             ck(R, "workspace_has_live_preview_and_tests_tabs", "Live Preview" in tabs and "Tests" in tabs and "Final Report" in tabs, tabs)
-            ck(R, "workspace_states_upload_status", "Uploaded folder" in pg.inner_text("body"))
+            ck(R, "workspace_states_upload_status", cfg.get("note", "Uploaded folder") in pg.inner_text("body"))
             # tests tab: the numbers come from the recorded evidence
-            pg.get_by_role("tab", name="Tests", exact=True).click(); pg.wait_for_selector("text=Automated test suite")
+            pg.get_by_role("tab", name="Tests", exact=True).click(); pg.wait_for_selector("text=Test results")
             body = pg.inner_text("body")
             ck(R, "tests_tab_shows_recorded_total", f"{cfg['tests']}" in body and "0" in body, body[:120])
-            suite = api(f"/api/projects/{pid}/tests")["suites"][0]
-            ck(R, "tests_all_collected_cases_parsed", suite["parsed_count"] == cfg["tests"] and suite["parse_complete"] is True, suite)
+            suites = api(f"/api/projects/{pid}/tests")["suites"]
+            ck(R, "tests_all_collected_cases_parsed", sum(x["parsed_count"] for x in suites) == cfg["tests"] and all(x["parse_complete"] for x in suites), suites)
             # live preview: the real app is embedded
             pg.get_by_role("tab", name="Live Preview", exact=True).click(); pg.wait_for_selector("iframe", timeout=15000)
             ck(R, "live_preview_shows_running_status", pg.locator("text=running").count() >= 1 and f"localhost:{cfg['port']}" in pg.inner_text("body"))
-            title = json.loads((EVAL / pid / "reports" / "live-check.json").read_text(encoding="utf-8")).get("page_title", "")
+            title = json.loads((EVAL / cfg.get("dir", pid) / "reports" / "live-check.json").read_text(encoding="utf-8")).get("page_title", "")
             frame = pg.frame_locator("iframe").first
             frame.locator("body").wait_for(timeout=15000); pg.wait_for_timeout(800)
             frame_text = frame.locator("body").inner_text()
@@ -119,7 +121,7 @@ def main():
     ROOT_OUT.mkdir(exist_ok=True)
     (ROOT_OUT / "dashboard-verification-projects.json").write_text(json.dumps(out, indent=2), encoding="utf-8")
     for pid in PROJECTS:   # the integration step is completed only by a fully passing check
-        tl_path = EVAL / pid / "reports" / "timeline.json"
+        tl_path = EVAL / PROJECTS[pid].get("dir", pid) / "reports" / "timeline.json"
         tl = json.loads(tl_path.read_text(encoding="utf-8"))
         for s in tl:
             if s["title"] == "Integrated into LTID Assistant":

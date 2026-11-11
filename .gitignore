@@ -17,7 +17,7 @@ evaluation-projects/*/data/
 # Nested repositories with their own history (kept out of this repo)
 evaluation-projects/inventory-system/inventory/
 evaluation-projects/prompt-b-weather/source/
-evaluation-projects/prompt-c-rag/ltid-ai-competition-rag-main/
+evaluation-projects/ltid-ai-competition-rag-final/prompt-c-rag/
 
 # InsForge & AI agent skills
 .insforge
@@ -36,3 +36,7 @@ evaluation-projects/prompt-c-rag/ltid-ai-competition-rag-main/
 
 # Local secrets and CLI-generated environment (never commit)
 .env.local
+
+# Archived old implementations and supplied archives (kept locally, not published)
+evaluation-projects/_archive/
+evaluation-projects/*.zip

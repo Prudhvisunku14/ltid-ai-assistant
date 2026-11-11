@@ -1,5 +1,5 @@
 from ..config import PREVIEW_URL, PROMPT_B_PREVIEW_URL, INVENTORY_PREVIEW_URL
-from . import prompt_a, prompt_b, prompt_c, prompt_d, inventory, external
+from . import prompt_a, prompt_b, prompt_d, inventory, external
 
 def _has_evidence(ext) -> bool:
     return (ext.REPORTS / "test-results.json").exists()
@@ -21,7 +21,7 @@ def external_cards() -> list[dict]:
                       "thumbnail": f"/api/projects/{key}/screenshot/{shot}" if (ext.SHOT_DIR / f"{shot}.png").exists() else None,
                       "preview_url": ext.preview()["url"], "client": cfg["client"], "category": cfg["category"], "repo": None,
                       "build_status": build, "test_status": tests_txt, "synthetic": False, "launch_label": cfg["launch"],
-                      "import_note": "Uploaded folder: no git history and no baseline snapshot, so code changes cannot be compared. Tests and the live app were run in this environment."})
+                      "import_note": cfg.get("import_note", "Uploaded folder: no git history and no baseline snapshot, so code changes cannot be compared. Tests and the live app were run in this environment.")})
     return cards
 
 def _a_status() -> tuple[str, str]:
@@ -60,12 +60,6 @@ def projects() -> list[dict]:
        "build_status": inventory.build_status(), "test_status": inventory.test_status(), "synthetic": False, "launch_label": "Launch Inventory App",
        "import_note": "Local git repository with 5 commits; nothing has been pushed to GitHub. Uncommitted fix for /favicon.ico"},
       *external_cards(),
-      {"id": "prompt-c-rag", "name": "Prompt C — Grounded RAG",
-       "description": "A local document question-answering assistant with evidence citations, version-aware retrieval, and safe abstention when the knowledge base does not support an answer.",
-       "stack": ["Python", "stdlib only", "BM25 retrieval", "unittest"], "status": "built", "data_kind": "imported", "last_updated": None,
-       "thumbnail": None, "preview_url": None, "client": "Northstar Services", "category": "AI / Retrieval-Augmented Generation",
-       "build_status": None, "test_status": prompt_c.test_status(), "synthetic": False,
-       "import_note": "Locally available source and knowledge base. The 29 passing tests are recorded in docs/test_results.txt; no live LLM service or application preview is configured."},
       {"id": "prompt-d-explicit", "name": "Prompt D — DevPilot Explainability",
        "description": "A standard-library engineering agent demonstrating measured tool assessments, website workflows, leakage-aware forecasting, cited RAG with abstention, and guarded code changes.",
        "stack": ["Python", "Standard library", "unittest", "Optional OpenAI API"],
@@ -81,15 +75,15 @@ def projects() -> list[dict]:
     ]
 
 def overview() -> dict:
-    ps = projects(); a = prompt_a.summary(); b = prompt_b.summary(); c = prompt_c.summary(); d = prompt_d.summary(); inv = inventory.summary()
+    ps = projects(); a = prompt_a.summary(); b = prompt_b.summary(); d = prompt_d.summary(); inv = inventory.summary()
     ext = {k: e.summary() for k, e in external._instances.items() if _has_evidence(e)}
-    real = [a, b, c, d, inv, *ext.values()]
+    real = [a, b, d, inv, *ext.values()]
     failed = sum(1 for x in real if x["tests_failed"])
     placeholders = sum(p["status"] in ("demo", "pending") and p["data_kind"] in ("mock", "pending") for p in ps)
     prs = sum(1 for x in real if x["draft_pr_created"])
-    return {"data_note": "Prompts A and B figures come from recorded runs; Prompt C has 29 and Prompt D has 23 passing recorded test cases. Prompt D live integrations and LLM-backed changes are not implied. Gallery entries marked 'demo'/'pending' are placeholders and are excluded from every count.",
+    return {"data_note": "Prompt A, Prompt B, Inventory and the uploaded projects (including Prompt C, LTID AI Competition – RAG) were re-run and recorded here; Prompt D has 23 passing recorded test cases. Prompt D live integrations and LLM-backed changes are not implied. Gallery entries marked 'demo'/'pending' are placeholders and are excluded from every count.",
             "total_projects": len(ps), "placeholder_projects": placeholders, "built_projects": sum(p["status"] == "built" for p in ps),
             "tests_passed": sum(x["tests_passed"] for x in real), "failed_builds": failed,
             "active_agent_tasks": 0, "pull_requests": prs,
             "pull_requests_note": "" if prs == len(real) else f"{prs} of {len(real)} — Draft PRs not created",
-            "summary": a, "summaries": {"prompt-a": a, "prompt-b": b, "prompt-c-rag": c, "prompt-d-explicit": d, "inventory": inv, **ext}}
+            "summary": a, "summaries": {"prompt-a": a, "prompt-b": b, "prompt-d-explicit": d, "inventory": inv, **ext}}

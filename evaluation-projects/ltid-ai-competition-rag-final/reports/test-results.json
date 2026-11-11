@@ -1,0 +1,322 @@
+{
+  "generated_at": "2026-11-11T04:44:41+00:00",
+  "build": {
+    "status": "passed",
+    "command": "compile() every .py file in the project, in memory",
+    "ran_at": "2026-11-11T04:44:41+00:00",
+    "output": "compiled 10 files OK"
+  },
+  "suites": [
+    {
+      "id": "project-tests",
+      "title": "RAG project tests (rag_app)",
+      "command": "python -m unittest discover -s tests -v",
+      "ran_at": "2026-11-11T04:44:32+00:00",
+      "exit_code": 0,
+      "cases": [
+        {
+          "name": "test_abstains_when_unsupported",
+          "class": "test_rag.RagSystemTests.test_abstains_when_unsupported",
+          "status": "passed"
+        },
+        {
+          "name": "test_deployment_approval",
+          "class": "test_rag.RagSystemTests.test_deployment_approval",
+          "status": "passed"
+        },
+        {
+          "name": "test_every_found_answer_has_filename",
+          "class": "test_rag.RagSystemTests.test_every_found_answer_has_filename",
+          "status": "passed"
+        },
+        {
+          "name": "test_expense_submission",
+          "class": "test_rag.RagSystemTests.test_expense_submission",
+          "status": "passed"
+        },
+        {
+          "name": "test_explicit_gap_statements_are_not_answers",
+          "class": "test_rag.RagSystemTests.test_explicit_gap_statements_are_not_answers",
+          "status": "passed"
+        },
+        {
+          "name": "test_family_and_status",
+          "class": "test_rag.RagSystemTests.test_family_and_status",
+          "status": "passed"
+        },
+        {
+          "name": "test_history_question_labels_versions",
+          "class": "test_rag.RagSystemTests.test_history_question_labels_versions",
+          "status": "passed"
+        },
+        {
+          "name": "test_hotel_limit",
+          "class": "test_rag.RagSystemTests.test_hotel_limit",
+          "status": "passed"
+        },
+        {
+          "name": "test_ingests_at_least_five_files",
+          "class": "test_rag.RagSystemTests.test_ingests_at_least_five_files",
+          "status": "passed"
+        },
+        {
+          "name": "test_leave_notice",
+          "class": "test_rag.RagSystemTests.test_leave_notice",
+          "status": "passed"
+        },
+        {
+          "name": "test_llm_failure_falls_back",
+          "class": "test_rag.RagSystemTests.test_llm_failure_falls_back",
+          "status": "passed"
+        },
+        {
+          "name": "test_llm_output_with_fake_citation_is_rejected",
+          "class": "test_rag.RagSystemTests.test_llm_output_with_fake_citation_is_rejected",
+          "status": "passed"
+        },
+        {
+          "name": "test_llm_valid_citation_is_accepted",
+          "class": "test_rag.RagSystemTests.test_llm_valid_citation_is_accepted",
+          "status": "passed"
+        },
+        {
+          "name": "test_negative_fact_is_still_answerable",
+          "class": "test_rag.RagSystemTests.test_negative_fact_is_still_answerable",
+          "status": "passed"
+        },
+        {
+          "name": "test_superseded_never_used_for_current_question",
+          "class": "test_rag.RagSystemTests.test_superseded_never_used_for_current_question",
+          "status": "passed"
+        },
+        {
+          "name": "test_version_resolved_even_without_superseded_label",
+          "class": "test_rag.RagSystemTests.test_version_resolved_even_without_superseded_label",
+          "status": "passed"
+        },
+        {
+          "name": "test_hits",
+          "class": "test_retrieve.RetrievalStarterTests.test_hits",
+          "status": "passed"
+        },
+        {
+          "name": "test_tokens",
+          "class": "test_retrieve.RetrievalStarterTests.test_tokens",
+          "status": "passed"
+        }
+      ],
+      "output_tail": [
+        "Ran 18 tests in 0.037s",
+        "",
+        "OK"
+      ],
+      "summary_line": "18 tests ran; OK",
+      "parsed_count": 18,
+      "reported_count": 18,
+      "parse_complete": true
+    },
+    {
+      "id": "web-tests",
+      "title": "Web interface tests (web_demo)",
+      "command": "python -m unittest discover -s tests -v",
+      "ran_at": "2026-11-11T04:44:32+00:00",
+      "exit_code": 0,
+      "cases": [
+        {
+          "name": "test_a_newer_uploaded_version_supersedes_the_shipped_one",
+          "class": "test_server.WebTests.test_a_newer_uploaded_version_supersedes_the_shipped_one",
+          "status": "passed"
+        },
+        {
+          "name": "test_documents_lists_shipped_files_with_versions",
+          "class": "test_server.WebTests.test_documents_lists_shipped_files_with_versions",
+          "status": "passed"
+        },
+        {
+          "name": "test_health_config_examples",
+          "class": "test_server.WebTests.test_health_config_examples",
+          "status": "passed"
+        },
+        {
+          "name": "test_history_question_labels_superseded_version",
+          "class": "test_server.WebTests.test_history_question_labels_superseded_version",
+          "status": "passed"
+        },
+        {
+          "name": "test_invalid_questions_are_rejected_with_messages",
+          "class": "test_server.WebTests.test_invalid_questions_are_rejected_with_messages",
+          "status": "passed"
+        },
+        {
+          "name": "test_invalid_uploads_are_rejected_and_do_not_change_the_knowledge_base",
+          "class": "test_server.WebTests.test_invalid_uploads_are_rejected_and_do_not_change_the_knowledge_base",
+          "status": "passed"
+        },
+        {
+          "name": "test_llm_option_without_configuration_gives_a_clear_error",
+          "class": "test_server.WebTests.test_llm_option_without_configuration_gives_a_clear_error",
+          "status": "passed"
+        },
+        {
+          "name": "test_requests_with_bodies_always_get_a_reply_even_when_rejected",
+          "class": "test_server.WebTests.test_requests_with_bodies_always_get_a_reply_even_when_rejected",
+          "status": "passed"
+        },
+        {
+          "name": "test_reset_removes_every_upload",
+          "class": "test_server.WebTests.test_reset_removes_every_upload",
+          "status": "passed"
+        },
+        {
+          "name": "test_shipped_documents_cannot_be_removed",
+          "class": "test_server.WebTests.test_shipped_documents_cannot_be_removed",
+          "status": "passed"
+        },
+        {
+          "name": "test_static_page_and_unknown_routes",
+          "class": "test_server.WebTests.test_static_page_and_unknown_routes",
+          "status": "passed"
+        },
+        {
+          "name": "test_supported_answer_has_filename_line_and_excerpt",
+          "class": "test_server.WebTests.test_supported_answer_has_filename_line_and_excerpt",
+          "status": "passed"
+        },
+        {
+          "name": "test_the_four_required_topics_are_answered_from_the_right_files",
+          "class": "test_server.WebTests.test_the_four_required_topics_are_answered_from_the_right_files",
+          "status": "passed"
+        },
+        {
+          "name": "test_unanswerable_questions_abstain_without_citations",
+          "class": "test_server.WebTests.test_unanswerable_questions_abstain_without_citations",
+          "status": "passed"
+        },
+        {
+          "name": "test_unreachable_llm_falls_back_to_the_extractive_answer_and_says_so",
+          "class": "test_server.WebTests.test_unreachable_llm_falls_back_to_the_extractive_answer_and_says_so",
+          "status": "passed"
+        },
+        {
+          "name": "test_uploaded_document_becomes_searchable_and_can_be_removed",
+          "class": "test_server.WebTests.test_uploaded_document_becomes_searchable_and_can_be_removed",
+          "status": "passed"
+        },
+        {
+          "name": "test_uploads_never_touch_the_project_files",
+          "class": "test_server.WebTests.test_uploads_never_touch_the_project_files",
+          "status": "passed"
+        }
+      ],
+      "output_tail": [
+        "Ran 17 tests in 4.598s",
+        "",
+        "OK"
+      ],
+      "summary_line": "17 tests ran; OK",
+      "parsed_count": 17,
+      "reported_count": 17,
+      "parse_complete": true
+    },
+    {
+      "id": "browser-ui",
+      "title": "Browser UI checks (Playwright + Microsoft Edge)",
+      "command": "python web_demo/ui_check.py",
+      "ran_at": "2026-11-11T04:44:37+00:00",
+      "exit_code": 0,
+      "cases": [
+        {
+          "name": "page_title_and_method_statement",
+          "class": "BrowserUI",
+          "status": "passed"
+        },
+        {
+          "name": "documents_table_lists_the_five_shipped_files",
+          "class": "BrowserUI",
+          "status": "passed"
+        },
+        {
+          "name": "example_questions_come_from_the_project",
+          "class": "BrowserUI",
+          "status": "passed"
+        },
+        {
+          "name": "example_question_is_answered_with_filename_line_and_quote",
+          "class": "BrowserUI",
+          "status": "passed"
+        },
+        {
+          "name": "superseded_version_is_reported_not_used",
+          "class": "BrowserUI",
+          "status": "passed"
+        },
+        {
+          "name": "unanswerable_question_abstains_without_sources",
+          "class": "BrowserUI",
+          "status": "passed"
+        },
+        {
+          "name": "empty_question_shows_clear_error",
+          "class": "BrowserUI",
+          "status": "passed"
+        },
+        {
+          "name": "llm_option_without_credentials_explains_what_to_set",
+          "class": "BrowserUI",
+          "status": "passed"
+        },
+        {
+          "name": "upload_adds_a_document_and_reindexes",
+          "class": "BrowserUI",
+          "status": "passed"
+        },
+        {
+          "name": "uploaded_document_is_retrieved_and_cited",
+          "class": "BrowserUI",
+          "status": "passed"
+        },
+        {
+          "name": "unsupported_file_type_is_rejected_with_message",
+          "class": "BrowserUI",
+          "status": "passed"
+        },
+        {
+          "name": "html_in_uploaded_text_is_shown_as_text_not_executed",
+          "class": "BrowserUI",
+          "status": "passed"
+        },
+        {
+          "name": "uploaded_document_can_be_removed",
+          "class": "BrowserUI",
+          "status": "passed"
+        },
+        {
+          "name": "reset_removes_all_uploads",
+          "class": "BrowserUI",
+          "status": "passed"
+        },
+        {
+          "name": "mobile_375_answer_and_no_horizontal_overflow",
+          "class": "BrowserUI",
+          "status": "passed"
+        },
+        {
+          "name": "no_uncaught_javascript_errors",
+          "class": "BrowserUI",
+          "status": "passed"
+        }
+      ],
+      "output_tail": [
+        "all checks passed"
+      ],
+      "summary_line": "16 of 16 checks passed",
+      "parsed_count": 16,
+      "reported_count": 16,
+      "parse_complete": true
+    }
+  ],
+  "totals": {
+    "passed": 51,
+    "failed": 0
+  }
+}

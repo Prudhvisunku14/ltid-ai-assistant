@@ -1,6 +1,6 @@
 # LTID Assistant
 
-An AI-software-engineering **evidence platform**: a light-theme dashboard (React + TypeScript + Vite + Tailwind, FastAPI backend) that lets an evaluator inspect project work. It includes **Prompt A — Website Development**, **Prompt B — Weather Forecasting Demo**, **Prompt C — Grounded RAG**, **Prompt D — DevPilot Explainability**, and five further projects: the **Inventory** system, **Appointment booking**, **Expense management**, **Support tickets** and the **Document change monitor**.
+An AI-software-engineering **evidence platform**: a light-theme dashboard (React + TypeScript + Vite + Tailwind, FastAPI backend) that lets an evaluator inspect project work. It includes **Prompt A — Website Development**, **Prompt B — Weather Forecasting Demo**, **Prompt C — LTID AI Competition – RAG**, **Prompt D — DevPilot Explainability**, and five further projects: the **Inventory** system, **Appointment booking**, **Expense management**, **Support tickets** and the **Document change monitor**.
 
 ## What is real, and what is not
 | Item | Status |
@@ -16,7 +16,7 @@ An AI-software-engineering **evidence platform**: a light-theme dashboard (React
 | Prompt B requirements DOCX | **Read directly** from Google Drive through the connector |
 | Prompt B Git | Real local clone of upstream `main` + branch `ltid-assistant/prompt-b-weather` + commit. **Push attempted and FAILED (authentication); no Draft PR exists.** Dashboard shows `not pushed` / `not created` |
 | Prompt B data | The supplied observations are **synthetic**; every forecast is labelled "not a real weather forecast" |
-| Prompt C RAG project (`evaluation-projects/prompt-c-rag/ltid-ai-competition-rag-main`) | **Real local source and knowledge base**; 29 passing recorded unittest cases. No live LLM service or application preview is configured |
+| Prompt C — LTID AI Competition – RAG (`evaluation-projects/ltid-ai-competition-rag-final`) | **Real**: the supplied standard-library RAG project (`prompt-c-rag/`, its own local git repo, 1 commit, no remote) plus a **web interface added by this integration** (`web_demo/`: ask, document upload, optional LLM toggle). 51 checks re-run here: 18 project tests, 17 web-interface tests, 16 browser checks (Edge). Retrieval is BM25 keyword search: **no embeddings, no vector database**. LLM rephrasing is optional and was **never run against a live model**. Known gap: it answers an *international* hotel-limit question with the *domestic* limit (see `docs/REQUIREMENTS_CHECK.md`). The earlier Prompt C implementation was replaced and archived locally |
 | Prompt D DevPilot (`evaluation-projects/prompt-d-explicit/prompt-d`) | **Real local source**; 23 passing recorded unittest cases. Dashboard describes its five stages and displays recorded tests; it does not trigger tool probes, file edits, or remote actions |
 | Inventory (`evaluation-projects/inventory-system/inventory`) | **Real**; its own local git repository (5 commits, no remote, nothing pushed). 24 unit/HTTP tests and a 10-step browser test pass (browser test run on Edge). One uncommitted fix: `/favicon.ico` returned 404 |
 | Appointment booking, Expense management, Support tickets, Document change monitor (`evaluation-projects/<name>/`) | **Real uploaded folders**: 25, 64, 32 and 23 passing tests, re-run here and recorded in each `reports/`. No git history or baseline was supplied, so the dashboard shows no code changes for them. Small edits made: configurable `HOST` (Flask apps, docchange) and `tzdata` in two requirements files for Windows |
@@ -43,6 +43,7 @@ docker compose up --build      # or ./start.sh  /  start.bat (falls back to nati
 | Expense management app | http://localhost:8005 |
 | Support ticket app | http://localhost:8006 |
 | Document change monitor | http://localhost:8007 |
+| LTID AI Competition – RAG (Prompt C) | http://localhost:8008 |
 
 ## Run locally (every project, without Docker)
 
@@ -70,6 +71,7 @@ Install each project's requirements once, then start it. Each one keeps its data
 | Expense management | 8005 | `pip install -r requirements.txt` | `cd evaluation-projects/expense-system/expense-system && PORT=8005 python run.py` |
 | Support tickets | 8006 | `pip install -r requirements.txt` | `cd evaluation-projects/support-ticket-system/support-ticket-system && uvicorn app.main:app --port 8006` |
 | Document change monitor | 8007 | none (standard library) | `cd evaluation-projects/docchange/docchange && PORT=8007 python run.py` |
+| **Prompt C — LTID AI Competition – RAG** | 8008 | none (standard library) | `cd evaluation-projects/ltid-ai-competition-rag-final/web_demo && PORT=8008 python server.py` |
 
 On Windows, use `set VAR=value&& ...` or set the variable first, for example `set PORT=8004` and then `python run.py`.
 
@@ -79,12 +81,19 @@ Optional settings:
 - Support: `DATABASE_PATH`, and `OPENAI_API_KEY` for GPT classification. Without a key, the rule-based classifier is used.
 - Document change monitor: `HISTORY_DB` (history file). Open the app and click **Scan all documents** to fill its history.
 
-### 3. Prompts C and D (command line only; no web app)
+### 3. Prompt C (RAG) command line, and Prompt D
+Prompt C also runs from the command line (the web app above uses the same `rag_app` package):
 ```bash
-cd evaluation-projects/prompt-c-rag/ltid-ai-competition-rag-main
-python -m rag_app --demo            # acceptance questions A-E
-python -m unittest discover -s tests -v
+cd evaluation-projects/ltid-ai-competition-rag-final/prompt-c-rag
+python -m rag_app --demo                                   # acceptance questions
+python -m rag_app -q "When must an expense claim be submitted?"
+python -m unittest discover -s tests -v                    # 18 project tests
+cd ../web_demo && python -m unittest discover -s tests -v  # 17 web-interface tests
+python ui_check.py                                         # 16 browser checks (needs Playwright + Edge/Chrome)
+```
+Optional LLM rephrasing (Prompt C): set `OPENAI_API_KEY`, or `RAG_LLM_BASE_URL` for a local OpenAI-compatible server such as Ollama, before starting. Without either, the web interface says so and answers extractively. Never put a key in a file that is committed.
 
+```bash
 cd evaluation-projects/prompt-d-explicit/prompt-d
 python -m devpilot weather          # other stages: tools, website, rag, change --demo, all
 python -m unittest discover -s tests -t . -v
@@ -114,7 +123,7 @@ No API keys are needed to browse everything. Copy `.env.example` to `.env` only 
 frontend/    React app (pages, components, services)        backend/    FastAPI (api, services, agents, integrations, models) + tests
 evaluation-projects/prompt-a-website/{inputs,original,source,reports,scripts}
 evaluation-projects/prompt-b-weather/{inputs,original,source,reports,scripts}      (source = upstream clone + agent branch; reports/*.json = recorded evidence)
-evaluation-projects/prompt-c-rag/ltid-ai-competition-rag-main/{knowledge_base,rag_app,tests,docs}
+evaluation-projects/ltid-ai-competition-rag-final/{prompt-c-rag,web_demo,reports}   (prompt-c-rag = supplied RAG project with its own git repo; web_demo = web interface + tests added by this integration)
 evaluation-projects/prompt-d-explicit/prompt-d/{data,devpilot,tests,workspace}     (docs/test_results.txt = recorded local unittest run)
 evaluation-projects/inventory-system/{inventory,original,reports,scripts}
 evaluation-projects/appointment-booking/{appointment-booking,reports}   evaluation-projects/expense-system/{expense-system,reports}   evaluation-projects/support-ticket-system/{support-ticket-system,reports}
@@ -127,7 +136,7 @@ The backend never runs generated code: it only reads files/JSON. The generated s
 ```bash
 cd backend && pytest                                                    # 7 API tests (incl. path traversal, no-fake-data checks)
 cd evaluation-projects/prompt-a-website && python scripts/run_evidence.py   # re-runs the site tests, rewrites reports/test-results.json
-cd evaluation-projects/prompt-c-rag/ltid-ai-competition-rag-main && python -m unittest discover -s tests -v
+cd evaluation-projects/ltid-ai-competition-rag-final/prompt-c-rag && python -m unittest discover -s tests -v
 cd evaluation-projects/prompt-d-explicit/prompt-d && python -m unittest discover -s tests -t . -v
 ```
 Site tests need `pip install playwright && playwright install chromium`.

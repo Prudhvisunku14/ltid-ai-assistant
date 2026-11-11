@@ -47,6 +47,14 @@ PROJECTS = {
         "port": 8006, "preview_env": "SUPPORT_PREVIEW_URL", "launch": "Launch Ticket App", "repo": None,
         "start_hint": "cd evaluation-projects/support-ticket-system/support-ticket-system && uvicorn app.main:app --port 8006",
     },
+    "prompt-c-rag": {
+        "outer": EVAL_ROOT / "ltid-ai-competition-rag-final", "root": EVAL_ROOT / "ltid-ai-competition-rag-final",
+        "name": "LTID AI Competition – RAG", "client": "Northstar Services (fictional)", "category": "AI / Retrieval-Augmented Generation",
+        "description": "Answers questions about company policy documents using only what the documents say. It finds passages with BM25 keyword retrieval, quotes them with file and line citations, prefers the current version of a policy over a superseded one, and says so when the documents do not support an answer. Includes a web interface with document upload; an optional LLM can rephrase from the retrieved evidence. No embeddings or vector database.",
+        "port": 8008, "preview_env": "RAG_PREVIEW_URL", "launch": "Launch RAG App", "repo": None,
+        "import_note": "Supplied project folder with its own local git repository (1 commit, no remote). The web interface in web_demo/ was added next to it by this integration. Tests and the live app were run here; LLM rephrasing was never run against a live model",
+        "start_hint": "cd evaluation-projects/ltid-ai-competition-rag-final/web_demo && PORT=8008 python server.py",
+    },
     "docchange": {
         "outer": EVAL_ROOT / "docchange", "root": EVAL_ROOT / "docchange" / "docchange",
         "name": "Document Change Monitoring System", "client": None, "category": "Requirements Management / Document Control",
@@ -129,8 +137,10 @@ class ExternalProject:
                 if isinstance(n, ast.Import): mods.update(a.name.split(".")[0] for a in n.names)
                 elif isinstance(n, ast.ImportFrom) and n.level == 0 and n.module: mods.add(n.module.split(".")[0])
         if "sqlite3" in mods: stack.append("SQLite")
-        if (self.root / "app" / "static").exists() or (self.root / "static").exists(): stack.append("HTML/CSS/vanilla JS")
-        if "pytest" in mods or (self.root / "tests").exists(): stack.append("pytest")
+        if any(self.root.glob("static")) or any(self.root.glob("*/static")) or any(self.root.glob("*/*/static")): stack.append("HTML/CSS/vanilla JS")
+        if "pytest" in mods: stack.append("pytest")
+        elif "unittest" in mods: stack.append("unittest")
+        if any("bm25" in p.read_text(encoding="utf-8", errors="ignore").lower() for p in self.root.rglob("*.py") if "__pycache__" not in p.parts): stack.append("BM25 retrieval")
         seen = []
         for s in stack:
             if s not in seen: seen.append(s)

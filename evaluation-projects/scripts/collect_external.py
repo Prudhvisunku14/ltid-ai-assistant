@@ -49,6 +49,17 @@ PROJECTS = {
         "start": lambda db: ([PY, "-m", "uvicorn", "app.main:app", "--host", "127.0.0.1", "--port", "8006"], {"DATABASE_PATH": db}),
         "db_env": "DATABASE_PATH", "db_name": "tickets.db",
     },
+    "prompt-c-rag": {
+        "outer": EVAL / "ltid-ai-competition-rag-final", "root": EVAL / "ltid-ai-competition-rag-final",
+        "port": 8008, "title": "LTID AI Competition - RAG", "runner": "unittest-multi",
+        "suites": [("project-tests", "RAG project tests (rag_app)", EVAL / "ltid-ai-competition-rag-final" / "prompt-c-rag"),
+                   ("web-tests", "Web interface tests (web_demo)", EVAL / "ltid-ai-competition-rag-final" / "web_demo")],
+        "start_cwd": EVAL / "ltid-ai-competition-rag-final" / "web_demo",
+        "git_repo": EVAL / "ltid-ai-competition-rag-final" / "prompt-c-rag",
+        "ui_check": EVAL / "ltid-ai-competition-rag-final" / "web_demo" / "ui_check.py",
+        "start": lambda db: ([PY, "server.py"], {"HOST": "127.0.0.1", "PORT": "8008"}),
+        "db_env": "none", "db_name": "unused.db",
+    },
     "docchange": {
         "outer": EVAL / "docchange", "root": EVAL / "docchange" / "docchange",
         "port": 8007, "title": "Document change monitoring system", "runner": "unittest",
@@ -81,21 +92,37 @@ def pytest_suite(root):
             "parse_complete": len(cases) == counted}
 
 
-def unittest_suite(root):
+def unittest_suite(root, sid="unittest", title="Automated test suite (unittest)"):
     """Runs the project's unittest suite (standard library) and parses every result line."""
     t0 = now()
     code, out = run([PY, "-m", "unittest", "discover", "-s", "tests", "-v"], root)
     cases = []
-    for m in re.finditer(r"^(test\S*) \(([\w.]+)\) \.\.\. (ok|FAIL|ERROR|skipped.*)$", out, re.M):
+    # a test with a docstring prints "name (id)" and then "<docstring first line> ... ok" on the NEXT line
+    for m in re.finditer(r"^(test\S*) \(([\w.]+)\)(?:\n(?!test)[^\n]*?)? \.\.\. (ok|FAIL|ERROR|skipped.*)$", out, re.M):
         name, ident, res = m.groups()
         cases.append({"name": name, "class": ident, "status": "passed" if res == "ok" else "skipped" if res.startswith("skipped") else "failed"})
     ran = re.search(r"Ran (\d+) tests?", out)
     reported = int(ran.group(1)) if ran else 0
     summary_line = (out.strip().splitlines() or [""])[-1]
-    return {"id": "unittest", "title": "Automated test suite (unittest)", "command": "python -m unittest discover -s tests -v", "ran_at": t0,
+    return {"id": sid, "title": title, "command": "python -m unittest discover -s tests -v", "ran_at": t0,
             "exit_code": code, "cases": cases, "output_tail": out.strip().splitlines()[-3:],
             "summary_line": (f"{reported} tests ran; " + ("OK" if code == 0 else "FAILED")),
             "parsed_count": len(cases), "reported_count": reported, "parse_complete": len(cases) == reported}
+
+
+def nested_git(repo):
+    """Real git state of a project that carries its own repository (read-only git commands)."""
+    def g(*a):
+        return subprocess.run(["git", *a], cwd=repo, capture_output=True, text=True, encoding="utf-8", errors="replace").stdout.strip()
+    commits = [dict(zip(("hash", "author", "date", "subject"), l.split(""))) for l in g("log", "--format=%h%an%aI%s").splitlines()]
+    remotes = g("remote")
+    return {"exported_at": now(), "repository_url": g("remote", "get-url", "origin") or None, "base_branch": None, "base_branch_verified": False,
+            "base_branch_evidence": "no remote configured; the repository exists only on this machine" if not remotes else "remote configured",
+            "import_kind": "Project folder with its own local git repository (1 commit, no starter baseline commit and no remote)" if len(commits) == 1 else "Project folder with its own local git repository",
+            "dev_branch": g("rev-parse", "--abbrev-ref", "HEAD"), "baseline_commit": {}, "commits": commits,
+            "uncommitted_changes": g("status", "--short").splitlines(),
+            "push": {"status": "not_pushed", "reason": "No remote is configured in the project's repository, so nothing has been pushed."},
+            "draft_pr": {"status": "not_created", "url": None, "reason": "Requires a pushed branch."}}
 
 
 def compile_check(root):
@@ -121,7 +148,7 @@ def live_check_and_screenshot(name, cfg, shots_dir):
     tmpdir = tempfile.mkdtemp(prefix=f"{name}-")
     db = str(pathlib.Path(tmpdir) / cfg["db_name"])
     cmd, extra = cfg["start"](db)
-    proc = subprocess.Popen(cmd, cwd=cfg["root"], env={**ENV, **extra}, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    proc = subprocess.Popen(cmd, cwd=cfg.get("start_cwd", cfg["root"]), env={**ENV, **extra}, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     url = f"http://127.0.0.1:{cfg['port']}/"
     result = {"url": url, "started_at": now(), "reachable": False, "http_status": None, "screenshot": None, "error": None}
     try:
@@ -161,10 +188,29 @@ def main(names):
         reports = cfg["outer"] / "reports"; shots = reports / "screenshots"
         reports.mkdir(exist_ok=True); shots.mkdir(exist_ok=True)
         print(f"== {name}", flush=True)
-        suite = unittest_suite(cfg["root"]) if cfg.get("runner") == "unittest" else pytest_suite(cfg["root"])
+        if cfg.get("runner") == "unittest-multi":
+            suites = [unittest_suite(path, sid, title) for sid, title, path in cfg["suites"]]
+        elif cfg.get("runner") == "unittest":
+            suites = [unittest_suite(cfg["root"])]
+        else:
+            suites = [pytest_suite(cfg["root"])]
+        if cfg.get("ui_check"):                       # real-browser checks of the web interface (Playwright + Edge)
+            t_ui = now()
+            ui_code, ui_out = run([PY, str(cfg["ui_check"])], cfg["root"], timeout=900)
+            try:
+                ui_cases = json.loads(ui_out.strip().splitlines()[-1])["cases"]
+            except Exception:
+                ui_cases = [{"name": "ui_check_could_not_run", "class": "BrowserUI", "status": "failed", "detail": ui_out[-200:]}]
+            ui_passed = sum(c["status"] == "passed" for c in ui_cases)
+            suites.append({"id": "browser-ui", "title": "Browser UI checks (Playwright + Microsoft Edge)", "command": "python web_demo/ui_check.py",
+                           "ran_at": t_ui, "exit_code": ui_code, "cases": [{k: v for k, v in c.items() if k != "detail"} for c in ui_cases],
+                           "output_tail": [f"{c['status']}: {c['name']}" + (f" - {c['detail']}" if c.get("detail") else "") for c in ui_cases if c["status"] != "passed"][:6] or ["all checks passed"],
+                           "summary_line": f"{ui_passed} of {len(ui_cases)} checks passed", "parsed_count": len(ui_cases), "reported_count": len(ui_cases), "parse_complete": True})
+        suite = suites[0]
+        suites_ok = all(s["exit_code"] == 0 and s.get("parse_complete", True) for s in suites)
         build = compile_check(cfg["root"])
-        totals = {"passed": sum(c["status"] == "passed" for c in suite["cases"]), "failed": sum(c["status"] == "failed" for c in suite["cases"])}
-        (reports / "test-results.json").write_text(json.dumps({"generated_at": now(), "build": build, "suites": [suite], "totals": totals}, indent=2), encoding="utf-8")
+        totals = {"passed": sum(c["status"] == "passed" for s in suites for c in s["cases"]), "failed": sum(c["status"] == "failed" for s in suites for c in s["cases"])}
+        (reports / "test-results.json").write_text(json.dumps({"generated_at": now(), "build": build, "suites": suites, "totals": totals}, indent=2), encoding="utf-8")
         live = live_check_and_screenshot(name, cfg, shots)
         (reports / "live-check.json").write_text(json.dumps(live, indent=2), encoding="utf-8")
         # git: these are uploads, not repositories
@@ -175,14 +221,16 @@ def main(names):
                "dev_branch": None, "baseline_commit": {}, "commits": [], "uncommitted_changes": [],
                "push": {"status": "not_pushed", "reason": "Not a git repository and no remote; nothing to push."},
                "draft_pr": {"status": "not_created", "url": None, "reason": "Requires a pushed branch."}}
+        if cfg.get("git_repo"):
+            git = nested_git(cfg["git_repo"])
         (reports / "git.json").write_text(json.dumps(git, indent=2), encoding="utf-8")
         # timeline from the evidence just collected
         tl = [
             {"n": 1, "title": "Project uploaded and inspected", "status": "completed", "timestamp": None,
              "description": "Folder structure, README, requirements and source files read.", "output": "", "evidence": "analysis.json"},
-            {"n": 2, "title": "Automated test suite executed", "status": "completed" if suite["exit_code"] == 0 else "blocked",
-             "timestamp": suite["ran_at"], "description": "Project's own pytest suite run in this environment.",
-             "output": suite["summary_line"], "evidence": "test-results.json"},
+            {"n": 2, "title": "Automated test suite executed", "status": "completed" if suites_ok else "blocked",
+             "timestamp": suite["ran_at"], "description": "The project's own test suite(s) run in this environment.",
+             "output": "; ".join(f"{x['id']}: {x['summary_line']}" for x in suites), "evidence": "test-results.json"},
             {"n": 3, "title": "Source compiled", "status": build["status"] == "passed" and "completed" or "blocked", "timestamp": build["ran_at"],
              "description": "Every Python file byte-compiled.", "output": build["output"], "evidence": "test-results.json -> build"},
             {"n": 4, "title": "Application started and reachable", "status": "completed" if live["reachable"] else "blocked", "timestamp": live["started_at"],
@@ -190,12 +238,12 @@ def main(names):
             {"n": 5, "title": "Live screenshot captured", "status": "completed" if live.get("screenshot") else "blocked", "timestamp": live.get("stopped_at"),
              "description": "Home page captured in Microsoft Edge at 1280px.", "output": live.get("screenshot") or "", "evidence": "reports/screenshots"},
             {"n": 6, "title": "Source-control baseline", "status": "partial", "timestamp": None,
-             "description": "No git history or original snapshot was supplied, so code changes cannot be compared with a baseline.", "output": git["import_kind"], "evidence": "git.json"},
+             "description": "No original snapshot was supplied (any local git history is in git.json), so code changes cannot be compared with a baseline.", "output": git["import_kind"], "evidence": "git.json"},
             {"n": 7, "title": "Integrated into LTID Assistant", "status": "pending", "timestamp": None,
              "description": "Gallery card, workspace, Source Explorer, tests, report and live preview in the dashboard. Set to completed only by the dashboard check.", "output": "", "evidence": "dashboard"},
         ]
         (reports / "timeline.json").write_text(json.dumps(tl, indent=2), encoding="utf-8")
-        print(f"   tests {totals['passed']} passed, {totals['failed']} failed (exit {suite['exit_code']}); build {build['status']}; live {'yes' if live['reachable'] else 'NO'}; screenshot {live.get('screenshot')}", flush=True)
+        print(f"   tests {totals['passed']} passed, {totals['failed']} failed (exit codes {[x['exit_code'] for x in suites]}); build {build['status']}; live {'yes' if live['reachable'] else 'NO'}; screenshot {live.get('screenshot')}", flush=True)
     return 0
 
 
