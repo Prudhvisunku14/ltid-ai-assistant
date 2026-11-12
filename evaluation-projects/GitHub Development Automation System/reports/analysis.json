@@ -1,0 +1,143 @@
+{
+  "generated_at": "2026-11-12T00:00:00+00:00",
+  "requirements_source": {
+    "document": "No requirement document was supplied for this project. The scope below is the project's own README (GitHub Development Automation System / devbot) and the project-context rules in the Drive snapshot (05_Project_Context.md).",
+    "access": "README read from the uploaded folder. The project-context rules (separate branch, tests before a PR, never merge or deploy automatically, never paste an API key into a repository or chat, stay within the granted scope) were read from evaluation-projects/docchange/docchange/drive_snapshot/05_Project_Context.md."
+  },
+  "repository": {
+    "slug": "local folder: evaluation-projects/GitHub Development Automation System",
+    "url": null,
+    "base_branch": null,
+    "base_branch_note": "The uploaded folder is not a git repository and no starter baseline was supplied, so changes cannot be compared with an original.",
+    "import_method": "Uploaded folder (and a .zip of it, which is not committed). The web interface in web_demo/ was added next to the project by this integration; the project's own source files were not modified.",
+    "framework": "Python standard library plus the git command line. Project: command-line tool (devbot). Added by this integration: a stdlib HTTP server with a single-page web interface (web_demo/).",
+    "backend": "Python 3.12. devbot/pipeline.py orchestrates connect, analyse, plan, branch, edit, test, repair, summarise and draft PR; devbot/safety.py enforces the git/path allow-lists; devbot/llm.py talks to the OpenAI Chat Completions API (or replays a script offline); devbot/github_client.py can open a DRAFT pull request and has no merge function.",
+    "routes": "CLI: python -m devbot analyze --repo ... | run --repo ... --request ... [--live --yes --llm openai|mock --allow-repo owner/name]. Web (port 8009): / , /api/health, /api/config, POST /api/analyze, POST /api/runs, GET /api/runs/<id>, POST /api/runs/<id>/approve|reject.",
+    "original_files": []
+  },
+  "requirements": [
+    {
+      "id": "R1",
+      "area": "Connect",
+      "text": "Connect to a repository (local path or GitHub address).",
+      "original": "README",
+      "result": "Met for local repositories. The web interface clones a GitHub address read-only (shallow, 50 MB limit); that path was tested against a local stand-in repository and never against github.com itself.",
+      "evidence": "test_analyzer, test_dry_run_changes_nothing; web: test_github_source_uses_a_shallow_clone_and_the_same_pipeline, test_oversized_repository_is_refused"
+    },
+    {
+      "id": "R2",
+      "area": "Understand",
+      "text": "Analyse structure, languages, frameworks, tools and key files, and explain the repository.",
+      "original": "README",
+      "result": "Met for the rule-based analysis. The GPT explanation was exercised only against a local fake OpenAI endpoint, never a live model.",
+      "evidence": "test_analyzer; web: test_analyze_without_key_is_heuristic_only_and_with_key_adds_overview; browser: analyse_shows_languages_and_test_command"
+    },
+    {
+      "id": "R3",
+      "area": "Plan",
+      "text": "Turn a natural-language request into a plan (steps, files, tools, risks) and require approval before changing anything.",
+      "original": "README",
+      "result": "Met. The web interface shows the plan and waits for the user to click Approve or Reject; nothing is edited before approval and rejecting changes nothing.",
+      "evidence": "test_not_approved_aborts; web: test_full_run_waits_for_approval_then_repairs_and_prepares_a_draft, test_reject_changes_nothing; browser: plan_is_shown_and_nothing_is_edited_before_approval, rejecting_the_plan_changes_nothing"
+    },
+    {
+      "id": "R4",
+      "area": "Branching",
+      "text": "Work on a separate branch; never touch main/master or protected branches.",
+      "original": "README and project-context rules",
+      "result": "Met. In live mode the branch is created and main does not move; protected branch names and pushes to them are refused. The web interface is dry-run only (scratch copy).",
+      "evidence": "test_live_creates_branch_not_merge, test_branch_names, test_merge_and_force_blocked"
+    },
+    {
+      "id": "R5",
+      "area": "Editing",
+      "text": "Edit code safely: no paths outside the repository, no .git, no secrets, no CI workflow files, bounded size.",
+      "original": "README",
+      "result": "Met by the allow-list in safety.py (10 files, 200 KB per file; .env, keys, .github/workflows/ refused).",
+      "evidence": "test_edit_paths"
+    },
+    {
+      "id": "R6",
+      "area": "Testing",
+      "text": "Run the project's tests after the change and repair failures automatically (bounded attempts).",
+      "original": "README",
+      "result": "Met with the scripted model: the first edit has a deliberate off-by-one bug, the tests fail, one repair attempt fixes it and the tests pass. Repair quality with a real model is unverified.",
+      "evidence": "test_dry_run_changes_nothing (repairs_used == 1); web: test_full_run_waits_for_approval_then_repairs_and_prepares_a_draft; browser: approved_run_repairs_tests_and_prepares_a_draft_pr_preview"
+    },
+    {
+      "id": "R7",
+      "area": "Pull request",
+      "text": "Open a DRAFT pull request only; never merge and never deploy.",
+      "original": "README and project-context rules",
+      "result": "Met for the local draft preview (a Markdown file with the diff stat and test result). Opening a real draft PR on GitHub needs a token and a repository you may push to and was never run here. There is no merge or deploy code.",
+      "evidence": "test_live_creates_branch_not_merge; github_client.py has no merge function; web: pr_preview contains 'Human review required'"
+    },
+    {
+      "id": "R8",
+      "area": "Dry-run",
+      "text": "Default to dry-run; the original repository must stay untouched.",
+      "original": "README",
+      "result": "Met. The pipeline asserts the original HEAD and working tree are unchanged after a dry-run.",
+      "evidence": "test_dry_run_changes_nothing; log line 'verified: original repository unchanged by dry-run'"
+    },
+    {
+      "id": "R9",
+      "area": "Safety",
+      "text": "Block merge, rebase, reset, cherry-pick, tag, force-push, branch deletion and pushes to protected branches.",
+      "original": "README",
+      "result": "Met for the cases tested.",
+      "evidence": "test_merge_and_force_blocked, test_allowed_git"
+    },
+    {
+      "id": "R10",
+      "area": "Secrets",
+      "text": "Never paste an API key into a repository or chat; keep tokens out of logs.",
+      "original": "project-context rules",
+      "result": "Met. The key is read from the process environment by the CLI. The web interface asks each user for their own key.",
+      "evidence": "web: test_key_is_not_written_to_disk_or_environment, test_user_key_is_used_as_bearer_token_and_never_echoed, test_key_echoed_by_the_api_is_scrubbed"
+    },
+    {
+      "id": "X1",
+      "area": "Added by integration",
+      "text": "A web interface that asks the user for their own OpenAI API key (and, optionally, a GitHub token for cloning a private repository) instead of reading one from the server.",
+      "original": "not present in the project",
+      "result": "Added in web_demo. The key is typed into a masked field, kept only in the browser tab's memory, sent with each request, used for that run only, never written to disk, never placed in the environment, never logged and scrubbed from every message returned. The server ignores keys in its own environment. Verified against a local fake OpenAI endpoint; not against the live OpenAI API.",
+      "evidence": "web: test_server_ignores_keys_in_its_own_environment, test_key_is_not_written_to_disk_or_environment, test_rejected_key_gives_a_friendly_error; browser: gpt_mode_asks_for_the_users_api_key_in_a_masked_field, key_is_not_in_url_or_browser_storage"
+    },
+    {
+      "id": "X2",
+      "area": "Added by integration",
+      "text": "Web safety limits: dry-run only, GitHub HTTPS addresses only, explicit trust confirmation before a cloned repository's tests are run, one run at a time, JSON-only POSTs and a Host-header allow-list.",
+      "original": "not present in the project",
+      "result": "Added and tested.",
+      "evidence": "web: test_input_validation, test_post_requires_json_content_type, test_foreign_host_header_is_rejected, test_only_one_run_at_a_time_and_approve_needs_a_waiting_run"
+    }
+  ],
+  "tools": [
+    {"name": "Python standard library + git", "decision": "Selected", "reason": "devbot has no third-party dependencies; the web interface follows the same rule (http.server, json, subprocess)."},
+    {"name": "OpenAI Chat Completions API (GPT)", "decision": "Selected (needs the user's own key)", "reason": "Writes the explanation, plan, code edits, repairs and PR text as strict JSON. It is the only paid component and can be replaced with another OpenAI-compatible endpoint. Never run against the live API in this environment."},
+    {"name": "Scripted offline model (MockLLM)", "decision": "Selected for the demo and tests", "reason": "Replays a fixed script so the pipeline can be shown and tested without a key or internet. It only fits the built-in fictional bookshop-api repository."},
+    {"name": "GitHub REST API (draft pull requests)", "decision": "Implemented in devbot, not exposed in the web interface", "reason": "Needs a token with push access. Live mode (branch, push, draft PR) stays a command-line decision: --live plus --allow-repo."},
+    {"name": "unittest + Playwright with Microsoft Edge", "decision": "Selected (verification only)", "reason": "Project tests, web-interface tests against the real pipeline, and real-browser checks of the key prompt and approval flow."}
+  ],
+  "plan": [
+    {"n": 1, "task": "Inspect the uploaded project", "files": "devbot/, tests/, demo/", "tools": "Python", "status": "completed", "evidence": "21 files, about 1,200 lines, standard library only; no git repository"},
+    {"n": 2, "task": "Run the project's own tests", "files": "tests/test_devbot.py", "tools": "unittest", "status": "completed", "evidence": "9 of 9 pass (reports/test-results.json)"},
+    {"n": 3, "task": "Add a web interface that asks for the user's own API key, next to the project", "files": "web_demo/server.py, web_demo/static", "tools": "http.server", "status": "completed", "evidence": "devbot's own source is unchanged"},
+    {"n": 4, "task": "Test the web interface against the real pipeline and a fake OpenAI endpoint", "files": "web_demo/tests/test_server.py", "tools": "unittest", "status": "completed", "evidence": "21 of 21 pass; the key-scrubbing, approval-gate and no-server-key checks were each shown to fail when the code they protect is broken"},
+    {"n": 5, "task": "Check the interface in a real browser", "files": "web_demo/ui_check.py", "tools": "Playwright, Microsoft Edge", "status": "completed", "evidence": "17 of 17 checks pass (reports/test-results.json)"},
+    {"n": 6, "task": "Start the live app and capture a screenshot", "files": "reports/screenshots", "tools": "Python, Microsoft Edge", "status": "completed", "evidence": "reports/live-check.json"},
+    {"n": 7, "task": "Add to the LTID Assistant dashboard and the Docker stack", "files": "backend, frontend, docker-compose.yml", "tools": "FastAPI, React, Docker", "status": "completed", "evidence": "dashboard check and Docker run results are recorded in evaluation-projects/reports/dashboard-verification-projects.json"}
+  ],
+  "limitations": [
+    "GPT has never been called against the live OpenAI API in this environment: no key was available. The OpenAI path was run over HTTP against a local fake endpoint that replays devbot's scripted answers, so the key handling and plumbing are verified but the quality of real model edits is not.",
+    "Opening a real draft pull request on GitHub (live mode: push + GitHub API) was never run. It is not exposed in the web interface, which is dry-run only; use the command line with --live and --allow-repo for that.",
+    "Running a repository's tests executes that repository's code. The web interface asks for an explicit trust confirmation for GitHub repositories and runs inside a locked-down container (Docker), but a hostile repository could still misbehave. Use repositories you trust.",
+    "The offline demo is scripted and only fits the built-in bookshop-api repository; it always produces the same plan, the same deliberate bug and the same repair.",
+    "The Docker image contains Python and git only. For repositories that need other tools to run their tests (npm, go, cargo, maven, pytest and so on) the tests cannot run in the container and the run ends without a pull request preview.",
+    "A run keeps its state in server memory: restarting the server loses it. Only one run can be active at a time. Cloning is shallow, limited to 50 MB and 120 seconds.",
+    "The key is sent to this app's server over HTTP. On localhost that stays on your machine; if you deploy the interface elsewhere, serve it over HTTPS.",
+    "No original snapshot of the project was supplied, so changes cannot be compared with a baseline."
+  ],
+  "existing_issues": []
+}

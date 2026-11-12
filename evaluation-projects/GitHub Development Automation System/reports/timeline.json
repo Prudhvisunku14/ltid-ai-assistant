@@ -1,0 +1,65 @@
+[
+  {
+    "n": 1,
+    "title": "Project uploaded and inspected",
+    "status": "completed",
+    "timestamp": null,
+    "description": "Folder structure, README, requirements and source files read.",
+    "output": "",
+    "evidence": "analysis.json"
+  },
+  {
+    "n": 2,
+    "title": "Automated test suite executed",
+    "status": "completed",
+    "timestamp": "2026-11-12T06:15:58+00:00",
+    "description": "The project's own test suite(s) run in this environment.",
+    "output": "project-tests: 9 tests ran; OK; web-tests: 21 tests ran; OK; browser-ui: 17 of 17 checks passed",
+    "evidence": "test-results.json"
+  },
+  {
+    "n": 3,
+    "title": "Source compiled",
+    "status": "completed",
+    "timestamp": "2026-11-12T06:16:26+00:00",
+    "description": "Every Python file byte-compiled.",
+    "output": "compiled 20 files OK",
+    "evidence": "test-results.json -> build"
+  },
+  {
+    "n": 4,
+    "title": "Application started and reachable",
+    "status": "completed",
+    "timestamp": "2026-11-12T06:16:26+00:00",
+    "description": "Started the app on port 8009 with a temporary database and waited for HTTP.",
+    "output": "HTTP 200",
+    "evidence": "live-check.json"
+  },
+  {
+    "n": 5,
+    "title": "Live screenshot captured",
+    "status": "completed",
+    "timestamp": "2026-11-12T06:16:29+00:00",
+    "description": "Home page captured in Microsoft Edge at 1280px.",
+    "output": "screenshots/github-dev-automation-home.png",
+    "evidence": "reports/screenshots"
+  },
+  {
+    "n": 6,
+    "title": "Source-control baseline",
+    "status": "partial",
+    "timestamp": null,
+    "description": "No original snapshot was supplied (any local git history is in git.json), so code changes cannot be compared with a baseline.",
+    "output": "Uploaded folder (no version-control history and no baseline snapshot available)",
+    "evidence": "git.json"
+  },
+  {
+    "n": 7,
+    "title": "Integrated into LTID Assistant",
+    "status": "completed",
+    "timestamp": null,
+    "description": "Gallery card, workspace, Source Explorer, tests, report and live preview in the dashboard. Set to completed only by the dashboard check.",
+    "output": "119/119 browser checks pass (evaluation-projects/scripts/verify_projects.py)",
+    "evidence": "reports/dashboard-verification-projects.json"
+  }
+]

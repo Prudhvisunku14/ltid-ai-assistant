@@ -12,6 +12,7 @@ else
   (cd evaluation-projects/prompt-a-website/source && python -m http.server 8000) &
   (cd evaluation-projects/prompt-b-weather/source && python -m weather_app --serve --port 8002) &
   (cd evaluation-projects/ltid-ai-competition-rag-final/web_demo && PORT=8008 python server.py) &
+  (cd "evaluation-projects/GitHub Development Automation System/web_demo" && PORT=8009 python server.py) &
   (cd frontend && npx vite preview --port 3000 --host) &
-  echo "Dashboard: http://localhost:3000   Prompt B weather demo: http://localhost:8002   LTID RAG: http://localhost:8008"; wait
+  echo "Dashboard: http://localhost:3000   Prompt B weather demo: http://localhost:8002   LTID RAG: http://localhost:8008   devbot: http://localhost:8009"; wait
 fi

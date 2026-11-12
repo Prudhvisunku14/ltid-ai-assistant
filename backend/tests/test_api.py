@@ -4,7 +4,7 @@ c = TestClient(app)
 
 def test_health(): assert c.get("/health").json() == {"status": "ok"}
 def test_projects_has_ten_and_prompts_a_b_are_real():
-    ps = c.get("/api/projects").json(); assert len(ps) == 14
+    ps = c.get("/api/projects").json(); assert len(ps) == 15
     assert [p["id"] for p in ps[:2]] == ["prompt-a", "prompt-b"] and ps[0]["data_kind"] == "real" and ps[1]["data_kind"] == "real"
 def test_tree_and_diff_reflect_real_changes():
     d = {x["path"]: x for x in c.get("/api/projects/prompt-a/diff").json()}
@@ -88,7 +88,7 @@ def test_prompt_b_preview_and_screenshots():
     assert c.get("/api/preview-config").json()["previews"]["prompt-b"].endswith(":8002")
 def test_overview_counts_all_implemented_projects():
     o = c.get("/api/overview").json()
-    assert o["built_projects"] == 9 and o["tests_passed"] > 100 and o["failed_builds"] == 0 and o["placeholder_projects"] == 5
+    assert o["built_projects"] == 10 and o["tests_passed"] > 100 and o["failed_builds"] == 0 and o["placeholder_projects"] == 5
 
 def test_prompt_d_card_and_recorded_test_evidence():
     p = c.get("/api/projects/prompt-d-explicit").json()

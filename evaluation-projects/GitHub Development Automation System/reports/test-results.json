@@ -1,0 +1,302 @@
+{
+  "generated_at": "2026-11-12T06:16:26+00:00",
+  "build": {
+    "status": "passed",
+    "command": "compile() every .py file in the project, in memory",
+    "ran_at": "2026-11-12T06:16:26+00:00",
+    "output": "compiled 20 files OK"
+  },
+  "suites": [
+    {
+      "id": "project-tests",
+      "title": "devbot project tests",
+      "command": "python -m unittest discover -s tests -v",
+      "ran_at": "2026-11-12T06:15:58+00:00",
+      "exit_code": 0,
+      "cases": [
+        {
+          "name": "test_analyzer",
+          "class": "test_devbot.PipelineTests.test_analyzer",
+          "status": "passed"
+        },
+        {
+          "name": "test_dry_run_changes_nothing",
+          "class": "test_devbot.PipelineTests.test_dry_run_changes_nothing",
+          "status": "passed"
+        },
+        {
+          "name": "test_live_creates_branch_not_merge",
+          "class": "test_devbot.PipelineTests.test_live_creates_branch_not_merge",
+          "status": "passed"
+        },
+        {
+          "name": "test_live_dirty_tree_refused",
+          "class": "test_devbot.PipelineTests.test_live_dirty_tree_refused",
+          "status": "passed"
+        },
+        {
+          "name": "test_not_approved_aborts",
+          "class": "test_devbot.PipelineTests.test_not_approved_aborts",
+          "status": "passed"
+        },
+        {
+          "name": "test_allowed_git",
+          "class": "test_devbot.SafetyTests.test_allowed_git",
+          "status": "passed"
+        },
+        {
+          "name": "test_branch_names",
+          "class": "test_devbot.SafetyTests.test_branch_names",
+          "status": "passed"
+        },
+        {
+          "name": "test_edit_paths",
+          "class": "test_devbot.SafetyTests.test_edit_paths",
+          "status": "passed"
+        },
+        {
+          "name": "test_merge_and_force_blocked",
+          "class": "test_devbot.SafetyTests.test_merge_and_force_blocked",
+          "status": "passed"
+        }
+      ],
+      "output_tail": [
+        "Ran 9 tests in 3.259s",
+        "",
+        "OK"
+      ],
+      "summary_line": "9 tests ran; OK",
+      "parsed_count": 9,
+      "reported_count": 9,
+      "parse_complete": true
+    },
+    {
+      "id": "web-tests",
+      "title": "Web interface tests (web_demo)",
+      "command": "python -m unittest discover -s tests -v",
+      "ran_at": "2026-11-12T06:16:02+00:00",
+      "exit_code": 0,
+      "cases": [
+        {
+          "name": "test_foreign_host_header_is_rejected",
+          "class": "test_server.BasicsAndSecurity.test_foreign_host_header_is_rejected",
+          "status": "passed"
+        },
+        {
+          "name": "test_input_validation",
+          "class": "test_server.BasicsAndSecurity.test_input_validation",
+          "status": "passed"
+        },
+        {
+          "name": "test_page_config_and_headers",
+          "class": "test_server.BasicsAndSecurity.test_page_config_and_headers",
+          "status": "passed"
+        },
+        {
+          "name": "test_post_requires_json_content_type",
+          "class": "test_server.BasicsAndSecurity.test_post_requires_json_content_type",
+          "status": "passed"
+        },
+        {
+          "name": "test_redactor",
+          "class": "test_server.BasicsAndSecurity.test_redactor",
+          "status": "passed"
+        },
+        {
+          "name": "test_server_ignores_keys_in_its_own_environment",
+          "class": "test_server.BasicsAndSecurity.test_server_ignores_keys_in_its_own_environment",
+          "status": "passed"
+        },
+        {
+          "name": "test_unread_bodies_never_reset_the_connection",
+          "class": "test_server.BasicsAndSecurity.test_unread_bodies_never_reset_the_connection",
+          "status": "passed"
+        },
+        {
+          "name": "test_full_run_waits_for_approval_then_repairs_and_prepares_a_draft",
+          "class": "test_server.OfflineDemoRun.test_full_run_waits_for_approval_then_repairs_and_prepares_a_draft",
+          "status": "passed"
+        },
+        {
+          "name": "test_log_can_be_read_incrementally",
+          "class": "test_server.OfflineDemoRun.test_log_can_be_read_incrementally",
+          "status": "passed"
+        },
+        {
+          "name": "test_only_one_run_at_a_time_and_approve_needs_a_waiting_run",
+          "class": "test_server.OfflineDemoRun.test_only_one_run_at_a_time_and_approve_needs_a_waiting_run",
+          "status": "passed"
+        },
+        {
+          "name": "test_reject_changes_nothing",
+          "class": "test_server.OfflineDemoRun.test_reject_changes_nothing",
+          "status": "passed"
+        },
+        {
+          "name": "test_analyze_without_key_is_heuristic_only_and_with_key_adds_overview",
+          "class": "test_server.OpenAIPathWithFakeServer.test_analyze_without_key_is_heuristic_only_and_with_key_adds_overview",
+          "status": "passed"
+        },
+        {
+          "name": "test_clone_failure_is_reported_and_token_is_not_leaked",
+          "class": "test_server.OpenAIPathWithFakeServer.test_clone_failure_is_reported_and_token_is_not_leaked",
+          "status": "passed"
+        },
+        {
+          "name": "test_github_source_uses_a_shallow_clone_and_the_same_pipeline",
+          "class": "test_server.OpenAIPathWithFakeServer.test_github_source_uses_a_shallow_clone_and_the_same_pipeline",
+          "status": "passed"
+        },
+        {
+          "name": "test_key_echoed_by_the_api_is_scrubbed",
+          "class": "test_server.OpenAIPathWithFakeServer.test_key_echoed_by_the_api_is_scrubbed",
+          "status": "passed"
+        },
+        {
+          "name": "test_key_is_not_written_to_disk_or_environment",
+          "class": "test_server.OpenAIPathWithFakeServer.test_key_is_not_written_to_disk_or_environment",
+          "status": "passed"
+        },
+        {
+          "name": "test_oversized_repository_is_refused",
+          "class": "test_server.OpenAIPathWithFakeServer.test_oversized_repository_is_refused",
+          "status": "passed"
+        },
+        {
+          "name": "test_rate_limit_message",
+          "class": "test_server.OpenAIPathWithFakeServer.test_rate_limit_message",
+          "status": "passed"
+        },
+        {
+          "name": "test_rejected_key_gives_a_friendly_error",
+          "class": "test_server.OpenAIPathWithFakeServer.test_rejected_key_gives_a_friendly_error",
+          "status": "passed"
+        },
+        {
+          "name": "test_unreachable_api_is_reported_without_a_traceback",
+          "class": "test_server.OpenAIPathWithFakeServer.test_unreachable_api_is_reported_without_a_traceback",
+          "status": "passed"
+        },
+        {
+          "name": "test_user_key_is_used_as_bearer_token_and_never_echoed",
+          "class": "test_server.OpenAIPathWithFakeServer.test_user_key_is_used_as_bearer_token_and_never_echoed",
+          "status": "passed"
+        }
+      ],
+      "output_tail": [
+        "Ran 21 tests in 15.654s",
+        "",
+        "OK"
+      ],
+      "summary_line": "21 tests ran; OK",
+      "parsed_count": 21,
+      "reported_count": 21,
+      "parse_complete": true
+    },
+    {
+      "id": "browser-ui",
+      "title": "Browser UI checks (Playwright + Microsoft Edge)",
+      "command": "python web_demo/ui_check.py",
+      "ran_at": "2026-11-12T06:16:18+00:00",
+      "exit_code": 0,
+      "cases": [
+        {
+          "name": "page_states_dry_run_and_never_merges",
+          "class": "BrowserUI",
+          "status": "passed"
+        },
+        {
+          "name": "offline_demo_is_default_and_asks_for_no_key",
+          "class": "BrowserUI",
+          "status": "passed"
+        },
+        {
+          "name": "gpt_mode_asks_for_the_users_api_key_in_a_masked_field",
+          "class": "BrowserUI",
+          "status": "passed"
+        },
+        {
+          "name": "gpt_without_key_is_refused_with_clear_message",
+          "class": "BrowserUI",
+          "status": "passed"
+        },
+        {
+          "name": "rejected_key_shows_friendly_error_and_never_displays_the_key",
+          "class": "BrowserUI",
+          "status": "passed"
+        },
+        {
+          "name": "key_is_not_in_url_or_browser_storage",
+          "class": "BrowserUI",
+          "status": "passed"
+        },
+        {
+          "name": "clear_key_button_empties_the_field",
+          "class": "BrowserUI",
+          "status": "passed"
+        },
+        {
+          "name": "github_repo_requires_trust_confirmation",
+          "class": "BrowserUI",
+          "status": "passed"
+        },
+        {
+          "name": "local_paths_are_not_accepted",
+          "class": "BrowserUI",
+          "status": "passed"
+        },
+        {
+          "name": "analyse_shows_languages_and_test_command",
+          "class": "BrowserUI",
+          "status": "passed"
+        },
+        {
+          "name": "plan_is_shown_and_nothing_is_edited_before_approval",
+          "class": "BrowserUI",
+          "status": "passed"
+        },
+        {
+          "name": "rejecting_the_plan_changes_nothing",
+          "class": "BrowserUI",
+          "status": "passed"
+        },
+        {
+          "name": "approved_run_repairs_tests_and_prepares_a_draft_pr_preview",
+          "class": "BrowserUI",
+          "status": "passed"
+        },
+        {
+          "name": "diff_and_draft_pr_preview_are_shown_as_text",
+          "class": "BrowserUI",
+          "status": "passed"
+        },
+        {
+          "name": "log_confirms_original_unchanged_and_no_merge",
+          "class": "BrowserUI",
+          "status": "passed"
+        },
+        {
+          "name": "mobile_375_no_horizontal_overflow",
+          "class": "BrowserUI",
+          "status": "passed"
+        },
+        {
+          "name": "no_uncaught_javascript_errors",
+          "class": "BrowserUI",
+          "status": "passed"
+        }
+      ],
+      "output_tail": [
+        "all checks passed"
+      ],
+      "summary_line": "17 of 17 checks passed",
+      "parsed_count": 17,
+      "reported_count": 17,
+      "parse_complete": true
+    }
+  ],
+  "totals": {
+    "passed": 47,
+    "failed": 0
+  }
+}

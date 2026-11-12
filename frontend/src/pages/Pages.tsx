@@ -11,7 +11,7 @@ import { RequirementsTab, RepoTab, ToolsTab, PlanTab, TestsTab, GitTab, Timeline
 import { DiffViewer } from '../components/Code'
 import type { DiffFile } from '../services/types'
 
-const REAL = ['prompt-a', 'prompt-b', 'inventory', 'appointment-booking', 'expense-system', 'support-ticket-system', 'docchange', 'prompt-c-rag']      // projects with a full recorded evaluation workspace
+const REAL = ['prompt-a', 'prompt-b', 'inventory', 'appointment-booking', 'expense-system', 'support-ticket-system', 'docchange', 'prompt-c-rag', 'github-dev-automation']      // projects with a full recorded evaluation workspace
 
 function Stat({ label, value, note, tone = '' }: { label: string; value: number | string; note?: string; tone?: string }) {
   return <Card className="p-4"><div className="text-xs text-muted">{label}</div><div className={`text-2xl font-semibold mt-1 ${tone}`}>{value}</div>{note && <div className="text-[11px] text-muted mt-1">{note}</div>}</Card> }
@@ -69,7 +69,7 @@ function PromptDOverview({ project }: { project: Project }) {
       </div>
 }
 
-const SHORT: Record<string, string> = { 'prompt-a': 'Prompt A', 'prompt-b': 'Prompt B', 'inventory': 'Inventory', 'appointment-booking': 'Appointments', 'expense-system': 'Expenses', 'support-ticket-system': 'Support tickets', 'prompt-c-rag': 'LTID AI Competition – RAG', 'prompt-d-explicit': 'Prompt D' }
+const SHORT: Record<string, string> = { 'prompt-a': 'Prompt A', 'prompt-b': 'Prompt B', 'inventory': 'Inventory', 'appointment-booking': 'Appointments', 'expense-system': 'Expenses', 'support-ticket-system': 'Support tickets', 'prompt-c-rag': 'LTID AI Competition – RAG', 'github-dev-automation': 'GitHub automation', 'prompt-d-explicit': 'Prompt D' }
 /** One row of the live-applications card: checks the app's address from the browser and offers a launch link. */
 function LiveAppRow({ p }: { p: Project }) {
   const [up, setUp] = useState<boolean | null>(null)

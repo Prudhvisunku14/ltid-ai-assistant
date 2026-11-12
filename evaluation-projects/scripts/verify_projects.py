@@ -20,6 +20,8 @@ PROJECTS = {
     "expense-system": {"name": "Expense Management & Approval System", "launch": "Launch Expense App", "port": 8005, "tests": 64, "files": ["app/service.py", "app/policy.py", "tests/test_expenses.py"]},
     "support-ticket-system": {"name": "AI-Supported Support Ticket System", "launch": "Launch Ticket App", "port": 8006, "tests": 32, "files": ["app/main.py", "app/classifier.py", "tests/test_api.py"]},
     "docchange": {"name": "Document Change Monitoring System", "launch": "Launch Monitor", "port": 8007, "tests": 23, "files": ["monitor/differ.py", "monitor/analyzer.py", "tests/test_all.py"]},
+    "github-dev-automation": {"name": "GitHub Development Automation System", "launch": "Launch devbot", "port": 8009, "tests": 9 + 21 + 17, "note": "Uploaded folder", "dir": "GitHub Development Automation System",
+                              "files": ["pipeline.py", "safety.py", "server.py", "index.html", "test_server.py"]},
     "prompt-c-rag": {"name": "LTID AI Competition – RAG", "launch": "Launch RAG App", "port": 8008, "tests": 51, "note": "Supplied project folder", "dir": "ltid-ai-competition-rag-final",
                      "files": ["answer.py", "retrieve.py", "ingest.py", "server.py", "index.html", "test_server.py"]},
 }

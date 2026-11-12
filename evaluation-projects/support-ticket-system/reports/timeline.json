@@ -59,7 +59,7 @@
     "status": "completed",
     "timestamp": null,
     "description": "Gallery card, workspace, Source Explorer, tests, report and live preview in the dashboard. Set to completed only by the dashboard check.",
-    "output": "100/100 browser checks pass (evaluation-projects/scripts/verify_projects.py)",
+    "output": "119/119 browser checks pass (evaluation-projects/scripts/verify_projects.py)",
     "evidence": "reports/dashboard-verification-projects.json"
   }
 ]

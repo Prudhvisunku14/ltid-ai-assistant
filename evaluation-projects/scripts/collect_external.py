@@ -60,6 +60,16 @@ PROJECTS = {
         "start": lambda db: ([PY, "server.py"], {"HOST": "127.0.0.1", "PORT": "8008"}),
         "db_env": "none", "db_name": "unused.db",
     },
+    "github-dev-automation": {
+        "outer": EVAL / "GitHub Development Automation System", "root": EVAL / "GitHub Development Automation System",
+        "port": 8009, "title": "devbot - GitHub Development Automation System", "runner": "unittest-multi",
+        "suites": [("project-tests", "devbot project tests", EVAL / "GitHub Development Automation System" / "GitHub Development Automation System"),
+                   ("web-tests", "Web interface tests (web_demo)", EVAL / "GitHub Development Automation System" / "web_demo")],
+        "start_cwd": EVAL / "GitHub Development Automation System" / "web_demo",
+        "ui_check": EVAL / "GitHub Development Automation System" / "web_demo" / "ui_check.py",
+        "start": lambda db: ([PY, "server.py"], {"HOST": "127.0.0.1", "PORT": "8009"}),
+        "db_env": "none", "db_name": "unused.db",
+    },
     "docchange": {
         "outer": EVAL / "docchange", "root": EVAL / "docchange" / "docchange",
         "port": 8007, "title": "Document change monitoring system", "runner": "unittest",
@@ -214,7 +224,8 @@ def main(names):
         live = live_check_and_screenshot(name, cfg, shots)
         (reports / "live-check.json").write_text(json.dumps(live, indent=2), encoding="utf-8")
         # git: these are uploads, not repositories
-        is_git = subprocess.run(["git", "rev-parse", "--is-inside-work-tree"], cwd=cfg["root"], capture_output=True, text=True).returncode == 0
+        top = subprocess.run(["git", "rev-parse", "--show-toplevel"], cwd=cfg["root"], capture_output=True, text=True).stdout.strip()
+        is_git = bool(top) and pathlib.Path(top).resolve() == pathlib.Path(cfg["root"]).resolve()      # the project's OWN repository, not the platform repo around it
         git = {"exported_at": now(), "repository_url": None, "base_branch": None, "base_branch_verified": False,
                "base_branch_evidence": "not a git repository (uploaded folder)" if not is_git else "git repository detected",
                "import_kind": "Uploaded folder (no version-control history and no baseline snapshot available)",

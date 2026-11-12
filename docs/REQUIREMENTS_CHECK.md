@@ -4,7 +4,7 @@ Every written requirement was checked against the code and by running it. Source
 
 * **Scenario 01 / 02 / 03** — the real Drive documents, read from `evaluation-projects/docchange/docchange/drive_snapshot/` (`01_Website_Requirements.md`, `02_Weather_Requirements_v1.md`, `03_RAG_Requirements_v1.md`). The `…_v2_MOCK` files in that folder are invented test revisions and were **not** used as requirements.
 * **Project context rules** — `05_Project_Context.md` (same folder).
-* **Uploaded projects** (inventory, appointment, expense, support, document change monitor) — no requirement document was supplied. Their README feature lists were checked instead, and are labelled as the projects' own scope.
+* **Uploaded projects** (inventory, appointment, expense, support, document change monitor, GitHub automation system) — no requirement document was supplied. Their README feature lists were checked instead, and are labelled as the projects' own scope.
 
 Statuses: **Met** = implemented and shown by a test or a run today · **Not met** = cannot be satisfied from this environment (reason given) · **Unverified** = implemented but not exercised against the real external service.
 
@@ -12,13 +12,16 @@ Statuses: **Met** = implemented and shown by a test or a run today · **Not met*
 
 | Project | Command | Result |
 |---|---|---|
-| Dashboard backend | `pytest` | 35 passed |
+| Dashboard backend | `pytest` | 47 passed |
 | Prompt A | `unittest discover` (browser tests on Edge) + `node --test` | 17 + 7 passed |
 | Prompt B | `unittest discover` | 59 passed |
 | Prompt C — LTID AI Competition – RAG (project `prompt-c-rag/`) | `unittest discover` | 18 passed |
 | Prompt C — web interface (`web_demo/`) | `unittest discover` | 17 passed |
 | Prompt C — browser checks (`web_demo/ui_check.py`, Edge) | Playwright | 16 passed |
 | Prompt D | `unittest discover -t .` | 23 passed |
+| GitHub Development Automation System — devbot project | `unittest discover -s tests` | 9 passed |
+| GitHub Development Automation System — web interface (`web_demo/`) | `unittest discover -s tests` | 21 passed |
+| GitHub Development Automation System — browser checks (`web_demo/ui_check.py`, Edge) | Playwright | 17 passed |
 | Inventory | `unittest discover` | 24 passed |
 | Appointment booking | `pytest` | 25 passed |
 | Expense management | `pytest` | 64 passed |
@@ -92,6 +95,11 @@ Prompt C is `evaluation-projects/ltid-ai-competition-rag-final` (the earlier Pro
 | Support tickets | GPT classification | **Unverified** | No OpenAI key here; GPT is covered only by mocked tests |
 | Document change monitor | Exact-text diff, labelled rule-based impact analysis, history, read-only source | Met | 23 tests including read-only assertions |
 | Document change monitor | Live Google Drive source | **Unverified** | No credentials; tested against a fake Drive service only |
+| GitHub automation (devbot) | Plan, branch, edit, test, repair, draft PR; never merge or deploy; dry-run by default | Met (scripted model) | 9 project tests incl. protected-branch/force-push/merge refusal, dry-run leaves the original untouched, live mode never moves `main` |
+| GitHub automation (devbot) | Web interface asks the user for their own API key; key never stored or logged | Met | `test_server_ignores_keys_in_its_own_environment`, `test_key_is_not_written_to_disk_or_environment`, `test_key_echoed_by_the_api_is_scrubbed` (each shown to fail when the protection is removed), browser checks for the masked field, no key in URL/storage/page |
+| GitHub automation (devbot) | Plan shown and approved by the user before any edit | Met | `test_reject_changes_nothing`, browser `plan_is_shown_and_nothing_is_edited_before_approval` |
+| GitHub automation (devbot) | GPT explanation/plan/edits with a real key | **Unverified** | No OpenAI key here. Run over HTTP against a local fake OpenAI endpoint only: proves the plumbing and the `Authorization` header, not model quality |
+| GitHub automation (devbot) | Live mode: push a branch and open a real DRAFT PR | **Unverified**, not in the web UI | Needs a GitHub token and a repository with push access. Cloning a GitHub address read-only was run against github.com (octocat/Hello-World) in Docker |
 
 ## Defects found and fixed during this check
 
@@ -104,6 +112,6 @@ Prompt C is `evaluation-projects/ltid-ai-competition-rag-final` (the earlier Pro
 ## Still open
 
 * Prompt B draft PR — needs push access to the original repository.
-* GPT classification (support), live Drive mode (document change monitor) and the optional LLM rephrasing in Prompt C — need credentials.
+* GPT classification (support), live Drive mode (document change monitor), the optional LLM rephrasing in Prompt C and GPT in devbot — need credentials. devbot live mode (push + draft PR) needs a token and a repository you may push to.
 * Deployment — nothing is deployed (see the README).
 * Prompt A's browser tests error instead of skipping when Playwright's own Chromium is not installed; on this machine they were run against Edge.

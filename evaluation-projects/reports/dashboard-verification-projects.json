@@ -2,8 +2,8 @@
   "ui": "http://localhost:3000",
   "api": "http://localhost:8001",
   "all_passed": true,
-  "passed": 100,
-  "total": 100,
+  "passed": 119,
+  "total": 119,
   "projects": {
     "appointment-booking": [
       {
@@ -324,6 +324,103 @@
       },
       {
         "name": "gallery_button_launch_monitor",
+        "passed": true,
+        "detail": ""
+      },
+      {
+        "name": "gallery_button_view_source_code",
+        "passed": true,
+        "detail": ""
+      },
+      {
+        "name": "gallery_button_view_test_results",
+        "passed": true,
+        "detail": ""
+      },
+      {
+        "name": "gallery_button_view_evaluation_report",
+        "passed": true,
+        "detail": ""
+      },
+      {
+        "name": "workspace_has_live_preview_and_tests_tabs",
+        "passed": true,
+        "detail": ""
+      },
+      {
+        "name": "workspace_states_upload_status",
+        "passed": true,
+        "detail": ""
+      },
+      {
+        "name": "tests_tab_shows_recorded_total",
+        "passed": true,
+        "detail": ""
+      },
+      {
+        "name": "tests_all_collected_cases_parsed",
+        "passed": true,
+        "detail": ""
+      },
+      {
+        "name": "live_preview_shows_running_status",
+        "passed": true,
+        "detail": ""
+      },
+      {
+        "name": "live_preview_embeds_running_app",
+        "passed": true,
+        "detail": ""
+      },
+      {
+        "name": "source_explorer_lists_real_files",
+        "passed": true,
+        "detail": ""
+      },
+      {
+        "name": "source_explorer_states_no_baseline",
+        "passed": true,
+        "detail": ""
+      },
+      {
+        "name": "final_report_renders",
+        "passed": true,
+        "detail": ""
+      },
+      {
+        "name": "overview_live_app_running",
+        "passed": true,
+        "detail": ""
+      }
+    ],
+    "github-dev-automation": [
+      {
+        "name": "gallery_card_present",
+        "passed": true,
+        "detail": ""
+      },
+      {
+        "name": "gallery_card_test_status",
+        "passed": true,
+        "detail": ""
+      },
+      {
+        "name": "gallery_card_build_passing",
+        "passed": true,
+        "detail": ""
+      },
+      {
+        "name": "gallery_card_import_note",
+        "passed": true,
+        "detail": ""
+      },
+      {
+        "name": "gallery_button_open_workspace",
+        "passed": true,
+        "detail": ""
+      },
+      {
+        "name": "gallery_button_launch_devbot",
         "passed": true,
         "detail": ""
       },

@@ -55,6 +55,14 @@ PROJECTS = {
         "import_note": "Supplied project folder with its own local git repository (1 commit, no remote). The web interface in web_demo/ was added next to it by this integration. Tests and the live app were run here; LLM rephrasing was never run against a live model",
         "start_hint": "cd evaluation-projects/ltid-ai-competition-rag-final/web_demo && PORT=8008 python server.py",
     },
+    "github-dev-automation": {
+        "outer": EVAL_ROOT / "GitHub Development Automation System", "root": EVAL_ROOT / "GitHub Development Automation System",
+        "name": "GitHub Development Automation System", "client": None, "category": "Developer Tools / AI Software Maintenance",
+        "description": "devbot (GPT + GitHub): explains a repository, turns a plain-English request into a plan, and after you approve it edits a scratch copy on a new branch, runs the tests, repairs failures and prepares a DRAFT pull request. It never merges and never deploys. The web interface asks each user for their own OpenAI API key (kept in the browser tab, never stored) and runs in dry-run mode only.",
+        "port": 8009, "preview_env": "DEVBOT_PREVIEW_URL", "launch": "Launch devbot", "repo": None,
+        "import_note": "Uploaded folder (no baseline snapshot, no git history). The web interface in web_demo/ was added next to the project by this integration; devbot's own source was not modified. The tests and the live app were run here with the scripted offline model and a local fake OpenAI endpoint; GPT was never run against the live OpenAI API, and live GitHub mode (push + draft PR) is not exposed in the web interface and was never run",
+        "start_hint": "cd \"evaluation-projects/GitHub Development Automation System/web_demo\" && PORT=8009 python server.py",
+    },
     "docchange": {
         "outer": EVAL_ROOT / "docchange", "root": EVAL_ROOT / "docchange" / "docchange",
         "name": "Document Change Monitoring System", "client": None, "category": "Requirements Management / Document Control",

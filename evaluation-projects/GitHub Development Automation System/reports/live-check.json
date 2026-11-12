@@ -1,0 +1,10 @@
+{
+  "url": "http://127.0.0.1:8009/",
+  "started_at": "2026-11-12T06:16:26+00:00",
+  "reachable": true,
+  "http_status": 200,
+  "screenshot": "screenshots/github-dev-automation-home.png",
+  "error": null,
+  "page_title": "devbot \u2013 GitHub Development Automation",
+  "stopped_at": "2026-11-12T06:16:29+00:00"
+}

@@ -1,0 +1,168 @@
+created fictional repo at /tmp/devbot_demo/bookshop-api
+
+############ PART 1: DRY-RUN (default) - repo must stay untouched ############
+devbot | mode: DRY-RUN (no repository changes will be made) | llm: mock (scripted, offline)
+
+=== Step 1: Connect to repository =======================================
+local repository: /tmp/devbot_demo/bookshop-api
+dry-run: working in a scratch copy, original repo is untouched (/tmp/devbot_demo/bookshop-api)
+
+=== Step 2: Analyse structure, languages, frameworks, tools =============
+Languages : {'Python': 5}
+Frameworks: none detected
+Pkg mgrs  : none
+Dev tools : make (task runner), unittest (stdlib) (automated tests)
+Test cmd  : /usr/bin/python3 -m unittest discover -s tests -t .
+Overview  : bookshop-api is a small pure-Python library with a pricing module (price formatting, order totals) and an in-memory stock tracker, tested with the standard-library unittest runner.
+Key files :
+  - .gitignore: Files git should not track.
+  - Makefile: Shortcut commands for build/test/lint.
+  - README.md: Project overview and usage instructions.
+  - bookshop/inventory.py: Source module. Tiny in-memory stock tracker.
+  - bookshop/pricing.py: Source module. Pricing helpers: price formatting and order totals.
+  - tests/test_pricing.py: Test module.
+
+=== Step 3: Plan the change =============================================
+Request: Add a 10% bulk discount to calculate_total for orders of 10 or more books, and add tests
+Summary: Add a 10% bulk discount to calculate_total() for orders of 10 or more books, with tests.
+Steps:
+  1. Add BULK_THRESHOLD and BULK_DISCOUNT_PERCENT constants to bookshop/pricing.py
+  2. Apply the discount in calculate_total() when total quantity >= threshold
+  3. Add unit tests for below/at/above the threshold and for mixed-SKU orders
+  4. Run the unittest suite and fix any failures
+Files to change: bookshop/pricing.py, tests/test_pricing.py
+Tools required:
+  - git: create branch and commit [free, GPL-2.0]
+  - python unittest: run existing test suite [free, stdlib]
+  - GitHub REST API: open a draft pull request [free for repositories you own/are granted]
+Risks: Integer rounding: discount uses floor division on cents
+
+=== Step 4: Create separate branch ======================================
+[dry-run] would create branch devbot/add-a-10-bulk-discount-to-calculate-tota-20261112055928 in /tmp/devbot_demo/bookshop-api; creating it in the scratch copy only
+on branch devbot/add-a-10-bulk-discount-to-calculate-tota-20261112055928 (base: main)
+
+=== Step 5: Baseline tests (before any edit) ============================
+baseline: PASS (/usr/bin/python3 -m unittest discover -s tests -t .)
+
+=== Step 6: Modify source code ==========================================
+modified: bookshop/pricing.py, tests/test_pricing.py
+
+=== Step 7: Run tests and repair ========================================
+tests FAILED -> repair attempt 1/2
+    |     self.assertEqual(calculate_total(items), 9000)
+    | AssertionError: 10000 != 9000
+    | 
+    | ======================================================================
+    | FAIL: test_threshold_boundary_is_cheaper_per_book (tests.test_pricing.PricingTests.test_threshold_boundary_is_cheaper_per_book)
+    | ----------------------------------------------------------------------
+    | Traceback (most recent call last):
+    |   File "/tmp/devbot-g145lgvq/scratch/tests/test_pricing.py", line 29, in test_threshold_boundary_is_cheaper_per_book
+    |     self.assertLessEqual(ten, nine)
+    | AssertionError: 10000 not less than or equal to 9000
+    | 
+    | ----------------------------------------------------------------------
+    | Ran 6 tests in 0.001s
+    | 
+    | FAILED (failures=2)
+diagnosis: Off-by-one: the condition used `>` so an order of exactly 10 books got no discount. Use `>=`.
+tests: PASS after 1 repair attempt(s)
+
+=== Step 8: Summarise changes ===========================================
+bookshop/pricing.py   | 14 ++++++++++++--
+ tests/test_pricing.py | 17 +++++++++++++++++
+ 2 files changed, 29 insertions(+), 2 deletions(-)
+
+=== Step 9: Draft pull request ==========================================
+[dry-run] would push devbot/add-a-10-bulk-discount-to-calculate-tota-20261112055928 and open a DRAFT PR titled: Add 10% bulk discount for orders of 10+ books
+[dry-run] PR preview written to /tmp/devbot_demo/out/DRAFT_PR_devbot_add-a-10-bulk-discount-to-calculate-tota-20261112055928.md
+devbot never merges pull requests and never deploys. A human must review and merge.
+verified: original repository unchanged by dry-run
+report: /tmp/devbot_demo/out/report-20261112-055928.json
+
+RESULT: ok | branch=devbot/add-a-10-bulk-discount-to-calculate-tota-20261112055928 | tests_ok=True | repairs=1
+* main
+
+############ PART 2: LIVE - real branch + commit + local draft PR ############
+devbot | mode: LIVE | llm: mock (scripted, offline)
+
+=== Step 1: Connect to repository =======================================
+local repository: /tmp/devbot_demo/bookshop-api
+
+=== Step 2: Analyse structure, languages, frameworks, tools =============
+Languages : {'Python': 5}
+Frameworks: none detected
+Pkg mgrs  : none
+Dev tools : make (task runner), unittest (stdlib) (automated tests)
+Test cmd  : /usr/bin/python3 -m unittest discover -s tests -t .
+Overview  : bookshop-api is a small pure-Python library with a pricing module (price formatting, order totals) and an in-memory stock tracker, tested with the standard-library unittest runner.
+Key files :
+  - .gitignore: Files git should not track.
+  - Makefile: Shortcut commands for build/test/lint.
+  - README.md: Project overview and usage instructions.
+  - bookshop/inventory.py: Source module. Tiny in-memory stock tracker.
+  - bookshop/pricing.py: Source module. Pricing helpers: price formatting and order totals.
+  - tests/test_pricing.py: Test module.
+
+=== Step 3: Plan the change =============================================
+Request: Add a 10% bulk discount to calculate_total for orders of 10 or more books, and add tests
+Summary: Add a 10% bulk discount to calculate_total() for orders of 10 or more books, with tests.
+Steps:
+  1. Add BULK_THRESHOLD and BULK_DISCOUNT_PERCENT constants to bookshop/pricing.py
+  2. Apply the discount in calculate_total() when total quantity >= threshold
+  3. Add unit tests for below/at/above the threshold and for mixed-SKU orders
+  4. Run the unittest suite and fix any failures
+Files to change: bookshop/pricing.py, tests/test_pricing.py
+Tools required:
+  - git: create branch and commit [free, GPL-2.0]
+  - python unittest: run existing test suite [free, stdlib]
+  - GitHub REST API: open a draft pull request [free for repositories you own/are granted]
+Risks: Integer rounding: discount uses floor division on cents
+
+=== Step 4: Create separate branch ======================================
+on branch devbot/add-a-10-bulk-discount-to-calculate-tota-20261112055928 (base: main)
+
+=== Step 5: Baseline tests (before any edit) ============================
+baseline: PASS (/usr/bin/python3 -m unittest discover -s tests -t .)
+
+=== Step 6: Modify source code ==========================================
+modified: bookshop/pricing.py, tests/test_pricing.py
+
+=== Step 7: Run tests and repair ========================================
+tests FAILED -> repair attempt 1/2
+    |     self.assertEqual(calculate_total(items), 9000)
+    | AssertionError: 10000 != 9000
+    | 
+    | ======================================================================
+    | FAIL: test_threshold_boundary_is_cheaper_per_book (tests.test_pricing.PricingTests.test_threshold_boundary_is_cheaper_per_book)
+    | ----------------------------------------------------------------------
+    | Traceback (most recent call last):
+    |   File "/tmp/devbot_demo/bookshop-api/tests/test_pricing.py", line 29, in test_threshold_boundary_is_cheaper_per_book
+    |     self.assertLessEqual(ten, nine)
+    | AssertionError: 10000 not less than or equal to 9000
+    | 
+    | ----------------------------------------------------------------------
+    | Ran 6 tests in 0.001s
+    | 
+    | FAILED (failures=2)
+diagnosis: Off-by-one: the condition used `>` so an order of exactly 10 books got no discount. Use `>=`.
+tests: PASS after 1 repair attempt(s)
+
+=== Step 8: Summarise changes ===========================================
+bookshop/pricing.py   | 14 ++++++++++++--
+ tests/test_pricing.py | 17 +++++++++++++++++
+ 2 files changed, 29 insertions(+), 2 deletions(-)
+
+=== Step 9: Draft pull request ==========================================
+no GitHub remote/token: draft PR saved locally at /tmp/devbot_demo/out/DRAFT_PR_devbot_add-a-10-bulk-discount-to-calculate-tota-20261112055928.md
+devbot never merges pull requests and never deploys. A human must review and merge.
+report: /tmp/devbot_demo/out/report-20261112-055928.json
+
+RESULT: ok | branch=devbot/add-a-10-bulk-discount-to-calculate-tota-20261112055928 | tests_ok=True | repairs=1
+* devbot/add-a-10-bulk-discount-to-calculate-tota-20261112055928
+  main
+555f0df feat(pricing): 10% bulk discount for orders of 10 or more books
+bdf513c Initial commit of fictional bookshop-api
+main branch untouched / not merged:
+bdf513c Initial commit of fictional bookshop-api
+DRAFT_PR_devbot_add-a-10-bulk-discount-to-calculate-tota-20261112055928.md
+report-20261112-055928.json

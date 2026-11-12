@@ -19,6 +19,7 @@ services:
       SUPPORT_PREVIEW_URL: "${SUPPORT_PREVIEW_URL:-http://localhost:8006}"
       DOCCHANGE_PREVIEW_URL: "${DOCCHANGE_PREVIEW_URL:-http://localhost:8007}"
       RAG_PREVIEW_URL: "${RAG_PREVIEW_URL:-http://localhost:8008}"
+      DEVBOT_PREVIEW_URL: "${DEVBOT_PREVIEW_URL:-http://localhost:8009}"
     volumes: ["./evaluation-projects:/data/evaluation-projects:ro"]
   prompt-a-preview:
     # Separate, isolated runtime: serves ONLY the static Prompt A files, read-only. The dashboard backend never executes generated code.
@@ -130,6 +131,38 @@ services:
       - ./evaluation-projects/ltid-ai-competition-rag-final:/app:ro
     healthcheck:
       test: ["CMD", "python", "-c", "import sys, urllib.request; sys.exit(0 if urllib.request.urlopen('http://127.0.0.1:8008/api/health', timeout=3).status == 200 else 1)"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+      start_period: 5s
+  devbot:
+    # GitHub Development Automation System (devbot) + its web interface (web_demo). Standard library + git only.
+    # The web interface asks every user for THEIR OWN OpenAI API key in the browser. The container has no key of its own
+    # and the server ignores any OPENAI_API_KEY / GITHUB_TOKEN in its environment, so none is passed through here.
+    # Dry-run only: nothing is pushed, merged or deployed. Running a repository's tests runs that repository's code, so the
+    # container is locked down (read-only root, no capabilities, no new privileges, limited memory/processes).
+    build:
+      context: "./evaluation-projects/GitHub Development Automation System/web_demo"
+    image: ltid-devbot-web:local
+    working_dir: "/app/web_demo"
+    command: ["python", "server.py"]
+    ports: ["8009:8009"]
+    environment:
+      PYTHONDONTWRITEBYTECODE: "1"
+      HOST: "0.0.0.0"
+      PORT: "8009"
+      HOME: "/tmp"
+    user: "1000:1000"
+    read_only: true
+    tmpfs: ["/tmp:size=256m,mode=1777"]
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+    mem_limit: 768m
+    pids_limit: 256
+    volumes:
+      - "./evaluation-projects/GitHub Development Automation System:/app:ro"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import sys, urllib.request; sys.exit(0 if urllib.request.urlopen('http://127.0.0.1:8009/api/health', timeout=3).status == 200 else 1)"]
       interval: 15s
       timeout: 5s
       retries: 3

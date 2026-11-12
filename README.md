@@ -17,6 +17,7 @@ An AI-software-engineering **evidence platform**: a light-theme dashboard (React
 | Prompt B Git | Real local clone of upstream `main` + branch `ltid-assistant/prompt-b-weather` + commit. **Push attempted and FAILED (authentication); no Draft PR exists.** Dashboard shows `not pushed` / `not created` |
 | Prompt B data | The supplied observations are **synthetic**; every forecast is labelled "not a real weather forecast" |
 | Prompt C — LTID AI Competition – RAG (`evaluation-projects/ltid-ai-competition-rag-final`) | **Real**: the supplied standard-library RAG project (`prompt-c-rag/`, its own local git repo, 1 commit, no remote) plus a **web interface added by this integration** (`web_demo/`: ask, document upload, optional LLM toggle). 51 checks re-run here: 18 project tests, 17 web-interface tests, 16 browser checks (Edge). Retrieval is BM25 keyword search: **no embeddings, no vector database**. LLM rephrasing is optional and was **never run against a live model**. Known gap: it answers an *international* hotel-limit question with the *domestic* limit (see `docs/REQUIREMENTS_CHECK.md`). The earlier Prompt C implementation was replaced and archived locally |
+| GitHub Development Automation System / devbot (`evaluation-projects/GitHub Development Automation System`) | **Real**: the uploaded standard-library project (9 own tests pass) plus a **web interface added by this integration** (`web_demo/`) that **asks each user for their own OpenAI API key** (masked field, kept only in the browser tab's memory, never stored, logged or read from the server's environment). Dry-run only: the plan must be approved in the page, edits happen in a scratch copy, nothing is pushed, merged or deployed. 47 passing checks recorded (9 project + 21 web + 17 browser). **GPT was never run against the live OpenAI API** (no key here; verified against a local fake endpoint), and live GitHub mode (push + draft PR) is not exposed in the web page and was never run |
 | Prompt D DevPilot (`evaluation-projects/prompt-d-explicit/prompt-d`) | **Real local source**; 23 passing recorded unittest cases. Dashboard describes its five stages and displays recorded tests; it does not trigger tool probes, file edits, or remote actions |
 | Inventory (`evaluation-projects/inventory-system/inventory`) | **Real**; its own local git repository (5 commits, no remote, nothing pushed). 24 unit/HTTP tests and a 10-step browser test pass (browser test run on Edge). One uncommitted fix: `/favicon.ico` returned 404 |
 | Appointment booking, Expense management, Support tickets, Document change monitor (`evaluation-projects/<name>/`) | **Real uploaded folders**: 25, 64, 32 and 23 passing tests, re-run here and recorded in each `reports/`. No git history or baseline was supplied, so the dashboard shows no code changes for them. Small edits made: configurable `HOST` (Flask apps, docchange) and `tzdata` in two requirements files for Windows |
@@ -24,7 +25,7 @@ An AI-software-engineering **evidence platform**: a light-theme dashboard (React
 | Document change monitor — live Google Drive mode | **Not exercised** against the real folder (no credentials). Covered by tests with a fake Drive service |
 | Expense management — identity | A demo user picker, **not real authentication** |
 | Requirements check | `docs/REQUIREMENTS_CHECK.md` maps every written requirement (Scenarios 01–03 and the project-context rules) to its evidence |
-| Gallery projects other than the nine above | **Placeholders**, labelled, excluded from counts |
+| Gallery projects other than the ten above | **Placeholders**, labelled, excluded from counts |
 | `docker compose up` | Config validated, and the stack has been started on the developer's machine (containers observed running: dashboard, API, Prompt A/B previews, inventory and the four new apps). Container-level behaviour was only spot-checked; the apps' functions were verified natively |
 | Deployment | **Not deployed.** An InsForge project (`ltid-assistant`) was created and linked, but no backend or frontend has been deployed to it: the backend deploy needs `flyctl`, which could not be installed. InsForge Compute has no persistent volumes, so the SQLite-backed apps would lose data on redeploy |
 
@@ -44,6 +45,7 @@ docker compose up --build      # or ./start.sh  /  start.bat (falls back to nati
 | Support ticket app | http://localhost:8006 |
 | Document change monitor | http://localhost:8007 |
 | LTID AI Competition – RAG (Prompt C) | http://localhost:8008 |
+| GitHub Development Automation System (devbot; asks for your OpenAI key) | http://localhost:8009 |
 
 ## Run locally (every project, without Docker)
 
@@ -72,12 +74,14 @@ Install each project's requirements once, then start it. Each one keeps its data
 | Support tickets | 8006 | `pip install -r requirements.txt` | `cd evaluation-projects/support-ticket-system/support-ticket-system && uvicorn app.main:app --port 8006` |
 | Document change monitor | 8007 | none (standard library) | `cd evaluation-projects/docchange/docchange && PORT=8007 python run.py` |
 | **Prompt C — LTID AI Competition – RAG** | 8008 | none (standard library) | `cd evaluation-projects/ltid-ai-competition-rag-final/web_demo && PORT=8008 python server.py` |
+| **GitHub Development Automation System (devbot)** | 8009 | none (standard library) + `git` on PATH | `cd "evaluation-projects/GitHub Development Automation System/web_demo" && PORT=8009 python server.py` |
 
 On Windows, use `set VAR=value&& ...` or set the variable first, for example `set PORT=8004` and then `python run.py`.
 
 Optional settings:
 - Appointment: `BOOKING_DB` (database file), `ADMIN_TOKEN` (change the default `admin123`).
 - Expense: `EXPENSE_DB` (database file), `SEED_DEMO=0` for an empty database.
+- devbot: open http://localhost:8009, pick **GPT with my OpenAI API key** and paste your key in the page (or use the scripted **Offline demo**, which needs no key). Do not put a key in the repository or `.env`: the devbot server deliberately ignores `OPENAI_API_KEY` / `GITHUB_TOKEN` in its own environment. Optional: `DEVBOT_WEB_ALLOWED_HOSTS` (extra Host names), `DEVBOT_WEB_CLONE_TIMEOUT`, `DEVBOT_WEB_APPROVAL_TIMEOUT`. Running a repository's tests runs that repository's code; use repositories you trust. The command-line tool (including `--live` draft PRs) is documented in `evaluation-projects/GitHub Development Automation System/GitHub Development Automation System/README.md`.
 - Support: `DATABASE_PATH`, and `OPENAI_API_KEY` for GPT classification. Without a key, the rule-based classifier is used.
 - Document change monitor: `HISTORY_DB` (history file). Open the app and click **Scan all documents** to fill its history.
 
@@ -124,6 +128,7 @@ frontend/    React app (pages, components, services)        backend/    FastAPI 
 evaluation-projects/prompt-a-website/{inputs,original,source,reports,scripts}
 evaluation-projects/prompt-b-weather/{inputs,original,source,reports,scripts}      (source = upstream clone + agent branch; reports/*.json = recorded evidence)
 evaluation-projects/ltid-ai-competition-rag-final/{prompt-c-rag,web_demo,reports}   (prompt-c-rag = supplied RAG project with its own git repo; web_demo = web interface + tests added by this integration)
+evaluation-projects/GitHub Development Automation System/{GitHub Development Automation System,web_demo,reports}   (inner folder = uploaded devbot project; web_demo = web interface + Dockerfile + tests added by this integration)
 evaluation-projects/prompt-d-explicit/prompt-d/{data,devpilot,tests,workspace}     (docs/test_results.txt = recorded local unittest run)
 evaluation-projects/inventory-system/{inventory,original,reports,scripts}
 evaluation-projects/appointment-booking/{appointment-booking,reports}   evaluation-projects/expense-system/{expense-system,reports}   evaluation-projects/support-ticket-system/{support-ticket-system,reports}
@@ -138,6 +143,9 @@ cd backend && pytest                                                    # 7 API 
 cd evaluation-projects/prompt-a-website && python scripts/run_evidence.py   # re-runs the site tests, rewrites reports/test-results.json
 cd evaluation-projects/ltid-ai-competition-rag-final/prompt-c-rag && python -m unittest discover -s tests -v
 cd evaluation-projects/prompt-d-explicit/prompt-d && python -m unittest discover -s tests -t . -v
+cd "evaluation-projects/GitHub Development Automation System/GitHub Development Automation System" && python -m unittest discover -s tests -v   # devbot: 9 tests
+cd "evaluation-projects/GitHub Development Automation System/web_demo" && python -m unittest discover -s tests -v   # web interface: 21 tests (needs git)
+cd "evaluation-projects/GitHub Development Automation System/web_demo" && python ui_check.py                          # 17 browser checks (needs playwright + Edge/Chrome)
 ```
 Site tests need `pip install playwright && playwright install chromium`.
 
